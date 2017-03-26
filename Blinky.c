@@ -1,49 +1,57 @@
-#include <C8051f38x.h>
-#include <stdio.h>
+#define F_CPU 16000000UL
+#define PWRUP P
+#define PWRDN P
 
-#define SYSCLK      48000000L  // SYSCLK frequency in Hz
+#include <avr/io.h>
+#include <util/delay.h>
 
-char _c51_external_startup (void)
+//code retrieved from doughboy on arduino forum
+int dut;
+
+int main(void)
 {
-	PCA0MD&=(~WDTE) ;    // DISABLE WDT: clear Watchdog Enable bit
-	VDM0CN=0x80; // enable VDD monitor
-	RSTSRC=0x02|0x04; // Enable reset on missing clock detector and VDD
-
-	// CLKSEL&=0b_1111_1000; // Not needed because CLKSEL==0 after reset
-	#if (SYSCLK == 12000000L)
-		//CLKSEL|=0b_0000_0000;  // SYSCLK derived from the Internal High-Frequency Oscillator / 4 
-	#elif (SYSCLK == 24000000L)
-		CLKSEL|=0b_0000_0010; // SYSCLK derived from the Internal High-Frequency Oscillator / 2.
-	#elif (SYSCLK == 48000000L)
-		CLKSEL|=0b_0000_0011; // SYSCLK derived from the Internal High-Frequency Oscillator / 1.
-	#else
-		#error SYSCLK must be either 12000000L, 24000000L, or 48000000L
-	#endif
-	OSCICN |= 0x03; // Configure internal oscillator for its maximum frequency
-
-	// Configure the pin used for output
-	P2MDOUT|=0b_0000_0010; // P2.1 has the LED
-	XBR1     = 0x40; // Enable crossbar and weak pull-ups
+	DDRD &= 0x7F; // PD7 as Input (based on 0-7)
+	DDRB &= 0xFB; // PB2 as Input (based on 0-7)
+	PORTD = 0x80;
+	PORTB = 0x4;
 	
-	return 0;
-}
+	DDRB |= _BV(PB1);  //Set PB1 as output port
+	TCCR1A=0;
+	TCCR1B=0;
+	TCCR1A |= _BV(WGM11);
+	// set Fast PWM mode
+	// START the timer with no prescaler
+	TCCR1B |= _BV(WGM13)|_BV(CS10);
+	
+	//initializes duty cycle
+	dut = 250;
+	// set PWM for duty cycle
+	OCR1A = dut;
+	
+	//set period
+	ICR1=500;
+	
+	TCCR1A |= _BV(COM1A1);
 
-void delay (unsigned int x)
-{
-	unsigned char j;
-	while(--x)
-	{
-		for(j=0; j<100; j++);
-	}
-}
 
-void main (void)
-{
-	while(1)
-	{
-		P2_1=0;
-		delay(50000);
-		P2_1=1;
-		delay(50000);
-	}
+
+	while (1)
+    {    	
+    	if(~PIND&(0x80)){
+    		_delay_ms(300);
+    		dut -= 50;
+    		if(dut<0)
+    		dut=0;
+    		}
+    	
+    	if (~PINB&(0x4)){
+    		_delay_ms(300);
+    		dut += 50;
+    		if(dut>500)
+    		dut=500;
+    		}
+    	
+    	
+    	OCR1A = dut;
+    }
 }

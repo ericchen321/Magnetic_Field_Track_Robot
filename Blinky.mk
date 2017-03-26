@@ -1,36 +1,41 @@
 # Specify the compiler to use
-CC=c51
+CC= avr-gcc
+# Specify the microcontroller
+CPU=-mmcu=atmega328p
+# C compiler options
+COPT= -g -Os $(CPU)
 # Object files to link
-OBJS=Blinky.obj
+OBJS= blinky.o
 
-# The default 'target' (output) is Blinky.hex and 'depends' on
+# The default 'target' (output) is blinky.elf and 'depends' on
 # the object files listed in the 'OBJS' assignment above.
-# These object files are linked together to create Blinky.hex.
-Blinky.hex: $(OBJS)
-	$(CC) $(OBJS)
-	@echo Done!
+# These object files are linked together to create Blinky.elf.
+# The linked file is converted to hex using program aver-objcopy.
+blinky.elf: $(OBJS)
+	avr-gcc $(CPU) -Wl,-Map,blinky.map $(OBJS) -o blinky.elf
+	avr-objcopy -j .text -j .data -O ihex blinky.elf blinky.hex
+	@echo done!
 
-# The object file Blinky.o depends on Blinky.c. Blinky.c is compiled
-# to create Blinky.o.
-Blinky.obj: Blinky.c
-	$(CC) -c Blinky.c
+# The object file blinky.o depends on blinky.c. blinky.c is compiled
+# to create blinky.o.
+blinky.o: blinky.c
+	avr-gcc $(COPT) -c blinky.c
 
 # Target 'clean' is used to remove all object files and executables
 # associated wit this project
 clean:
-	@del $(OBJS) *.asm *.lkr *.lst *.map *.hex *.map 2> nul
+	@del *.hex *.elf *.o 2> nul
 
 # Target 'FlashLoad' is used to load the hex file to the microcontroller 
-# using the flash loader.  If the folder of the flash loader has been
-# added to 'PATH' just 'F38X_prog' is needed.  Otherwise, a valid path
-# must be provided as shown below.
-LoadFlash:
-	F38X_prog Blinky.hex
+# using the flash loader.
+FlashLoad:
+	spi_atmega328 -CRYSTAL -p -v blinky.hex
 
 # Phony targets can be added to show useful files in the file list of
 # CrossIDE or execute arbitrary programs:
-Dummy: Blinky.hex Blinky.Map
+dummy: blinky.hex blinky.map
+	@echo Hello dummy!
 	
 explorer:
 	explorer .
-		
+	

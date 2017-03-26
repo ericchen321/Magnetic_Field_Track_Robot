@@ -1,0 +1,858 @@
+0000              1   ;--------------------------------------------------------
+0000              2   ; File Created by C51
+0000              3   ; Version 1.0.0 #1069 (Apr 23 2015) (MSVC)
+0000              4   ; This file was generated Fri Mar 24 22:40:40 2017
+0000              5   ;--------------------------------------------------------
+                  5   $name pwm_F38x
+                  6   $optc51 --model-small
+0000              8            R_DSEG    segment data
+0000              9            R_CSEG    segment code
+0000             10            R_BSEG    segment bit
+0000             11            R_XSEG    segment xdata
+0000             12            R_PSEG    segment xdata
+0000             13            R_ISEG    segment idata
+0000             14            R_OSEG    segment data overlay
+0000             15            BIT_BANK  segment data overlay
+0000             16            R_HOME    segment code
+0000             17            R_GSINIT  segment code
+0000             18            R_IXSEG   segment xdata
+0000             19            R_CONST   segment code
+0000             20            R_XINIT   segment code
+0000             21            R_DINIT   segment code
+0000             22   
+0000             23   ;--------------------------------------------------------
+0000             24   ; Public variables in this module
+0000             25   ;--------------------------------------------------------
+0000             26            public _main
+0000             27            public _ControlUnit
+0000             28            public _Timer2_ISR
+0000             29            public _waitms
+0000             30            public _Timer3us
+0000             31            public __c51_external_startup
+0000             32            public _i
+0000             33            public _dirout
+0000             34            public _pwm_out3
+0000             35            public _pwm_out2
+0000             36            public _pwm_out1
+0000             37            public _pwm_out0
+0000             38            public _power
+0000             39            public _pwm_count
+0000             40   ;--------------------------------------------------------
+0000             41   ; Special Function Registers
+0000             42   ;--------------------------------------------------------
+0000             43   _P0             DATA 0x80
+0000             44   _SP             DATA 0x81
+0000             45   _DPL            DATA 0x82
+0000             46   _DPH            DATA 0x83
+0000             47   _EMI0TC         DATA 0x84
+0000             48   _EMI0CF         DATA 0x85
+0000             49   _OSCLCN         DATA 0x86
+0000             50   _PCON           DATA 0x87
+0000             51   _TCON           DATA 0x88
+0000             52   _TMOD           DATA 0x89
+0000             53   _TL0            DATA 0x8a
+0000             54   _TL1            DATA 0x8b
+0000             55   _TH0            DATA 0x8c
+0000             56   _TH1            DATA 0x8d
+0000             57   _CKCON          DATA 0x8e
+0000             58   _PSCTL          DATA 0x8f
+0000             59   _P1             DATA 0x90
+0000             60   _TMR3CN         DATA 0x91
+0000             61   _TMR4CN         DATA 0x91
+0000             62   _TMR3RLL        DATA 0x92
+0000             63   _TMR4RLL        DATA 0x92
+0000             64   _TMR3RLH        DATA 0x93
+0000             65   _TMR4RLH        DATA 0x93
+0000             66   _TMR3L          DATA 0x94
+0000             67   _TMR4L          DATA 0x94
+0000             68   _TMR3H          DATA 0x95
+0000             69   _TMR4H          DATA 0x95
+0000             70   _USB0ADR        DATA 0x96
+0000             71   _USB0DAT        DATA 0x97
+0000             72   _SCON           DATA 0x98
+0000             73   _SCON0          DATA 0x98
+0000             74   _SBUF           DATA 0x99
+0000             75   _SBUF0          DATA 0x99
+0000             76   _CPT1CN         DATA 0x9a
+0000             77   _CPT0CN         DATA 0x9b
+0000             78   _CPT1MD         DATA 0x9c
+0000             79   _CPT0MD         DATA 0x9d
+0000             80   _CPT1MX         DATA 0x9e
+0000             81   _CPT0MX         DATA 0x9f
+0000             82   _P2             DATA 0xa0
+0000             83   _SPI0CFG        DATA 0xa1
+0000             84   _SPI0CKR        DATA 0xa2
+0000             85   _SPI0DAT        DATA 0xa3
+0000             86   _P0MDOUT        DATA 0xa4
+0000             87   _P1MDOUT        DATA 0xa5
+0000             88   _P2MDOUT        DATA 0xa6
+0000             89   _P3MDOUT        DATA 0xa7
+0000             90   _IE             DATA 0xa8
+0000             91   _CLKSEL         DATA 0xa9
+0000             92   _EMI0CN         DATA 0xaa
+0000             93   __XPAGE         DATA 0xaa
+0000             94   _SBCON1         DATA 0xac
+0000             95   _P4MDOUT        DATA 0xae
+0000             96   _PFE0CN         DATA 0xaf
+0000             97   _P3             DATA 0xb0
+0000             98   _OSCXCN         DATA 0xb1
+0000             99   _OSCICN         DATA 0xb2
+0000            100   _OSCICL         DATA 0xb3
+0000            101   _SBRLL1         DATA 0xb4
+0000            102   _SBRLH1         DATA 0xb5
+0000            103   _FLSCL          DATA 0xb6
+0000            104   _FLKEY          DATA 0xb7
+0000            105   _IP             DATA 0xb8
+0000            106   _CLKMUL         DATA 0xb9
+0000            107   _SMBTC          DATA 0xb9
+0000            108   _AMX0N          DATA 0xba
+0000            109   _AMX0P          DATA 0xbb
+0000            110   _ADC0CF         DATA 0xbc
+0000            111   _ADC0L          DATA 0xbd
+0000            112   _ADC0H          DATA 0xbe
+0000            113   _SFRPAGE        DATA 0xbf
+0000            114   _SMB0CN         DATA 0xc0
+0000            115   _SMB1CN         DATA 0xc0
+0000            116   _SMB0CF         DATA 0xc1
+0000            117   _SMB1CF         DATA 0xc1
+0000            118   _SMB0DAT        DATA 0xc2
+0000            119   _SMB1DAT        DATA 0xc2
+0000            120   _ADC0GTL        DATA 0xc3
+0000            121   _ADC0GTH        DATA 0xc4
+0000            122   _ADC0LTL        DATA 0xc5
+0000            123   _ADC0LTH        DATA 0xc6
+0000            124   _P4             DATA 0xc7
+0000            125   _TMR2CN         DATA 0xc8
+0000            126   _TMR5CN         DATA 0xc8
+0000            127   _REG01CN        DATA 0xc9
+0000            128   _TMR2RLL        DATA 0xca
+0000            129   _TMR5RLL        DATA 0xca
+0000            130   _TMR2RLH        DATA 0xcb
+0000            131   _TMR5RLH        DATA 0xcb
+0000            132   _TMR2L          DATA 0xcc
+0000            133   _TMR5L          DATA 0xcc
+0000            134   _TMR2H          DATA 0xcd
+0000            135   _TMR5H          DATA 0xcd
+0000            136   _SMB0ADM        DATA 0xce
+0000            137   _SMB1ADM        DATA 0xce
+0000            138   _SMB0ADR        DATA 0xcf
+0000            139   _SMB1ADR        DATA 0xcf
+0000            140   _PSW            DATA 0xd0
+0000            141   _REF0CN         DATA 0xd1
+0000            142   _SCON1          DATA 0xd2
+0000            143   _SBUF1          DATA 0xd3
+0000            144   _P0SKIP         DATA 0xd4
+0000            145   _P1SKIP         DATA 0xd5
+0000            146   _P2SKIP         DATA 0xd6
+0000            147   _USB0XCN        DATA 0xd7
+0000            148   _PCA0CN         DATA 0xd8
+0000            149   _PCA0MD         DATA 0xd9
+0000            150   _PCA0CPM0       DATA 0xda
+0000            151   _PCA0CPM1       DATA 0xdb
+0000            152   _PCA0CPM2       DATA 0xdc
+0000            153   _PCA0CPM3       DATA 0xdd
+0000            154   _PCA0CPM4       DATA 0xde
+0000            155   _P3SKIP         DATA 0xdf
+0000            156   _ACC            DATA 0xe0
+0000            157   _XBR0           DATA 0xe1
+0000            158   _XBR1           DATA 0xe2
+0000            159   _XBR2           DATA 0xe3
+0000            160   _IT01CF         DATA 0xe4
+0000            161   _CKCON1         DATA 0xe4
+0000            162   _SMOD1          DATA 0xe5
+0000            163   _EIE1           DATA 0xe6
+0000            164   _EIE2           DATA 0xe7
+0000            165   _ADC0CN         DATA 0xe8
+0000            166   _PCA0CPL1       DATA 0xe9
+0000            167   _PCA0CPH1       DATA 0xea
+0000            168   _PCA0CPL2       DATA 0xeb
+0000            169   _PCA0CPH2       DATA 0xec
+0000            170   _PCA0CPL3       DATA 0xed
+0000            171   _PCA0CPH3       DATA 0xee
+0000            172   _RSTSRC         DATA 0xef
+0000            173   _B              DATA 0xf0
+0000            174   _P0MDIN         DATA 0xf1
+0000            175   _P1MDIN         DATA 0xf2
+0000            176   _P2MDIN         DATA 0xf3
+0000            177   _P3MDIN         DATA 0xf4
+0000            178   _P4MDIN         DATA 0xf5
+0000            179   _EIP1           DATA 0xf6
+0000            180   _EIP2           DATA 0xf7
+0000            181   _SPI0CN         DATA 0xf8
+0000            182   _PCA0L          DATA 0xf9
+0000            183   _PCA0H          DATA 0xfa
+0000            184   _PCA0CPL0       DATA 0xfb
+0000            185   _PCA0CPH0       DATA 0xfc
+0000            186   _PCA0CPL4       DATA 0xfd
+0000            187   _PCA0CPH4       DATA 0xfe
+0000            188   _VDM0CN         DATA 0xff
+0000            189   _DPTR           DATA 0x8382
+0000            190   _TMR2RL         DATA 0xcbca
+0000            191   _TMR3RL         DATA 0x9392
+0000            192   _TMR4RL         DATA 0x9392
+0000            193   _TMR5RL         DATA 0xcbca
+0000            194   _TMR2           DATA 0xcdcc
+0000            195   _TMR3           DATA 0x9594
+0000            196   _TMR4           DATA 0x9594
+0000            197   _TMR5           DATA 0xcdcc
+0000            198   _SBRL1          DATA 0xb5b4
+0000            199   _ADC0           DATA 0xbebd
+0000            200   _ADC0GT         DATA 0xc4c3
+0000            201   _ADC0LT         DATA 0xc6c5
+0000            202   _PCA0           DATA 0xfaf9
+0000            203   _PCA0CP1        DATA 0xeae9
+0000            204   _PCA0CP2        DATA 0xeceb
+0000            205   _PCA0CP3        DATA 0xeeed
+0000            206   _PCA0CP0        DATA 0xfcfb
+0000            207   _PCA0CP4        DATA 0xfefd
+0000            208   ;--------------------------------------------------------
+0000            209   ; special function bits
+0000            210   ;--------------------------------------------------------
+0000            211   _P0_0           BIT 0x80
+0000            212   _P0_1           BIT 0x81
+0000            213   _P0_2           BIT 0x82
+0000            214   _P0_3           BIT 0x83
+0000            215   _P0_4           BIT 0x84
+0000            216   _P0_5           BIT 0x85
+0000            217   _P0_6           BIT 0x86
+0000            218   _P0_7           BIT 0x87
+0000            219   _TF1            BIT 0x8f
+0000            220   _TR1            BIT 0x8e
+0000            221   _TF0            BIT 0x8d
+0000            222   _TR0            BIT 0x8c
+0000            223   _IE1            BIT 0x8b
+0000            224   _IT1            BIT 0x8a
+0000            225   _IE0            BIT 0x89
+0000            226   _IT0            BIT 0x88
+0000            227   _P1_0           BIT 0x90
+0000            228   _P1_1           BIT 0x91
+0000            229   _P1_2           BIT 0x92
+0000            230   _P1_3           BIT 0x93
+0000            231   _P1_4           BIT 0x94
+0000            232   _P1_5           BIT 0x95
+0000            233   _P1_6           BIT 0x96
+0000            234   _P1_7           BIT 0x97
+0000            235   _S0MODE         BIT 0x9f
+0000            236   _SCON0_6        BIT 0x9e
+0000            237   _MCE0           BIT 0x9d
+0000            238   _REN0           BIT 0x9c
+0000            239   _TB80           BIT 0x9b
+0000            240   _RB80           BIT 0x9a
+0000            241   _TI0            BIT 0x99
+0000            242   _RI0            BIT 0x98
+0000            243   _SCON_6         BIT 0x9e
+0000            244   _MCE            BIT 0x9d
+0000            245   _REN            BIT 0x9c
+0000            246   _TB8            BIT 0x9b
+0000            247   _RB8            BIT 0x9a
+0000            248   _TI             BIT 0x99
+0000            249   _RI             BIT 0x98
+0000            250   _P2_0           BIT 0xa0
+0000            251   _P2_1           BIT 0xa1
+0000            252   _P2_2           BIT 0xa2
+0000            253   _P2_3           BIT 0xa3
+0000            254   _P2_4           BIT 0xa4
+0000            255   _P2_5           BIT 0xa5
+0000            256   _P2_6           BIT 0xa6
+0000            257   _P2_7           BIT 0xa7
+0000            258   _EA             BIT 0xaf
+0000            259   _ESPI0          BIT 0xae
+0000            260   _ET2            BIT 0xad
+0000            261   _ES0            BIT 0xac
+0000            262   _ET1            BIT 0xab
+0000            263   _EX1            BIT 0xaa
+0000            264   _ET0            BIT 0xa9
+0000            265   _EX0            BIT 0xa8
+0000            266   _P3_0           BIT 0xb0
+0000            267   _P3_1           BIT 0xb1
+0000            268   _P3_2           BIT 0xb2
+0000            269   _P3_3           BIT 0xb3
+0000            270   _P3_4           BIT 0xb4
+0000            271   _P3_5           BIT 0xb5
+0000            272   _P3_6           BIT 0xb6
+0000            273   _P3_7           BIT 0xb7
+0000            274   _IP_7           BIT 0xbf
+0000            275   _PSPI0          BIT 0xbe
+0000            276   _PT2            BIT 0xbd
+0000            277   _PS0            BIT 0xbc
+0000            278   _PT1            BIT 0xbb
+0000            279   _PX1            BIT 0xba
+0000            280   _PT0            BIT 0xb9
+0000            281   _PX0            BIT 0xb8
+0000            282   _MASTER0        BIT 0xc7
+0000            283   _TXMODE0        BIT 0xc6
+0000            284   _STA0           BIT 0xc5
+0000            285   _STO0           BIT 0xc4
+0000            286   _ACKRQ0         BIT 0xc3
+0000            287   _ARBLOST0       BIT 0xc2
+0000            288   _ACK0           BIT 0xc1
+0000            289   _SI0            BIT 0xc0
+0000            290   _MASTER1        BIT 0xc7
+0000            291   _TXMODE1        BIT 0xc6
+0000            292   _STA1           BIT 0xc5
+0000            293   _STO1           BIT 0xc4
+0000            294   _ACKRQ1         BIT 0xc3
+0000            295   _ARBLOST1       BIT 0xc2
+0000            296   _ACK1           BIT 0xc1
+0000            297   _SI1            BIT 0xc0
+0000            298   _TF2            BIT 0xcf
+0000            299   _TF2H           BIT 0xcf
+0000            300   _TF2L           BIT 0xce
+0000            301   _TF2LEN         BIT 0xcd
+0000            302   _TF2CEN         BIT 0xcc
+0000            303   _T2SPLIT        BIT 0xcb
+0000            304   _TR2            BIT 0xca
+0000            305   _T2CSS          BIT 0xc9
+0000            306   _T2XCLK         BIT 0xc8
+0000            307   _TF5H           BIT 0xcf
+0000            308   _TF5L           BIT 0xce
+0000            309   _TF5LEN         BIT 0xcd
+0000            310   _TMR5CN_4       BIT 0xcc
+0000            311   _T5SPLIT        BIT 0xcb
+0000            312   _TR5            BIT 0xca
+0000            313   _TMR5CN_1       BIT 0xc9
+0000            314   _T5XCLK         BIT 0xc8
+0000            315   _CY             BIT 0xd7
+0000            316   _AC             BIT 0xd6
+0000            317   _F0             BIT 0xd5
+0000            318   _RS1            BIT 0xd4
+0000            319   _RS0            BIT 0xd3
+0000            320   _OV             BIT 0xd2
+0000            321   _F1             BIT 0xd1
+0000            322   _PARITY         BIT 0xd0
+0000            323   _CF             BIT 0xdf
+0000            324   _CR             BIT 0xde
+0000            325   _PCA0CN_5       BIT 0xde
+0000            326   _CCF4           BIT 0xdc
+0000            327   _CCF3           BIT 0xdb
+0000            328   _CCF2           BIT 0xda
+0000            329   _CCF1           BIT 0xd9
+0000            330   _CCF0           BIT 0xd8
+0000            331   _ACC_7          BIT 0xe7
+0000            332   _ACC_6          BIT 0xe6
+0000            333   _ACC_5          BIT 0xe5
+0000            334   _ACC_4          BIT 0xe4
+0000            335   _ACC_3          BIT 0xe3
+0000            336   _ACC_2          BIT 0xe2
+0000            337   _ACC_1          BIT 0xe1
+0000            338   _ACC_0          BIT 0xe0
+0000            339   _AD0EN          BIT 0xef
+0000            340   _AD0TM          BIT 0xee
+0000            341   _AD0INT         BIT 0xed
+0000            342   _AD0BUSY        BIT 0xec
+0000            343   _AD0WINT        BIT 0xeb
+0000            344   _AD0CM2         BIT 0xea
+0000            345   _AD0CM1         BIT 0xe9
+0000            346   _AD0CM0         BIT 0xe8
+0000            347   _B_7            BIT 0xf7
+0000            348   _B_6            BIT 0xf6
+0000            349   _B_5            BIT 0xf5
+0000            350   _B_4            BIT 0xf4
+0000            351   _B_3            BIT 0xf3
+0000            352   _B_2            BIT 0xf2
+0000            353   _B_1            BIT 0xf1
+0000            354   _B_0            BIT 0xf0
+0000            355   _SPIF           BIT 0xff
+0000            356   _WCOL           BIT 0xfe
+0000            357   _MODF           BIT 0xfd
+0000            358   _RXOVRN         BIT 0xfc
+0000            359   _NSSMD1         BIT 0xfb
+0000            360   _NSSMD0         BIT 0xfa
+0000            361   _TXBMT          BIT 0xf9
+0000            362   _SPIEN          BIT 0xf8
+0000            363   ;--------------------------------------------------------
+0000            364   ; overlayable register banks
+0000            365   ;--------------------------------------------------------
+0000            366            rbank0 segment data overlay
+0000            367   ;--------------------------------------------------------
+0000            368   ; internal ram data
+0000            369   ;--------------------------------------------------------
+0000            370            rseg R_DSEG
+0000            371   _pwm_count:
+0000            372            ds 1
+0001            373   _power:
+0001            374            ds 1
+0002            375   _pwm_out0:
+0002            376            ds 1
+0003            377   _pwm_out1:
+0003            378            ds 1
+0004            379   _pwm_out2:
+0004            380            ds 1
+0005            381   _pwm_out3:
+0005            382            ds 1
+0006            383   _dirout:
+0006            384            ds 1
+0007            385   _i:
+0007            386            ds 2
+0009            387   ;--------------------------------------------------------
+0009            388   ; overlayable items in internal ram 
+0009            389   ;--------------------------------------------------------
+0000            390            rseg    R_OSEG
+0000            391   ;--------------------------------------------------------
+0000            392   ; indirectly addressable internal ram data
+0000            393   ;--------------------------------------------------------
+0000            394            rseg R_ISEG
+0000            395   ;--------------------------------------------------------
+0000            396   ; absolute internal ram data
+0000            397   ;--------------------------------------------------------
+0000            398            DSEG
+0000            399   ;--------------------------------------------------------
+0000            400   ; bit data
+0000            401   ;--------------------------------------------------------
+0000            402            rseg R_BSEG
+0000            403   _Timer2_ISR_sloc0_1_0:
+0000            404            DBIT    1
+0001            405   ;--------------------------------------------------------
+0001            406   ; paged external ram data
+0001            407   ;--------------------------------------------------------
+0000            408            rseg R_PSEG
+0000            409   ;--------------------------------------------------------
+0000            410   ; external ram data
+0000            411   ;--------------------------------------------------------
+0000            412            rseg R_XSEG
+0000            413   ;--------------------------------------------------------
+0000            414   ; absolute external ram data
+0000            415   ;--------------------------------------------------------
+0000            416            XSEG
+0000            417   ;--------------------------------------------------------
+0000            418   ; external initialized ram data
+0000            419   ;--------------------------------------------------------
+0000            420            rseg R_IXSEG
+0000            421            rseg R_HOME
+0000            422            rseg R_GSINIT
+0000            423            rseg R_CSEG
+0000            424   ;--------------------------------------------------------
+0000            425   ; Reset entry point and interrupt vectors
+0000            426   ;--------------------------------------------------------
+0000            427            CSEG at 0x0000
+0000 020100     428            ljmp    _crt0
+002B            429            CSEG at 0x002b
+002B 020100     430            ljmp    _Timer2_ISR
+002E            431   ;--------------------------------------------------------
+002E            432   ; global & static initialisations
+002E            433   ;--------------------------------------------------------
+0000            434            rseg R_HOME
+0000            435            rseg R_GSINIT
+0000            436            rseg R_GSINIT
+0000            437   ;--------------------------------------------------------
+0000            438   ; data variables initialization
+0000            439   ;--------------------------------------------------------
+0000            440            rseg R_DINIT
+0000            441   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:16: volatile unsigned char pwm_count=0;
+0000 759000     442            mov     _pwm_count,#0x00
+0003            443   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:17: volatile unsigned char power=100;
+0003 755064     444            mov     _power,#0x64
+0006            445   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:18: volatile unsigned char pwm_out0=0;
+0006 751000     446            mov     _pwm_out0,#0x00
+0009            447   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:19: volatile unsigned char pwm_out1=0;
+0009 75D000     448            mov     _pwm_out1,#0x00
+000C            449   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:20: volatile unsigned char pwm_out2=0;
+000C 759000     450            mov     _pwm_out2,#0x00
+000F            451   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:21: volatile unsigned char pwm_out3=0;
+000F 755000     452            mov     _pwm_out3,#0x00
+0012            453   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:22: volatile unsigned char dirout=0;
+0012 751000     454            mov     _dirout,#0x00
+0015            455   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:23: int i = 0;
+0015 E4         456            clr     a
+0016 F5D0       457            mov     _i,a
+0018 F5D1       458            mov     (_i + 1),a
+001A            459            ; The linker places a 'ret' at the end of segment R_DINIT.
+001A            460   ;--------------------------------------------------------
+001A            461   ; code
+001A            462   ;--------------------------------------------------------
+0000            463            rseg R_CSEG
+0000            464   ;------------------------------------------------------------
+0000            465   ;Allocation info for local variables in function '_c51_external_startup'
+0000            466   ;------------------------------------------------------------
+0000            467   ;------------------------------------------------------------
+0000            468   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:26: char _c51_external_startup (void)
+0000            469   ;        -----------------------------------------
+0000            470   ;         function _c51_external_startup
+0000            471   ;        -----------------------------------------
+0000            472   __c51_external_startup:
+0000            473            using   0
+0000            474   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:28: PCA0MD&=(~0x40) ;    // DISABLE WDT: clear Watchdog Enable bit
+0000 53D9BF     475            anl     _PCA0MD,#0xBF
+0003            476   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:29: VDM0CN=0x80; // enable VDD monitor
+0003 75FF80     477            mov     _VDM0CN,#0x80
+0006            478   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:30: RSTSRC=0x02|0x04; // Enable reset on missing clock detector and VDD
+0006 75EF06     479            mov     _RSTSRC,#0x06
+0009            480   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:38: CLKSEL|=0b_0000_0011; // SYSCLK derived from the Internal High-Frequency Oscillator / 1.
+0009 43A903     481            orl     _CLKSEL,#0x03
+000C            482   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:42: OSCICN |= 0x03; // Configure internal oscillator for its maximum frequency
+000C 43B203     483            orl     _OSCICN,#0x03
+000F            484   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:45: SCON0 = 0x10;
+000F 759810     485            mov     _SCON0,#0x10
+0012            486   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:47: TH1 = 0x10000-((SYSCLK/BAUDRATE)/2L);
+0012 758D30     487            mov     _TH1,#0x30
+0015            488   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:48: CKCON &= ~0x0B;                  // T1M = 1; SCA1:0 = xx
+0015 538EF4     489            anl     _CKCON,#0xF4
+0018            490   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:49: CKCON |=  0x08;
+0018 438E08     491            orl     _CKCON,#0x08
+001B            492   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:62: TL1 = TH1;      // Init Timer1
+001B 858D8B     493            mov     _TL1,_TH1
+001E            494   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:63: TMOD &= ~0xf0;  // TMOD: timer 1 in 8-bit autoreload
+001E 53890F     495            anl     _TMOD,#0x0F
+0021            496   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:64: TMOD |=  0x20;
+0021 438920     497            orl     _TMOD,#0x20
+0024            498   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:65: TR1 = 1; // START Timer1
+0024 D28E       499            setb    _TR1
+0026            500   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:66: TI = 1;  // Indicate TX0 ready
+0026 D299       501            setb    _TI
+0028            502   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:69: P2MDOUT|=0b_0000_0011;
+0028 43A603     503            orl     _P2MDOUT,#0x03
+002B            504   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:70: P0MDOUT |= 0x10; // Enable UTX as push-pull output
+002B 43A410     505            orl     _P0MDOUT,#0x10
+002E            506   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:71: XBR0     = 0x01; // Enable UART on P0.4(TX) and P0.5(RX)
+002E 75E101     507            mov     _XBR0,#0x01
+0031            508   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:72: XBR1     = 0x40; // Enable crossbar and weak pull-ups
+0031 75E240     509            mov     _XBR1,#0x40
+0034            510   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:75: TMR2CN=0x00;   // Stop Timer2; Clear TF2;
+0034 75C800     511            mov     _TMR2CN,#0x00
+0037            512   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:76: CKCON|=0b_0001_0000;
+0037 438E10     513            orl     _CKCON,#0x10
+003A            514   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:77: TMR2RL=(-(SYSCLK/(2*48))/(100L)); // Initialize reload value
+003A 75CA78     515            mov     _TMR2RL,#0x78
+003D 75CBEC     516            mov     (_TMR2RL >> 8),#0xEC
+0040            517   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:78: TMR2=0xffff;   // Set to reload immediately
+0040 75CCFF     518            mov     _TMR2,#0xFF
+0043 75CDFF     519            mov     (_TMR2 >> 8),#0xFF
+0046            520   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:79: ET2=1;         // Enable Timer2 interrupts
+0046 D2AD       521            setb    _ET2
+0048            522   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:80: TR2=1;         // Start Timer2
+0048 D2CA       523            setb    _TR2
+004A            524   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:82: EA=1; // Enable interrupts
+004A D2AF       525            setb    _EA
+004C            526   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:84: return 0;
+004C 758200     527            mov     dpl,#0x00
+004F 22         528            ret
+0050            529   ;------------------------------------------------------------
+0050            530   ;Allocation info for local variables in function 'Timer3us'
+0050            531   ;------------------------------------------------------------
+0050            532   ;us                        Allocated to registers r2 
+0050            533   ;i                         Allocated to registers r3 
+0050            534   ;------------------------------------------------------------
+0050            535   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:88: void Timer3us(unsigned char us)
+0050            536   ;        -----------------------------------------
+0050            537   ;         function Timer3us
+0050            538   ;        -----------------------------------------
+0050            539   _Timer3us:
+0050 AA82       540            mov     r2,dpl
+0052            541   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:93: CKCON|=0b_0100_0000;
+0052 438E40     542            orl     _CKCON,#0x40
+0055            543   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:95: TMR3RL = (-(SYSCLK)/1000000L); // Set Timer3 to overflow in 1us.
+0055 7592D0     544            mov     _TMR3RL,#0xD0
+0058 7593FF     545            mov     (_TMR3RL >> 8),#0xFF
+005B            546   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:96: TMR3 = TMR3RL;                 // Initialize Timer3 for first overflow
+005B 859294     547            mov     _TMR3,_TMR3RL
+005E 859395     548            mov     (_TMR3 >> 8),(_TMR3RL >> 8)
+0061            549   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:98: TMR3CN = 0x04;                 // Sart Timer3 and clear overflow flag
+0061 759104     550            mov     _TMR3CN,#0x04
+0064            551   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:99: for (i = 0; i < us; i++)       // Count <us> overflows
+0064 7B00       552            mov     r3,#0x00
+0066            553   L003004?:
+0066 C3         554            clr     c
+0067 EB         555            mov     a,r3
+0068 9A         556            subb    a,r2
+0069 5001       557            jnc     L003007?
+006B            558   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:101: while (!(TMR3CN & 0x80));  // Wait for overflow
+006B            559   L003001?:
+006B E591       560            mov     a,_TMR3CN
+006D 30E778     561            jnb     acc.7,L003001?
+0070            562   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:102: TMR3CN &= ~(0x80);         // Clear overflow indicator
+0070 53917F     563            anl     _TMR3CN,#0x7F
+0073            564   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:99: for (i = 0; i < us; i++)       // Count <us> overflows
+0073 0B         565            inc     r3
+0074 8001       566            sjmp    L003004?
+0076            567   L003007?:
+0076            568   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:104: TMR3CN = 0 ;                   // Stop Timer3 and clear overflow flag
+0076 759100     569            mov     _TMR3CN,#0x00
+0079 22         570            ret
+007A            571   ;------------------------------------------------------------
+007A            572   ;Allocation info for local variables in function 'waitms'
+007A            573   ;------------------------------------------------------------
+007A            574   ;ms                        Allocated to registers r2 r3 
+007A            575   ;j                         Allocated to registers r2 r3 
+007A            576   ;------------------------------------------------------------
+007A            577   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:108: void waitms (unsigned int ms)
+007A            578   ;        -----------------------------------------
+007A            579   ;         function waitms
+007A            580   ;        -----------------------------------------
+007A            581   _waitms:
+007A AA82       582            mov     r2,dpl
+007C AB83       583            mov     r3,dph
+007E            584   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:111: for(j=ms; j!=0; j--)
+007E            585   L004001?:
+007E BA0078     586            cjne    r2,#0x00,L004010?
+0081 BB0078     587            cjne    r3,#0x00,L004010?
+0084 22         588            ret
+0085            589   L004010?:
+0085            590   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:113: Timer3us(249);
+0085 7582F9     591            mov     dpl,#0xF9
+0088 C002       592            push    ar2
+008A C003       593            push    ar3
+008C 120100     594            lcall   _Timer3us
+008F            595   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:114: Timer3us(249);
+008F 7582F9     596            mov     dpl,#0xF9
+0092 120100     597            lcall   _Timer3us
+0095            598   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:115: Timer3us(249);
+0095 7582F9     599            mov     dpl,#0xF9
+0098 120100     600            lcall   _Timer3us
+009B            601   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:116: Timer3us(250);
+009B 7582FA     602            mov     dpl,#0xFA
+009E 120100     603            lcall   _Timer3us
+00A1 D003       604            pop     ar3
+00A3 D002       605            pop     ar2
+00A5            606   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:111: for(j=ms; j!=0; j--)
+00A5 1A         607            dec     r2
+00A6 BAFFB8     608            cjne    r2,#0xff,L004011?
+00A9 1B         609            dec     r3
+00AA            610   L004011?:
+00AA 8001       611            sjmp    L004001?
+00AC            612   ;------------------------------------------------------------
+00AC            613   ;Allocation info for local variables in function 'Timer2_ISR'
+00AC            614   ;------------------------------------------------------------
+00AC            615   ;------------------------------------------------------------
+00AC            616   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:121: void Timer2_ISR (void) interrupt 5
+00AC            617   ;        -----------------------------------------
+00AC            618   ;         function Timer2_ISR
+00AC            619   ;        -----------------------------------------
+00AC            620   _Timer2_ISR:
+00AC C0E0       621            push    acc
+00AE C0D0       622            push    psw
+00B0 75D000     623            mov     psw,#0x00
+00B3            624   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:123: TF2H = 0; // Clear Timer2 interrupt flag
+00B3 C2CF       625            clr     _TF2H
+00B5            626   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:125: pwm_count++;
+00B5 0590       627            inc     _pwm_count
+00B7            628   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:126: if(pwm_count>100) pwm_count=0;
+00B7 E590       629            mov     a,_pwm_count
+00B9 249B       630            add     a,#0xff - 0x64
+00BB 5001       631            jnc     L005002?
+00BD 759000     632            mov     _pwm_count,#0x00
+00C0            633   L005002?:
+00C0            634   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:128: OUT0=pwm_count>pwm_out0?0:1;
+00C0 C3         635            clr     c
+00C1 E510       636            mov     a,_pwm_out0
+00C3 9590       637            subb    a,_pwm_count
+00C5 9238       638            mov  _Timer2_ISR_sloc0_1_0,c
+00C7 B3         639            cpl     c
+00C8 92A2       640            mov     _P2_2,c
+00CA            641   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:129: OUT1=pwm_count>pwm_out1?0:1;
+00CA C3         642            clr     c
+00CB E5D0       643            mov     a,_pwm_out1
+00CD 9590       644            subb    a,_pwm_count
+00CF 9238       645            mov  _Timer2_ISR_sloc0_1_0,c
+00D1 B3         646            cpl     c
+00D2 92A5       647            mov     _P2_5,c
+00D4            648   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:131: OUT2=pwm_count>pwm_out2?0:1;
+00D4 C3         649            clr     c
+00D5 E590       650            mov     a,_pwm_out2
+00D7 9590       651            subb    a,_pwm_count
+00D9 9238       652            mov  _Timer2_ISR_sloc0_1_0,c
+00DB B3         653            cpl     c
+00DC 92A4       654            mov     _P2_4,c
+00DE            655   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:132: OUT3=pwm_count>pwm_out3?0:1;
+00DE C3         656            clr     c
+00DF E550       657            mov     a,_pwm_out3
+00E1 9590       658            subb    a,_pwm_count
+00E3 9238       659            mov  _Timer2_ISR_sloc0_1_0,c
+00E5 B3         660            cpl     c
+00E6 92A3       661            mov     _P2_3,c
+00E8 D0D0       662            pop     psw
+00EA D0E0       663            pop     acc
+00EC 32         664            reti
+00ED            665   ;        eliminated unneeded push/pop dpl
+00ED            666   ;        eliminated unneeded push/pop dph
+00ED            667   ;        eliminated unneeded push/pop b
+00ED            668   ;------------------------------------------------------------
+00ED            669   ;Allocation info for local variables in function 'ControlUnit'
+00ED            670   ;------------------------------------------------------------
+00ED            671   ;------------------------------------------------------------
+00ED            672   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:136: void ControlUnit (void)
+00ED            673   ;        -----------------------------------------
+00ED            674   ;         function ControlUnit
+00ED            675   ;        -----------------------------------------
+00ED            676   _ControlUnit:
+00ED            677   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:150: if (PWRUP == 0){
+00ED 209378     678            jb      _P1_3,L006007?
+00F0            679   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:151: while(PWRUP==0);
+00F0            680   L006001?:
+00F0 3093B8     681            jnb     _P1_3,L006001?
+00F3            682   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:152: power=power+10;
+00F3 740A       683            mov     a,#0x0A
+00F5 2550       684            add     a,_power
+00F7 F550       685            mov     _power,a
+00F9            686   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:153: if(power >= 100){ 
+00F9 749C       687            mov     a,#0x100 - 0x64
+00FB 2550       688            add     a,_power
+00FD 5001       689            jnc     L006005?
+00FF            690   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:154: power = 100;
+00FF 755064     691            mov     _power,#0x64
+0102            692   L006005?:
+0102            693   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:156: waitms(10);
+0102 90000A     694            mov     dptr,#0x000A
+0105 120100     695            lcall   _waitms
+0108            696   L006007?:
+0108            697   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:160: if (PWRDN == 0){
+0108 209738     698            jb      _P1_7,L006014?
+010B            699   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:161: while(PWRDN==0);
+010B            700   L006008?:
+010B 309778     701            jnb     _P1_7,L006008?
+010E            702   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:162: if (power >=10){
+010E 74F6       703            mov     a,#0x100 - 0x0A
+0110 2550       704            add     a,_power
+0112 5001       705            jnc     L006012?
+0114            706   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:163: power=power-10;
+0114 E550       707            mov     a,_power
+0116 24F6       708            add     a,#0xf6
+0118 F550       709            mov     _power,a
+011A            710   L006012?:
+011A            711   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:165: waitms(10);
+011A 90000A     712            mov     dptr,#0x000A
+011D 120100     713            lcall   _waitms
+0120            714   L006014?:
+0120            715   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:170: if (dirout==0){
+0120 E510       716            mov     a,_dirout
+0122            717   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:171: pwm_out0 = power;
+0122            718   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:172: pwm_out1 = 0;
+0122            719   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:173: pwm_out2 = power;
+0122            720   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:174: pwm_out3 = 0;    
+0122 7001       721            jnz     L006016?
+0124 855010     722            mov     _pwm_out0,_power
+0127 F5D0       723            mov     _pwm_out1,a
+0129 855090     724            mov     _pwm_out2,_power
+012C F550       725            mov     _pwm_out3,a
+012E 8001       726            sjmp    L006017?
+0130            727   L006016?:
+0130            728   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:177: pwm_out0 = 0;
+0130 751000     729            mov     _pwm_out0,#0x00
+0133            730   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:178: pwm_out1 = power;
+0133 8550D0     731            mov     _pwm_out1,_power
+0136            732   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:179: pwm_out2 = 0;
+0136 759000     733            mov     _pwm_out2,#0x00
+0139            734   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:180: pwm_out3 = power;
+0139 855050     735            mov     _pwm_out3,_power
+013C            736   L006017?:
+013C            737   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:184: printf("%d dir\n", dirout);
+013C AA10       738            mov     r2,_dirout
+013E 7B00       739            mov     r3,#0x00
+0140 C002       740            push    ar2
+0142 C003       741            push    ar3
+0144 7478       742            mov     a,#__str_0
+0146 C0E0       743            push    acc
+0148 749A       744            mov     a,#(__str_0 >> 8)
+014A C0E0       745            push    acc
+014C 7480       746            mov     a,#0x80
+014E C0E0       747            push    acc
+0150 120100     748            lcall   _printf
+0153 E581       749            mov     a,sp
+0155 24FB       750            add     a,#0xfb
+0157 F581       751            mov     sp,a
+0159            752   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:186: printf("%d power\n", power);
+0159 AA50       753            mov     r2,_power
+015B 7B00       754            mov     r3,#0x00
+015D C002       755            push    ar2
+015F C003       756            push    ar3
+0161 7438       757            mov     a,#__str_1
+0163 C0E0       758            push    acc
+0165 749B       759            mov     a,#(__str_1 >> 8)
+0167 C0E0       760            push    acc
+0169 7480       761            mov     a,#0x80
+016B C0E0       762            push    acc
+016D 120100     763            lcall   _printf
+0170 E581       764            mov     a,sp
+0172 24FB       765            add     a,#0xfb
+0174 F581       766            mov     sp,a
+0176 22         767            ret
+0177            768   ;------------------------------------------------------------
+0177            769   ;Allocation info for local variables in function 'main'
+0177            770   ;------------------------------------------------------------
+0177            771   ;------------------------------------------------------------
+0177            772   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:190: void main (void)
+0177            773   ;        -----------------------------------------
+0177            774   ;         function main
+0177            775   ;        -----------------------------------------
+0177            776   _main:
+0177            777   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:193: dirout = 0; // define initial direction to be CCW
+0177 751000     778            mov     _dirout,#0x00
+017A            779   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:195: printf("\x1b[2J"); // Clear screen using ANSI escape sequence.
+017A 7478       780            mov     a,#__str_2
+017C C0E0       781            push    acc
+017E 749B       782            mov     a,#(__str_2 >> 8)
+0180 C0E0       783            push    acc
+0182 7480       784            mov     a,#0x80
+0184 C0E0       785            push    acc
+0186 120100     786            lcall   _printf
+0189 1581       787            dec     sp
+018B 1581       788            dec     sp
+018D 1581       789            dec     sp
+018F            790   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:197: "Check pins P2.0 and P2.1 with the oscilloscope.\r\n");
+018F 74B8       791            mov     a,#__str_3
+0191 C0E0       792            push    acc
+0193 749B       793            mov     a,#(__str_3 >> 8)
+0195 C0E0       794            push    acc
+0197 7480       795            mov     a,#0x80
+0199 C0E0       796            push    acc
+019B 120100     797            lcall   _printf
+019E 1581       798            dec     sp
+01A0 1581       799            dec     sp
+01A2 1581       800            dec     sp
+01A4            801   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:199: while(1)
+01A4            802   L007002?:
+01A4            803   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:201: ControlUnit();
+01A4 120100     804            lcall   _ControlUnit
+01A7            805   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:202: waitms(100);
+01A7 900064     806            mov     dptr,#0x0064
+01AA 120100     807            lcall   _waitms
+01AD 8001       808            sjmp    L007002?
+01AF            809            rseg R_CSEG
+01AF            810   
+0000            811            rseg R_XINIT
+0000            812   
+0000            813            rseg R_CONST
+0000            814   __str_0:
+0000 25642064   815            db '%d dir'
+     6972
+0006 0A         816            db 0x0A
+0007 00         817            db 0x00
+0008            818   __str_1:
+0008 25642070   819            db '%d power'
+     6F776572
+0010 0A         820            db 0x0A
+0011 00         821            db 0x00
+0012            822   __str_2:
+0012 1B         823            db 0x1B
+0013 5B324A     824            db '[2J'
+0016 00         825            db 0x00
+0017            826   __str_3:
+0017 53717561   827            db 'Square wave generator for the F38x.'
+     72652077
+     61766520
+     67656E65
+     7261746F
+     7220666F
+     72207468
+     65204633
+     38782E
+003A 0D         828            db 0x0D
+003B 0A         829            db 0x0A
+003C 43686563   830            db 'Check pins P2.0 and P2.'
+     6B207069
+     6E732050
+     322E3020
+     616E6420
+     50322E
+0053 31207769   831            db '1 with the oscilloscope.'
+     74682074
+     6865206F
+     7363696C
+     6C6F7363
+     6F70652E
+006B 0D         832            db 0x0D
+006C 0A         833            db 0x0A
+006D 00         834            db 0x00
+006E            835   
+002E            836            CSEG
+002E            837   
+002E            838   end

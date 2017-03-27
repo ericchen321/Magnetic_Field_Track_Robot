@@ -14,15 +14,15 @@
 #define OUT3 P2_3
 
 #define FRQIN P1_6
-#define LFTINDIN P1_7
-#define RGTINDIN P2_7
+#define LFTINDIN P2_7
+#define RGTINDIN P1_7
 #define FRTINDIN P2_0
 
 
 
 // global variables
 volatile unsigned char pwm_count=0;
-volatile unsigned char power=50;
+volatile unsigned char power=100;
 volatile unsigned char pwm_out0=0;
 volatile unsigned char pwm_out1=0;
 volatile unsigned char pwm_out2=0;
@@ -31,9 +31,9 @@ volatile unsigned char dirout=0;
 volatile unsigned char overflow_count=0;
 int i = 0;
 float frequency=0;
-float LeftIndVolt=0;
-float RghtIndVolt=0;
-float FrntIndVolt=0;
+volatile float LftIndVolt=0;
+volatile float RgtIndVolt=0;
+volatile float FrtIndVolt=0;
 
 
 
@@ -227,7 +227,7 @@ float Volts_at_Pin(unsigned char pin)
 void Timer2_ISR (void) interrupt 5
 {
 	TF2H = 0; // Clear Timer2 interrupt flag
-
+	
 	pwm_count++;
 	if(pwm_count>100) pwm_count=0;
 
@@ -236,6 +236,7 @@ void Timer2_ISR (void) interrupt 5
 	
 	OUT2=pwm_count>pwm_out2?0:1;
 	OUT3=pwm_count>pwm_out3?0:1;
+	
 }
 
 
@@ -287,9 +288,12 @@ void ReadCommand (void)
 
 
 //-------------
-void UserInterface (void)
+void DebuggingFctn (void)
 {
-	printf("frequency=%fHz\n", frequency);
+	printf("frequency = %f Hz\n", frequency);
+	printf("Left(blue) ind voltage = %f V\n", LftIndVolt);
+	printf("Right(red) ind voltage = %f V\n", RgtIndVolt);
+	printf("Front inductor voltage = %f V\n", FrtIndVolt);
 }
 
 
@@ -298,7 +302,9 @@ void UserInterface (void)
 //-------------
 void ReadStatus (void)
 {
-
+	LftIndVolt = Volts_at_Pin(LQFP32_MUX_P2_7);
+	RgtIndVolt = Volts_at_Pin(LQFP32_MUX_P1_7);
+	FrtIndVolt = Volts_at_Pin(LQFP32_MUX_P2_0);
 }
 
 
@@ -318,13 +324,14 @@ void MotorControl (void)
 void main (void)
 {
 	// initialize variables, pins, etc.
-  TIMER0_Init(); // Initialize timer 0 to read the frequency of the fm signal
-  TIMER2_Init(); // Initialize timer 2 for periodic interrupts used for motor control
-  EA=1; // Enable interrupts
+  	TIMER0_Init(); // Initialize timer 0 to read the frequency of the fm signal
+  	TIMER2_Init(); // Initialize timer 2 for periodic interrupts used for motor control
+  	EA=1; // Enable interrupts
 	dirout = 0; // define initial direction to be CCW
   	InitPinADC(1, 7); // Configure P1.7 as analog input
 	InitPinADC(2, 0); // Configure P2.0 as analog input
   	InitPinADC(2, 7); // Configure P2.7 as analog input
+  	InitADC();
 	
 	printf("\x1b[2J"); // Clear screen using ANSI escape sequence.
 	
@@ -341,11 +348,11 @@ void main (void)
     // Control the motors using pwm signal
      MotorControl();
     
-    // Show the user current command and status of the vehicle
-     UserInterface();
+    // (For debugging only) Show the user current command and status of the vehicle
+     DebuggingFctn();
     
     
     // pause
-    	waitms(10);
+    	waitms(100);
 	}
 }

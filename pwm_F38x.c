@@ -117,6 +117,14 @@ void waitms (unsigned int ms)
 	}
 }
 
+void InitADC (void)
+{
+	// Init ADC
+	ADC0CF = 0xF8; // SAR clock = 31, Right-justified result
+	ADC0CN = 0b_1000_0000; // AD0EN=1, AD0TM=0
+  REF0CN = 0b_0000_1000; //Select VDD as the voltage reference for the converter
+}
+
 
 void Timer2_ISR (void) interrupt 5
 {

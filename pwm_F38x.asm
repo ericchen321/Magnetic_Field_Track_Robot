@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by C51
 ; Version 1.0.0 #1069 (Apr 23 2015) (MSVC)
-; This file was generated Fri Mar 24 22:40:40 2017
+; This file was generated Sun Mar 26 19:11:01 2017
 ;--------------------------------------------------------
 $name pwm_F38x
 $optc51 --model-small
@@ -26,6 +26,7 @@ $optc51 --model-small
 	public _main
 	public _ControlUnit
 	public _Timer2_ISR
+	public _InitADC
 	public _waitms
 	public _Timer3us
 	public __c51_external_startup
@@ -610,10 +611,26 @@ L004010?:
 L004011?:
 	sjmp	L004001?
 ;------------------------------------------------------------
+;Allocation info for local variables in function 'InitADC'
+;------------------------------------------------------------
+;------------------------------------------------------------
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:120: void InitADC (void)
+;	-----------------------------------------
+;	 function InitADC
+;	-----------------------------------------
+_InitADC:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:123: ADC0CF = 0xF8; // SAR clock = 31, Right-justified result
+	mov	_ADC0CF,#0xF8
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:124: ADC0CN = 0b_1000_0000; // AD0EN=1, AD0TM=0
+	mov	_ADC0CN,#0x80
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:125: REF0CN = 0b_0000_1000; //Select VDD as the voltage reference for the converter
+	mov	_REF0CN,#0x08
+	ret
+;------------------------------------------------------------
 ;Allocation info for local variables in function 'Timer2_ISR'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:121: void Timer2_ISR (void) interrupt 5
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:129: void Timer2_ISR (void) interrupt 5
 ;	-----------------------------------------
 ;	 function Timer2_ISR
 ;	-----------------------------------------
@@ -621,38 +638,38 @@ _Timer2_ISR:
 	push	acc
 	push	psw
 	mov	psw,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:123: TF2H = 0; // Clear Timer2 interrupt flag
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:131: TF2H = 0; // Clear Timer2 interrupt flag
 	clr	_TF2H
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:125: pwm_count++;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:133: pwm_count++;
 	inc	_pwm_count
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:126: if(pwm_count>100) pwm_count=0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:134: if(pwm_count>100) pwm_count=0;
 	mov	a,_pwm_count
 	add	a,#0xff - 0x64
-	jnc	L005002?
+	jnc	L006002?
 	mov	_pwm_count,#0x00
-L005002?:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:128: OUT0=pwm_count>pwm_out0?0:1;
+L006002?:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:136: OUT0=pwm_count>pwm_out0?0:1;
 	clr	c
 	mov	a,_pwm_out0
 	subb	a,_pwm_count
 	mov  _Timer2_ISR_sloc0_1_0,c
 	cpl	c
 	mov	_P2_2,c
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:129: OUT1=pwm_count>pwm_out1?0:1;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:137: OUT1=pwm_count>pwm_out1?0:1;
 	clr	c
 	mov	a,_pwm_out1
 	subb	a,_pwm_count
 	mov  _Timer2_ISR_sloc0_1_0,c
 	cpl	c
 	mov	_P2_5,c
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:131: OUT2=pwm_count>pwm_out2?0:1;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:139: OUT2=pwm_count>pwm_out2?0:1;
 	clr	c
 	mov	a,_pwm_out2
 	subb	a,_pwm_count
 	mov  _Timer2_ISR_sloc0_1_0,c
 	cpl	c
 	mov	_P2_4,c
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:132: OUT3=pwm_count>pwm_out3?0:1;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:140: OUT3=pwm_count>pwm_out3?0:1;
 	clr	c
 	mov	a,_pwm_out3
 	subb	a,_pwm_count
@@ -669,72 +686,72 @@ L005002?:
 ;Allocation info for local variables in function 'ControlUnit'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:136: void ControlUnit (void)
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:144: void ControlUnit (void)
 ;	-----------------------------------------
 ;	 function ControlUnit
 ;	-----------------------------------------
 _ControlUnit:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:150: if (PWRUP == 0){
-	jb	_P1_3,L006007?
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:151: while(PWRUP==0);
-L006001?:
-	jnb	_P1_3,L006001?
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:152: power=power+10;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:158: if (PWRUP == 0){
+	jb	_P1_3,L007007?
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:159: while(PWRUP==0);
+L007001?:
+	jnb	_P1_3,L007001?
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:160: power=power+10;
 	mov	a,#0x0A
 	add	a,_power
 	mov	_power,a
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:153: if(power >= 100){ 
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:161: if(power >= 100){ 
 	mov	a,#0x100 - 0x64
 	add	a,_power
-	jnc	L006005?
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:154: power = 100;
+	jnc	L007005?
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:162: power = 100;
 	mov	_power,#0x64
-L006005?:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:156: waitms(10);
+L007005?:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:164: waitms(10);
 	mov	dptr,#0x000A
 	lcall	_waitms
-L006007?:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:160: if (PWRDN == 0){
-	jb	_P1_7,L006014?
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:161: while(PWRDN==0);
-L006008?:
-	jnb	_P1_7,L006008?
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:162: if (power >=10){
+L007007?:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:168: if (PWRDN == 0){
+	jb	_P1_7,L007014?
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:169: while(PWRDN==0);
+L007008?:
+	jnb	_P1_7,L007008?
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:170: if (power >=10){
 	mov	a,#0x100 - 0x0A
 	add	a,_power
-	jnc	L006012?
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:163: power=power-10;
+	jnc	L007012?
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:171: power=power-10;
 	mov	a,_power
 	add	a,#0xf6
 	mov	_power,a
-L006012?:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:165: waitms(10);
+L007012?:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:173: waitms(10);
 	mov	dptr,#0x000A
 	lcall	_waitms
-L006014?:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:170: if (dirout==0){
+L007014?:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:178: if (dirout==0){
 	mov	a,_dirout
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:171: pwm_out0 = power;
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:172: pwm_out1 = 0;
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:173: pwm_out2 = power;
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:174: pwm_out3 = 0;    
-	jnz	L006016?
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:179: pwm_out0 = power;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:180: pwm_out1 = 0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:181: pwm_out2 = power;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:182: pwm_out3 = 0;    
+	jnz	L007016?
 	mov	_pwm_out0,_power
 	mov	_pwm_out1,a
 	mov	_pwm_out2,_power
 	mov	_pwm_out3,a
-	sjmp	L006017?
-L006016?:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:177: pwm_out0 = 0;
+	sjmp	L007017?
+L007016?:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:185: pwm_out0 = 0;
 	mov	_pwm_out0,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:178: pwm_out1 = power;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:186: pwm_out1 = power;
 	mov	_pwm_out1,_power
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:179: pwm_out2 = 0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:187: pwm_out2 = 0;
 	mov	_pwm_out2,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:180: pwm_out3 = power;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:188: pwm_out3 = power;
 	mov	_pwm_out3,_power
-L006017?:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:184: printf("%d dir\n", dirout);
+L007017?:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:192: printf("%d dir\n", dirout);
 	mov	r2,_dirout
 	mov	r3,#0x00
 	push	ar2
@@ -749,7 +766,7 @@ L006017?:
 	mov	a,sp
 	add	a,#0xfb
 	mov	sp,a
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:186: printf("%d power\n", power);
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:194: printf("%d power\n", power);
 	mov	r2,_power
 	mov	r3,#0x00
 	push	ar2
@@ -769,14 +786,14 @@ L006017?:
 ;Allocation info for local variables in function 'main'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:190: void main (void)
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:198: void main (void)
 ;	-----------------------------------------
 ;	 function main
 ;	-----------------------------------------
 _main:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:193: dirout = 0; // define initial direction to be CCW
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:201: dirout = 0; // define initial direction to be CCW
 	mov	_dirout,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:195: printf("\x1b[2J"); // Clear screen using ANSI escape sequence.
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:203: printf("\x1b[2J"); // Clear screen using ANSI escape sequence.
 	mov	a,#__str_2
 	push	acc
 	mov	a,#(__str_2 >> 8)
@@ -787,7 +804,7 @@ _main:
 	dec	sp
 	dec	sp
 	dec	sp
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:197: "Check pins P2.0 and P2.1 with the oscilloscope.\r\n");
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:205: "Check pins P2.0 and P2.1 with the oscilloscope.\r\n");
 	mov	a,#__str_3
 	push	acc
 	mov	a,#(__str_3 >> 8)
@@ -798,14 +815,14 @@ _main:
 	dec	sp
 	dec	sp
 	dec	sp
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:199: while(1)
-L007002?:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:201: ControlUnit();
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:207: while(1)
+L008002?:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:209: ControlUnit();
 	lcall	_ControlUnit
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:202: waitms(100);
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\pwm_F38x.c:210: waitms(100);
 	mov	dptr,#0x0064
 	lcall	_waitms
-	sjmp	L007002?
+	sjmp	L008002?
 	rseg R_CSEG
 
 	rseg R_XINIT

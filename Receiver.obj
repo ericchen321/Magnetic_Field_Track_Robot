@@ -25,17 +25,19 @@ R_IXSEG,xdata,0000,NO
 R_ISEG,idata,0000,NO
 R_HOME,code,0000,NO
 R_XINIT,code,0000,NO
-R_CSEG,code,0407,NO
+R_CSEG,code,0478,NO
 </SEGMENTS>
 
 <LOCALS>
 L003007?,R_CSEG,005E,0000
 L003004?,R_CSEG,004E,0000
 L003001?,R_CSEG,0053,0000
+L016005?,R_CSEG,03E5,0000
+L016002?,R_CSEG,041C,0000
 L004001?,R_CSEG,0066,0000
 L008014?,R_CSEG,00DB,0000
 L008012?,R_CSEG,00CB,0000
-L017002?,R_CSEG,03F6,0000
+L017002?,R_CSEG,0467,0000
 L008010?,R_CSEG,00C9,0000
 L012016?,R_CSEG,01EE,0000
 L012014?,R_CSEG,01E2,0000
@@ -65,19 +67,19 @@ L004010?,R_CSEG,006D,0000
 <PUBLICS>
 _InitPinADC,R_CSEG,00BE,0000
 _TIMER0_Init,R_CSEG,0094,0000
-_pwm_out0,R_DSEG,0002,0001
-_pwm_out1,R_DSEG,0003,0001
-_pwm_out2,R_DSEG,0004,0001
-_pwm_out3,R_DSEG,0005,0001
 _Volts_at_Pin,R_CSEG,0129,0000
 _DebuggingFctn,R_CSEG,0302,0000
-_main,R_CSEG,03B8,0000
+_main,R_CSEG,0429,0000
 _ReadFrequency,R_CSEG,01C3,0000
 __c51_external_startup,R_CSEG,0000,0000
 _MotorControl,R_CSEG,03AB,0000
 _InitPinADC_PARM_2,R_OSEG,0000,0001
 _i,R_DSEG,0008,0002
+_pwm_lft0,R_DSEG,0002,0001
+_pwm_lft1,R_DSEG,0003,0001
 _Timer2_ISR,R_CSEG,0182,0000
+_pwm_rgt0,R_DSEG,0004,0001
+_pwm_rgt1,R_DSEG,0005,0001
 _ReadCommand,R_CSEG,02FF,0000
 _InitADC,R_CSEG,00B4,0000
 _TIMER2_Init,R_CSEG,009D,0000
@@ -97,6 +99,7 @@ _waitms,R_CSEG,0062,0000
 
 <EXTERNALS>
 ___uint2fs,any,0000,0000
+___fsgt,any,0000,0000
 ___fsmul,any,0000,0000
 ___uchar2fs,any,0000,0000
 ___fsadd,any,0000,0000
@@ -137,11 +140,11 @@ ___fsdiv,any,0000,0000
 
 <CODE R_DINIT>
 75 data8(_pwm_count;) 00
-75 data8(_power;) 64
-75 data8(_pwm_out0;) 00
-75 data8(_pwm_out1;) 00
-75 data8(_pwm_out2;) 00
-75 data8(_pwm_out3;) 00
+75 data8(_power;) 32
+75 data8(_pwm_lft0;) 00
+75 data8(_pwm_lft1;) 00
+75 data8(_pwm_rgt0;) 00
+75 data8(_pwm_rgt1;) 00
 75 data8(_dirout;) 00
 75 data8(_overflow_count;) 00
 E4
@@ -360,25 +363,25 @@ E5 data8(_pwm_count;)
 50 rel2(L011002?;)
 75 data8(_pwm_count;) 00
 C3
-E5 data8(_pwm_out0;)
+E5 data8(_pwm_lft0;)
 95 data8(_pwm_count;)
 92 data8(_Timer2_ISR_sloc0_1_0;)
 B3
 92 A2
 C3
-E5 data8(_pwm_out1;)
+E5 data8(_pwm_lft1;)
 95 data8(_pwm_count;)
 92 data8(_Timer2_ISR_sloc0_1_0;)
 B3
 92 A5
 C3
-E5 data8(_pwm_out2;)
+E5 data8(_pwm_rgt0;)
 95 data8(_pwm_count;)
 92 data8(_Timer2_ISR_sloc0_1_0;)
 B3
 92 A4
 C3
-E5 data8(_pwm_out3;)
+E5 data8(_pwm_rgt1;)
 95 data8(_pwm_count;)
 92 data8(_Timer2_ISR_sloc0_1_0;)
 B3
@@ -611,10 +614,63 @@ F5 data8(_RgtIndVolt;0x0003;+;)
 85 F0 data8(_FrtIndVolt;0x0002;+;)
 F5 data8(_FrtIndVolt;0x0003;+;)
 22
-85 data8(_power;) data8(_pwm_out0;)
-75 data8(_pwm_out1;) 00
-85 data8(_power;) data8(_pwm_out2;)
-75 data8(_pwm_out3;) 00
+74 66
+C0 E0
+C0 E0
+74 A6
+C0 E0
+74 3F
+C0 E0
+85 data8(_LftIndVolt;) 82
+85 data8(_LftIndVolt;0x0001;+;) 83
+85 data8(_LftIndVolt;0x0002;+;) F0
+E5 data8(_LftIndVolt;0x0003;+;)
+12 addr16(___fsgt;)  
+AA 82
+E5 81
+24 FC
+F5 81
+EA
+60 rel2(L016005?;)
+E5 data8(_power;)
+24 F6
+F5 data8(_pwm_lft1;)
+75 data8(_pwm_lft0;) 00
+74 0A
+25 data8(_power;)
+F5 data8(_pwm_rgt1;)
+75 data8(_pwm_rgt0;) 00
+22
+E4
+C0 E0
+C0 E0
+C0 E0
+74 40
+C0 E0
+85 data8(_RgtIndVolt;) 82
+85 data8(_RgtIndVolt;0x0001;+;) 83
+85 data8(_RgtIndVolt;0x0002;+;) F0
+E5 data8(_RgtIndVolt;0x0003;+;)
+12 addr16(___fsgt;)  
+AA 82
+E5 81
+24 FC
+F5 81
+EA
+60 rel2(L016002?;)
+74 0A
+25 data8(_power;)
+F5 data8(_pwm_lft1;)
+75 data8(_pwm_lft0;) 00
+E5 data8(_power;)
+24 F6
+F5 data8(_pwm_rgt1;)
+75 data8(_pwm_rgt0;) 00
+22
+85 data8(_power;) data8(_pwm_lft1;)
+75 data8(_pwm_lft0;) 00
+85 data8(_power;) data8(_pwm_rgt1;)
+75 data8(_pwm_rgt0;) 00
 22
 12 addr16(_TIMER0_Init;)  
 12 addr16(_TIMER2_Init;)  
@@ -640,8 +696,8 @@ C0 E0
 15 81
 15 81
 15 81
-12 addr16(_ReadCommand;)  
 12 addr16(_ReadStatus;)  
+12 addr16(_MotorControl;)  
 12 addr16(_DebuggingFctn;)  
 90 00 64
 12 addr16(_waitms;)  

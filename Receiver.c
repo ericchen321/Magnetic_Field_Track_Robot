@@ -7,11 +7,13 @@
 #define BAUDRATE  115200L   // Baud rate of UART in bps
 
 #define VDD_onboard 	3.377
+#define Vblue_thresh	1.3
+#define Vred_thresh 	2
 
-#define OUT0 P2_2
-#define OUT1 P2_5
-#define OUT2 P2_4
-#define OUT3 P2_3
+#define LFT0 P2_2
+#define LFT1 P2_5
+#define RGT0 P2_4
+#define RGT1 P2_3
 
 #define FRQIN P1_6
 #define LFTINDIN P2_7
@@ -22,11 +24,11 @@
 
 // global variables
 volatile unsigned char pwm_count=0;
-volatile unsigned char power=100;
-volatile unsigned char pwm_out0=0;
-volatile unsigned char pwm_out1=0;
-volatile unsigned char pwm_out2=0;
-volatile unsigned char pwm_out3=0;
+volatile unsigned char power=50;
+volatile unsigned char pwm_lft0=0;
+volatile unsigned char pwm_lft1=0;
+volatile unsigned char pwm_rgt0=0;
+volatile unsigned char pwm_rgt1=0;
 volatile unsigned char dirout=0;
 volatile unsigned char overflow_count=0;
 int i = 0;
@@ -231,11 +233,11 @@ void Timer2_ISR (void) interrupt 5
 	pwm_count++;
 	if(pwm_count>100) pwm_count=0;
 
-  	OUT0=pwm_count>pwm_out0?0:1;
-	OUT1=pwm_count>pwm_out1?0:1;
+  	LFT0=pwm_count>pwm_lft0?0:1;
+	LFT1=pwm_count>pwm_lft1?0:1;
 	
-	OUT2=pwm_count>pwm_out2?0:1;
-	OUT3=pwm_count>pwm_out3?0:1;
+	RGT0=pwm_count>pwm_rgt0?0:1;
+	RGT1=pwm_count>pwm_rgt1?0:1;
 	
 }
 
@@ -305,6 +307,7 @@ void ReadStatus (void)
 	LftIndVolt = Volts_at_Pin(LQFP32_MUX_P2_7);
 	RgtIndVolt = Volts_at_Pin(LQFP32_MUX_P1_7);
 	FrtIndVolt = Volts_at_Pin(LQFP32_MUX_P2_0);
+  
 }
 
 
@@ -312,10 +315,27 @@ void ReadStatus (void)
 //-------------
 void MotorControl (void)
 {
-  	pwm_out0 = power;
-    pwm_out1 = 0;
-    pwm_out2 = power;
-    pwm_out3 = 0;    
+  
+  if(LftIndVolt > Vblue_thresh){
+      pwm_lft1= power-10;
+      pwm_lft0 = 0;
+      pwm_rgt1 = power+10;
+      pwm_rgt0 = 0;   
+  }
+  
+  else if(RgtIndVolt > Vred_thresh){
+  		pwm_lft1=power+10;
+    	pwm_lft0=0;
+    	pwm_rgt1=power-10;
+    	pwm_rgt0=0;
+  }
+  else{
+  	pwm_lft1 = power;
+    pwm_lft0 = 0;
+    pwm_rgt1 = power;
+    pwm_rgt0 = 0;
+  }
+  
 }
 
 
@@ -340,7 +360,7 @@ void main (void)
 	while(1)
 	{
     // Read command from the frequency-modulated signal
-    ReadCommand();
+    //ReadCommand();
     
     // Read the status of the vehicle 
     ReadStatus();

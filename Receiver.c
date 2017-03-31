@@ -7,17 +7,17 @@
 #define BAUDRATE  115200L   // Baud rate of UART in bps
 
 #define VDD_onboard 	3.377
-#define Vblue_thresh	1.3
-#define Vred_thresh 	2
+#define Vblue_thresh	2.0
+#define Vred_thresh 	1.0
 
-#define LFT0 P2_2
-#define LFT1 P2_5
-#define RGT0 P2_4
-#define RGT1 P2_3
+#define BLU0 P2_2
+#define BLU1 P2_5
+#define RED0 P2_4
+#define RED1 P2_3
 
 #define FRQIN P1_6
-#define LFTINDIN P2_7
-#define RGTINDIN P1_7
+#define BluINDIN P2_7
+#define RedINDIN P1_7
 #define FRTINDIN P2_0
 
 
@@ -25,17 +25,17 @@
 // global variables
 volatile unsigned char pwm_count=0;
 volatile unsigned char power=50;
-volatile unsigned char pwm_lft0=0;
-volatile unsigned char pwm_lft1=0;
-volatile unsigned char pwm_rgt0=0;
-volatile unsigned char pwm_rgt1=0;
+volatile unsigned char pwm_BLU0=0;
+volatile unsigned char pwm_BLU1=0;
+volatile unsigned char pwm_RED0=0;
+volatile unsigned char pwm_RED1=0;
 volatile unsigned char dirout=0;
 volatile unsigned char overflow_count=0;
 int i = 0;
 float frequency=0;
-volatile float LftIndVolt=0;
-volatile float RgtIndVolt=0;
-volatile float FrtIndVolt=0;
+volatile float BluIndVolt=0;
+volatile float RedIndVolt=0;
+volatile float FrtIndVolt=0; 
 
 
 
@@ -233,11 +233,11 @@ void Timer2_ISR (void) interrupt 5
 	pwm_count++;
 	if(pwm_count>100) pwm_count=0;
 
-  	LFT0=pwm_count>pwm_lft0?0:1;
-	LFT1=pwm_count>pwm_lft1?0:1;
+  	BLU0=pwm_count>pwm_BLU0?0:1;
+	BLU1=pwm_count>pwm_BLU1?0:1;
 	
-	RGT0=pwm_count>pwm_rgt0?0:1;
-	RGT1=pwm_count>pwm_rgt1?0:1;
+	RED0=pwm_count>pwm_RED0?0:1;
+	RED1=pwm_count>pwm_RED1?0:1;
 	
 }
 
@@ -293,8 +293,8 @@ void ReadCommand (void)
 void DebuggingFctn (void)
 {
 	printf("frequency = %f Hz\n", frequency);
-	printf("Left(blue) ind voltage = %f V\n", LftIndVolt);
-	printf("Right(red) ind voltage = %f V\n", RgtIndVolt);
+	printf("Left(blue) ind voltage = %f V\n", BluIndVolt);
+	printf("Right(red) ind voltage = %f V\n", RedIndVolt);
 	printf("Front inductor voltage = %f V\n", FrtIndVolt);
 }
 
@@ -304,8 +304,8 @@ void DebuggingFctn (void)
 //-------------
 void ReadStatus (void)
 {
-	LftIndVolt = Volts_at_Pin(LQFP32_MUX_P2_7);
-	RgtIndVolt = Volts_at_Pin(LQFP32_MUX_P1_7);
+	BluIndVolt = Volts_at_Pin(LQFP32_MUX_P2_7);
+	RedIndVolt = Volts_at_Pin(LQFP32_MUX_P1_7);
 	FrtIndVolt = Volts_at_Pin(LQFP32_MUX_P2_0);
   
 }
@@ -316,24 +316,24 @@ void ReadStatus (void)
 void MotorControl (void)
 {
   
-  if(LftIndVolt > Vblue_thresh){
-      pwm_lft1= power-10;
-      pwm_lft0 = 0;
-      pwm_rgt1 = power+10;
-      pwm_rgt0 = 0;   
+  if(BluIndVolt > Vblue_thresh){
+      pwm_BLU1= power+10;
+      pwm_BLU0 = 0;
+      pwm_RED1 = power-30;
+      pwm_RED0 = 0;   
   }
   
-  else if(RgtIndVolt > Vred_thresh){
-  		pwm_lft1=power+10;
-    	pwm_lft0=0;
-    	pwm_rgt1=power-10;
-    	pwm_rgt0=0;
+  else if(RedIndVolt > Vred_thresh){
+  		pwm_BLU1=power-30;
+    	pwm_BLU0=0;
+    	pwm_RED1=power+10;
+    	pwm_RED0=0;
   }
   else{
-  	pwm_lft1 = power;
-    pwm_lft0 = 0;
-    pwm_rgt1 = power;
-    pwm_rgt0 = 0;
+  	pwm_BLU1 = power;
+    pwm_BLU0 = 0;
+    pwm_RED1 = power;
+    pwm_RED0 = 0;
   }
   
 }
@@ -360,7 +360,7 @@ void main (void)
 	while(1)
 	{
     // Read command from the frequency-modulated signal
-    //ReadCommand();
+     ReadCommand();
     
     // Read the status of the vehicle 
     ReadStatus();

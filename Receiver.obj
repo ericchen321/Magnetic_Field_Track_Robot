@@ -25,19 +25,19 @@ R_IXSEG,xdata,0000,NO
 R_ISEG,idata,0000,NO
 R_HOME,code,0000,NO
 R_XINIT,code,0000,NO
-R_CSEG,code,0478,NO
+R_CSEG,code,047A,NO
 </SEGMENTS>
 
 <LOCALS>
 L003007?,R_CSEG,005E,0000
 L003004?,R_CSEG,004E,0000
 L003001?,R_CSEG,0053,0000
-L016005?,R_CSEG,03E5,0000
-L016002?,R_CSEG,041C,0000
+L016005?,R_CSEG,03E2,0000
+L016002?,R_CSEG,041B,0000
 L004001?,R_CSEG,0066,0000
 L008014?,R_CSEG,00DB,0000
 L008012?,R_CSEG,00CB,0000
-L017002?,R_CSEG,0467,0000
+L017002?,R_CSEG,0466,0000
 L008010?,R_CSEG,00C9,0000
 L012016?,R_CSEG,01EE,0000
 L012014?,R_CSEG,01E2,0000
@@ -69,17 +69,17 @@ _InitPinADC,R_CSEG,00BE,0000
 _TIMER0_Init,R_CSEG,0094,0000
 _Volts_at_Pin,R_CSEG,0129,0000
 _DebuggingFctn,R_CSEG,0302,0000
-_main,R_CSEG,0429,0000
+_main,R_CSEG,0428,0000
+_pwm_RED0,R_DSEG,0004,0001
+_pwm_RED1,R_DSEG,0005,0001
 _ReadFrequency,R_CSEG,01C3,0000
 __c51_external_startup,R_CSEG,0000,0000
 _MotorControl,R_CSEG,03AB,0000
 _InitPinADC_PARM_2,R_OSEG,0000,0001
 _i,R_DSEG,0008,0002
-_pwm_lft0,R_DSEG,0002,0001
-_pwm_lft1,R_DSEG,0003,0001
 _Timer2_ISR,R_CSEG,0182,0000
-_pwm_rgt0,R_DSEG,0004,0001
-_pwm_rgt1,R_DSEG,0005,0001
+_pwm_BLU0,R_DSEG,0002,0001
+_pwm_BLU1,R_DSEG,0003,0001
 _ReadCommand,R_CSEG,02FF,0000
 _InitADC,R_CSEG,00B4,0000
 _TIMER2_Init,R_CSEG,009D,0000
@@ -88,10 +88,10 @@ _pwm_count,R_DSEG,0000,0001
 _dirout,R_DSEG,0006,0001
 _frequency,R_DSEG,000A,0004
 _power,R_DSEG,0001,0001
-_RgtIndVolt,R_DSEG,0012,0004
 _ReadStatus,R_CSEG,0377,0000
-_LftIndVolt,R_DSEG,000E,0004
 _Timer3us,R_CSEG,0038,0000
+_RedIndVolt,R_DSEG,0012,0004
+_BluIndVolt,R_DSEG,000E,0004
 _ADC_at_Pin,R_CSEG,0108,0000
 _FrtIndVolt,R_DSEG,0016,0004
 _waitms,R_CSEG,0062,0000
@@ -141,10 +141,10 @@ ___fsdiv,any,0000,0000
 <CODE R_DINIT>
 75 data8(_pwm_count;) 00
 75 data8(_power;) 32
-75 data8(_pwm_lft0;) 00
-75 data8(_pwm_lft1;) 00
-75 data8(_pwm_rgt0;) 00
-75 data8(_pwm_rgt1;) 00
+75 data8(_pwm_BLU0;) 00
+75 data8(_pwm_BLU1;) 00
+75 data8(_pwm_RED0;) 00
+75 data8(_pwm_RED1;) 00
 75 data8(_dirout;) 00
 75 data8(_overflow_count;) 00
 E4
@@ -154,14 +154,14 @@ F5 data8(_i;0x0001;+;)
 75 data8(_frequency;0x0001;+;) 00
 75 data8(_frequency;0x0002;+;) 00
 75 data8(_frequency;0x0003;+;) 00
-75 data8(_LftIndVolt;) 00
-75 data8(_LftIndVolt;0x0001;+;) 00
-75 data8(_LftIndVolt;0x0002;+;) 00
-75 data8(_LftIndVolt;0x0003;+;) 00
-75 data8(_RgtIndVolt;) 00
-75 data8(_RgtIndVolt;0x0001;+;) 00
-75 data8(_RgtIndVolt;0x0002;+;) 00
-75 data8(_RgtIndVolt;0x0003;+;) 00
+75 data8(_BluIndVolt;) 00
+75 data8(_BluIndVolt;0x0001;+;) 00
+75 data8(_BluIndVolt;0x0002;+;) 00
+75 data8(_BluIndVolt;0x0003;+;) 00
+75 data8(_RedIndVolt;) 00
+75 data8(_RedIndVolt;0x0001;+;) 00
+75 data8(_RedIndVolt;0x0002;+;) 00
+75 data8(_RedIndVolt;0x0003;+;) 00
 75 data8(_FrtIndVolt;) 00
 75 data8(_FrtIndVolt;0x0001;+;) 00
 75 data8(_FrtIndVolt;0x0002;+;) 00
@@ -363,25 +363,25 @@ E5 data8(_pwm_count;)
 50 rel2(L011002?;)
 75 data8(_pwm_count;) 00
 C3
-E5 data8(_pwm_lft0;)
+E5 data8(_pwm_BLU0;)
 95 data8(_pwm_count;)
 92 data8(_Timer2_ISR_sloc0_1_0;)
 B3
 92 A2
 C3
-E5 data8(_pwm_lft1;)
+E5 data8(_pwm_BLU1;)
 95 data8(_pwm_count;)
 92 data8(_Timer2_ISR_sloc0_1_0;)
 B3
 92 A5
 C3
-E5 data8(_pwm_rgt0;)
+E5 data8(_pwm_RED0;)
 95 data8(_pwm_count;)
 92 data8(_Timer2_ISR_sloc0_1_0;)
 B3
 92 A4
 C3
-E5 data8(_pwm_rgt1;)
+E5 data8(_pwm_RED1;)
 95 data8(_pwm_count;)
 92 data8(_Timer2_ISR_sloc0_1_0;)
 B3
@@ -552,10 +552,10 @@ C0 E0
 E5 81
 24 F9
 F5 81
-C0 data8(_LftIndVolt;)
-C0 data8(_LftIndVolt;0x0001;+;)
-C0 data8(_LftIndVolt;0x0002;+;)
-C0 data8(_LftIndVolt;0x0003;+;)
+C0 data8(_BluIndVolt;)
+C0 data8(_BluIndVolt;0x0001;+;)
+C0 data8(_BluIndVolt;0x0002;+;)
+C0 data8(_BluIndVolt;0x0003;+;)
 74 data8(__str_1;)
 C0 E0
 74 data8(__str_1;0x0008;>>;)
@@ -566,10 +566,10 @@ C0 E0
 E5 81
 24 F9
 F5 81
-C0 data8(_RgtIndVolt;)
-C0 data8(_RgtIndVolt;0x0001;+;)
-C0 data8(_RgtIndVolt;0x0002;+;)
-C0 data8(_RgtIndVolt;0x0003;+;)
+C0 data8(_RedIndVolt;)
+C0 data8(_RedIndVolt;0x0001;+;)
+C0 data8(_RedIndVolt;0x0002;+;)
+C0 data8(_RedIndVolt;0x0003;+;)
 74 data8(__str_2;)
 C0 E0
 74 data8(__str_2;0x0008;>>;)
@@ -597,16 +597,16 @@ F5 81
 22
 75 82 0F
 12 addr16(_Volts_at_Pin;)  
-85 82 data8(_LftIndVolt;)
-85 83 data8(_LftIndVolt;0x0001;+;)
-85 F0 data8(_LftIndVolt;0x0002;+;)
-F5 data8(_LftIndVolt;0x0003;+;)
+85 82 data8(_BluIndVolt;)
+85 83 data8(_BluIndVolt;0x0001;+;)
+85 F0 data8(_BluIndVolt;0x0002;+;)
+F5 data8(_BluIndVolt;0x0003;+;)
 75 82 07
 12 addr16(_Volts_at_Pin;)  
-85 82 data8(_RgtIndVolt;)
-85 83 data8(_RgtIndVolt;0x0001;+;)
-85 F0 data8(_RgtIndVolt;0x0002;+;)
-F5 data8(_RgtIndVolt;0x0003;+;)
+85 82 data8(_RedIndVolt;)
+85 83 data8(_RedIndVolt;0x0001;+;)
+85 F0 data8(_RedIndVolt;0x0002;+;)
+F5 data8(_RedIndVolt;0x0003;+;)
 75 82 08
 12 addr16(_Volts_at_Pin;)  
 85 82 data8(_FrtIndVolt;)
@@ -614,17 +614,16 @@ F5 data8(_RgtIndVolt;0x0003;+;)
 85 F0 data8(_FrtIndVolt;0x0002;+;)
 F5 data8(_FrtIndVolt;0x0003;+;)
 22
-74 66
+E4
 C0 E0
 C0 E0
-74 A6
 C0 E0
-74 3F
+74 40
 C0 E0
-85 data8(_LftIndVolt;) 82
-85 data8(_LftIndVolt;0x0001;+;) 83
-85 data8(_LftIndVolt;0x0002;+;) F0
-E5 data8(_LftIndVolt;0x0003;+;)
+85 data8(_BluIndVolt;) 82
+85 data8(_BluIndVolt;0x0001;+;) 83
+85 data8(_BluIndVolt;0x0002;+;) F0
+E5 data8(_BluIndVolt;0x0003;+;)
 12 addr16(___fsgt;)  
 AA 82
 E5 81
@@ -632,25 +631,26 @@ E5 81
 F5 81
 EA
 60 rel2(L016005?;)
-E5 data8(_power;)
-24 F6
-F5 data8(_pwm_lft1;)
-75 data8(_pwm_lft0;) 00
 74 0A
 25 data8(_power;)
-F5 data8(_pwm_rgt1;)
-75 data8(_pwm_rgt0;) 00
+F5 data8(_pwm_BLU1;)
+75 data8(_pwm_BLU0;) 00
+E5 data8(_power;)
+24 E2
+F5 data8(_pwm_RED1;)
+75 data8(_pwm_RED0;) 00
 22
 E4
 C0 E0
 C0 E0
+74 80
 C0 E0
-74 40
+74 3F
 C0 E0
-85 data8(_RgtIndVolt;) 82
-85 data8(_RgtIndVolt;0x0001;+;) 83
-85 data8(_RgtIndVolt;0x0002;+;) F0
-E5 data8(_RgtIndVolt;0x0003;+;)
+85 data8(_RedIndVolt;) 82
+85 data8(_RedIndVolt;0x0001;+;) 83
+85 data8(_RedIndVolt;0x0002;+;) F0
+E5 data8(_RedIndVolt;0x0003;+;)
 12 addr16(___fsgt;)  
 AA 82
 E5 81
@@ -658,19 +658,19 @@ E5 81
 F5 81
 EA
 60 rel2(L016002?;)
+E5 data8(_power;)
+24 E2
+F5 data8(_pwm_BLU1;)
+75 data8(_pwm_BLU0;) 00
 74 0A
 25 data8(_power;)
-F5 data8(_pwm_lft1;)
-75 data8(_pwm_lft0;) 00
-E5 data8(_power;)
-24 F6
-F5 data8(_pwm_rgt1;)
-75 data8(_pwm_rgt0;) 00
+F5 data8(_pwm_RED1;)
+75 data8(_pwm_RED0;) 00
 22
-85 data8(_power;) data8(_pwm_lft1;)
-75 data8(_pwm_lft0;) 00
-85 data8(_power;) data8(_pwm_rgt1;)
-75 data8(_pwm_rgt0;) 00
+85 data8(_power;) data8(_pwm_BLU1;)
+75 data8(_pwm_BLU0;) 00
+85 data8(_power;) data8(_pwm_RED1;)
+75 data8(_pwm_RED0;) 00
 22
 12 addr16(_TIMER0_Init;)  
 12 addr16(_TIMER2_Init;)  
@@ -696,6 +696,7 @@ C0 E0
 15 81
 15 81
 15 81
+12 addr16(_ReadCommand;)  
 12 addr16(_ReadStatus;)  
 12 addr16(_MotorControl;)  
 12 addr16(_DebuggingFctn;)  

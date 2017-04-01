@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by C51
 ; Version 1.0.0 #1069 (Apr 23 2015) (MSVC)
-; This file was generated Sat Apr 01 15:42:09 2017
+; This file was generated Sat Apr 01 16:51:20 2017
 ;--------------------------------------------------------
 $name Receiver
 $optc51 --model-small
@@ -26,10 +26,10 @@ $printf_float
 ;--------------------------------------------------------
 	public _InitPinADC_PARM_2
 	public _main
-	public _MotorControl
-	public _ReadStatus
 	public _DebuggingFctn
-	public _ReadCommand
+	public _MotorControl
+	public _ReadInductorStatus
+	public _DetermineMode
 	public _ReadFrequency
 	public _Timer2_ISR
 	public _Volts_at_Pin
@@ -41,6 +41,7 @@ $printf_float
 	public _waitms
 	public _Timer3us
 	public __c51_external_startup
+	public _mode
 	public _FrtIndVolt
 	public _RedIndVolt
 	public _BluIndVolt
@@ -411,6 +412,8 @@ _RedIndVolt:
 	ds 4
 _FrtIndVolt:
 	ds 4
+_mode:
+	ds 1
 ;--------------------------------------------------------
 ; overlayable items in internal ram 
 ;--------------------------------------------------------
@@ -469,46 +472,48 @@ _Timer2_ISR_sloc0_1_0:
 ; data variables initialization
 ;--------------------------------------------------------
 	rseg R_DINIT
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:26: volatile unsigned char pwm_count=0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:46: volatile unsigned char pwm_count=0;
 	mov	_pwm_count,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:27: volatile unsigned char power=50;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:47: volatile unsigned char power=50;
 	mov	_power,#0x32
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:28: volatile unsigned char pwm_BLU0=0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:48: volatile unsigned char pwm_BLU0=0;
 	mov	_pwm_BLU0,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:29: volatile unsigned char pwm_BLU1=0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:49: volatile unsigned char pwm_BLU1=0;
 	mov	_pwm_BLU1,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:30: volatile unsigned char pwm_RED0=0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:50: volatile unsigned char pwm_RED0=0;
 	mov	_pwm_RED0,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:31: volatile unsigned char pwm_RED1=0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:51: volatile unsigned char pwm_RED1=0;
 	mov	_pwm_RED1,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:32: volatile unsigned char dirout=0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:52: volatile unsigned char dirout=0;
 	mov	_dirout,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:33: volatile unsigned char overflow_count=0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:53: volatile unsigned char overflow_count=0;
 	mov	_overflow_count,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:34: int i = 0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:54: int i = 0;
 	clr	a
 	mov	_i,a
 	mov	(_i + 1),a
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:35: float frequency=0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:55: float frequency=0;
 	mov	_frequency,#0x00
 	mov	(_frequency + 1),#0x00
 	mov	(_frequency + 2),#0x00
 	mov	(_frequency + 3),#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:36: volatile float BluIndVolt=0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:56: volatile float BluIndVolt=0;
 	mov	_BluIndVolt,#0x00
 	mov	(_BluIndVolt + 1),#0x00
 	mov	(_BluIndVolt + 2),#0x00
 	mov	(_BluIndVolt + 3),#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:37: volatile float RedIndVolt=0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:57: volatile float RedIndVolt=0;
 	mov	_RedIndVolt,#0x00
 	mov	(_RedIndVolt + 1),#0x00
 	mov	(_RedIndVolt + 2),#0x00
 	mov	(_RedIndVolt + 3),#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:38: volatile float FrtIndVolt=0; 
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:58: volatile float FrtIndVolt=0; 
 	mov	_FrtIndVolt,#0x00
 	mov	(_FrtIndVolt + 1),#0x00
 	mov	(_FrtIndVolt + 2),#0x00
 	mov	(_FrtIndVolt + 3),#0x00
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:59: unsigned char mode=FORWARD;
+	mov	_mode,#0x03
 	; The linker places a 'ret' at the end of segment R_DINIT.
 ;--------------------------------------------------------
 ; code
@@ -518,49 +523,49 @@ _Timer2_ISR_sloc0_1_0:
 ;Allocation info for local variables in function '_c51_external_startup'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:43: char _c51_external_startup (void)
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:65: char _c51_external_startup (void)
 ;	-----------------------------------------
 ;	 function _c51_external_startup
 ;	-----------------------------------------
 __c51_external_startup:
 	using	0
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:45: PCA0MD&=(~0x40) ;    // DISABLE WDT: clear Watchdog Enable bit
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:67: PCA0MD&=(~0x40) ;    // DISABLE WDT: clear Watchdog Enable bit
 	anl	_PCA0MD,#0xBF
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:46: VDM0CN=0x80; // enable VDD monitor
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:68: VDM0CN=0x80; // enable VDD monitor
 	mov	_VDM0CN,#0x80
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:47: RSTSRC=0x02|0x04; // Enable reset on missing clock detector and VDD
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:69: RSTSRC=0x02|0x04; // Enable reset on missing clock detector and VDD
 	mov	_RSTSRC,#0x06
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:55: CLKSEL|=0b_0000_0011; // SYSCLK derived from the Internal High-Frequency Oscillator / 1.
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:77: CLKSEL|=0b_0000_0011; // SYSCLK derived from the Internal High-Frequency Oscillator / 1.
 	orl	_CLKSEL,#0x03
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:59: OSCICN |= 0x03; // Configure internal oscillator for its maximum frequency
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:81: OSCICN |= 0x03; // Configure internal oscillator for its maximum frequency
 	orl	_OSCICN,#0x03
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:62: SCON0 = 0x10;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:84: SCON0 = 0x10;
 	mov	_SCON0,#0x10
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:64: TH1 = 0x10000-((SYSCLK/BAUDRATE)/2L);
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:86: TH1 = 0x10000-((SYSCLK/BAUDRATE)/2L);
 	mov	_TH1,#0x30
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:65: CKCON &= ~0x0B;                  // T1M = 1; SCA1:0 = xx
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:87: CKCON &= ~0x0B;                  // T1M = 1; SCA1:0 = xx
 	anl	_CKCON,#0xF4
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:66: CKCON |=  0x08;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:88: CKCON |=  0x08;
 	orl	_CKCON,#0x08
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:79: TL1 = TH1;      // Init Timer1
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:101: TL1 = TH1;      // Init Timer1
 	mov	_TL1,_TH1
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:80: TMOD &= ~0xf0;  // TMOD: timer 1 in 8-bit autoreload
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:102: TMOD &= ~0xf0;  // TMOD: timer 1 in 8-bit autoreload
 	anl	_TMOD,#0x0F
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:81: TMOD |=  0x20;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:103: TMOD |=  0x20;
 	orl	_TMOD,#0x20
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:82: TR1 = 1; // START Timer1
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:104: TR1 = 1; // START Timer1
 	setb	_TR1
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:83: TI = 1;  // Indicate TX0 ready
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:105: TI = 1;  // Indicate TX0 ready
 	setb	_TI
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:86: P2MDOUT|=0b_0000_0011;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:108: P2MDOUT|=0b_0000_0011;
 	orl	_P2MDOUT,#0x03
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:87: P0MDOUT |= 0x10; // Enable UTX as push-pull output
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:109: P0MDOUT |= 0x10; // Enable UTX as push-pull output
 	orl	_P0MDOUT,#0x10
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:88: XBR0     = 0x01; // Enable UART on P0.4(TX) and P0.5(RX)
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:110: XBR0     = 0x01; // Enable UART on P0.4(TX) and P0.5(RX)
 	mov	_XBR0,#0x01
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:89: XBR1     = 0x40; // Enable crossbar and weak pull-ups
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:111: XBR1     = 0x40; // Enable crossbar and weak pull-ups
 	mov	_XBR1,#0x40
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:91: return 0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:113: return 0;
 	mov	dpl,#0x00
 	ret
 ;------------------------------------------------------------
@@ -569,40 +574,40 @@ __c51_external_startup:
 ;us                        Allocated to registers r2 
 ;i                         Allocated to registers r3 
 ;------------------------------------------------------------
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:98: void Timer3us(unsigned char us)
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:120: void Timer3us(unsigned char us)
 ;	-----------------------------------------
 ;	 function Timer3us
 ;	-----------------------------------------
 _Timer3us:
 	mov	r2,dpl
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:103: CKCON|=0b_0100_0000;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:125: CKCON|=0b_0100_0000;
 	orl	_CKCON,#0x40
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:105: TMR3RL = (-(SYSCLK)/1000000L); // Set Timer3 to overflow in 1us.
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:127: TMR3RL = (-(SYSCLK)/1000000L); // Set Timer3 to overflow in 1us.
 	mov	_TMR3RL,#0xD0
 	mov	(_TMR3RL >> 8),#0xFF
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:106: TMR3 = TMR3RL;                 // Initialize Timer3 for first overflow
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:128: TMR3 = TMR3RL;                 // Initialize Timer3 for first overflow
 	mov	_TMR3,_TMR3RL
 	mov	(_TMR3 >> 8),(_TMR3RL >> 8)
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:108: TMR3CN = 0x04;                 // Sart Timer3 and clear overflow flag
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:130: TMR3CN = 0x04;                 // Sart Timer3 and clear overflow flag
 	mov	_TMR3CN,#0x04
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:109: for (i = 0; i < us; i++)       // Count <us> overflows
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:131: for (i = 0; i < us; i++)       // Count <us> overflows
 	mov	r3,#0x00
 L003004?:
 	clr	c
 	mov	a,r3
 	subb	a,r2
 	jnc	L003007?
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:111: while (!(TMR3CN & 0x80));  // Wait for overflow
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:133: while (!(TMR3CN & 0x80));  // Wait for overflow
 L003001?:
 	mov	a,_TMR3CN
 	jnb	acc.7,L003001?
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:112: TMR3CN &= ~(0x80);         // Clear overflow indicator
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:134: TMR3CN &= ~(0x80);         // Clear overflow indicator
 	anl	_TMR3CN,#0x7F
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:109: for (i = 0; i < us; i++)       // Count <us> overflows
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:131: for (i = 0; i < us; i++)       // Count <us> overflows
 	inc	r3
 	sjmp	L003004?
 L003007?:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:114: TMR3CN = 0 ;                   // Stop Timer3 and clear overflow flag
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:136: TMR3CN = 0 ;                   // Stop Timer3 and clear overflow flag
 	mov	_TMR3CN,#0x00
 	ret
 ;------------------------------------------------------------
@@ -611,36 +616,36 @@ L003007?:
 ;ms                        Allocated to registers r2 r3 
 ;j                         Allocated to registers r2 r3 
 ;------------------------------------------------------------
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:121: void waitms (unsigned int ms)
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:143: void waitms (unsigned int ms)
 ;	-----------------------------------------
 ;	 function waitms
 ;	-----------------------------------------
 _waitms:
 	mov	r2,dpl
 	mov	r3,dph
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:124: for(j=ms; j!=0; j--)
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:146: for(j=ms; j!=0; j--)
 L004001?:
 	cjne	r2,#0x00,L004010?
 	cjne	r3,#0x00,L004010?
 	ret
 L004010?:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:126: Timer3us(249);
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:148: Timer3us(249);
 	mov	dpl,#0xF9
 	push	ar2
 	push	ar3
 	lcall	_Timer3us
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:127: Timer3us(249);
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:149: Timer3us(249);
 	mov	dpl,#0xF9
 	lcall	_Timer3us
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:128: Timer3us(249);
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:150: Timer3us(249);
 	mov	dpl,#0xF9
 	lcall	_Timer3us
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:129: Timer3us(250);
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:151: Timer3us(250);
 	mov	dpl,#0xFA
 	lcall	_Timer3us
 	pop	ar3
 	pop	ar2
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:124: for(j=ms; j!=0; j--)
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:146: for(j=ms; j!=0; j--)
 	dec	r2
 	cjne	r2,#0xff,L004011?
 	dec	r3
@@ -650,56 +655,56 @@ L004011?:
 ;Allocation info for local variables in function 'TIMER0_Init'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:135: void TIMER0_Init(void)
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:157: void TIMER0_Init(void)
 ;	-----------------------------------------
 ;	 function TIMER0_Init
 ;	-----------------------------------------
 _TIMER0_Init:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:137: TMOD&=0b_1111_0000; // Set the bits of Timer/Counter 0 to zero
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:159: TMOD&=0b_1111_0000; // Set the bits of Timer/Counter 0 to zero
 	anl	_TMOD,#0xF0
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:138: TMOD|=0b_0000_0001; // Timer/Counter 0 used as a 16-bit timer
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:160: TMOD|=0b_0000_0001; // Timer/Counter 0 used as a 16-bit timer
 	orl	_TMOD,#0x01
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:139: TR0=0; // Stop Timer/Counter 0
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:161: TR0=0; // Stop Timer/Counter 0
 	clr	_TR0
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'TIMER2_Init'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:145: void TIMER2_Init(void)
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:167: void TIMER2_Init(void)
 ;	-----------------------------------------
 ;	 function TIMER2_Init
 ;	-----------------------------------------
 _TIMER2_Init:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:147: TMR2CN=0x00;   // Stop Timer2; Clear TF2;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:169: TMR2CN=0x00;   // Stop Timer2; Clear TF2;
 	mov	_TMR2CN,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:148: CKCON|=0b_0001_0000;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:170: CKCON|=0b_0001_0000;
 	orl	_CKCON,#0x10
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:149: TMR2RL=(-(SYSCLK/(2*48))/(100L)); // Initialize reload value
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:171: TMR2RL=(-(SYSCLK/(2*48))/(100L)); // Initialize reload value
 	mov	_TMR2RL,#0x78
 	mov	(_TMR2RL >> 8),#0xEC
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:150: TMR2=0xffff;   // Set to reload immediately
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:172: TMR2=0xffff;   // Set to reload immediately
 	mov	_TMR2,#0xFF
 	mov	(_TMR2 >> 8),#0xFF
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:151: ET2=1;         // Enable Timer2 interrupts
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:173: ET2=1;         // Enable Timer2 interrupts
 	setb	_ET2
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:152: TR2=1;         // Start Timer2
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:174: TR2=1;         // Start Timer2
 	setb	_TR2
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'InitADC'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:158: void InitADC (void)
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:180: void InitADC (void)
 ;	-----------------------------------------
 ;	 function InitADC
 ;	-----------------------------------------
 _InitADC:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:161: ADC0CF = 0xF8; // SAR clock = 31, Right-justified result
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:183: ADC0CF = 0xF8; // SAR clock = 31, Right-justified result
 	mov	_ADC0CF,#0xF8
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:162: ADC0CN = 0b_1000_0000; // AD0EN=1, AD0TM=0
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:184: ADC0CN = 0b_1000_0000; // AD0EN=1, AD0TM=0
 	mov	_ADC0CN,#0x80
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:163: REF0CN = 0b_0000_1000; //Select VDD as the voltage reference for the converter
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:185: REF0CN = 0b_0000_1000; //Select VDD as the voltage reference for the converter
 	mov	_REF0CN,#0x08
 	ret
 ;------------------------------------------------------------
@@ -709,13 +714,13 @@ _InitADC:
 ;portno                    Allocated to registers r2 
 ;mask                      Allocated to registers r3 
 ;------------------------------------------------------------
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:170: void InitPinADC (unsigned char portno, unsigned char pinno)
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:192: void InitPinADC (unsigned char portno, unsigned char pinno)
 ;	-----------------------------------------
 ;	 function InitPinADC
 ;	-----------------------------------------
 _InitPinADC:
 	mov	r2,dpl
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:174: mask=1<<pinno;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:196: mask=1<<pinno;
 	mov	b,_InitPinADC_PARM_2
 	inc	b
 	mov	a,#0x01
@@ -725,7 +730,7 @@ L008010?:
 L008012?:
 	djnz	b,L008010?
 	mov	r3,a
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:176: switch (portno)
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:198: switch (portno)
 	mov	a,r2
 	add	a,#0xff - 0x03
 	jc	L008007?
@@ -739,50 +744,50 @@ L008014?:
 	ljmp	L008002?
 	ljmp	L008003?
 	ljmp	L008004?
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:178: case 0:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:200: case 0:
 L008001?:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:179: P0MDIN &= (~mask); // Set pin as analog input
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:201: P0MDIN &= (~mask); // Set pin as analog input
 	mov	a,r3
 	cpl	a
 	anl	_P0MDIN,a
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:180: P0SKIP |= mask; // Skip Crossbar decoding for this pin
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:202: P0SKIP |= mask; // Skip Crossbar decoding for this pin
 	mov	a,r3
 	orl	_P0SKIP,a
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:181: break;
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:182: case 1:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:203: break;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:204: case 1:
 	ret
 L008002?:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:183: P1MDIN &= (~mask); // Set pin as analog input
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:205: P1MDIN &= (~mask); // Set pin as analog input
 	mov	a,r3
 	cpl	a
 	anl	_P1MDIN,a
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:184: P1SKIP |= mask; // Skip Crossbar decoding for this pin
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:206: P1SKIP |= mask; // Skip Crossbar decoding for this pin
 	mov	a,r3
 	orl	_P1SKIP,a
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:185: break;
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:186: case 2:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:207: break;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:208: case 2:
 	ret
 L008003?:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:187: P2MDIN &= (~mask); // Set pin as analog input
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:209: P2MDIN &= (~mask); // Set pin as analog input
 	mov	a,r3
 	cpl	a
 	anl	_P2MDIN,a
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:188: P2SKIP |= mask; // Skip Crossbar decoding for this pin
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:210: P2SKIP |= mask; // Skip Crossbar decoding for this pin
 	mov	a,r3
 	orl	_P2SKIP,a
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:189: break;
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:190: case 3:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:211: break;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:212: case 3:
 	ret
 L008004?:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:191: P3MDIN &= (~mask); // Set pin as analog input
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:213: P3MDIN &= (~mask); // Set pin as analog input
 	mov	a,r3
 	cpl	a
 	mov	r2,a
 	anl	_P3MDIN,a
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:192: P3SKIP |= mask; // Skip Crossbar decoding for this pin
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:214: P3SKIP |= mask; // Skip Crossbar decoding for this pin
 	mov	a,r3
 	orl	_P3SKIP,a
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:196: }
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:218: }
 L008007?:
 	ret
 ;------------------------------------------------------------
@@ -790,25 +795,25 @@ L008007?:
 ;------------------------------------------------------------
 ;pin                       Allocated to registers 
 ;------------------------------------------------------------
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:203: unsigned int ADC_at_Pin(unsigned char pin)
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:225: unsigned int ADC_at_Pin(unsigned char pin)
 ;	-----------------------------------------
 ;	 function ADC_at_Pin
 ;	-----------------------------------------
 _ADC_at_Pin:
 	mov	_AMX0P,dpl
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:206: AMX0N = LQFP32_MUX_GND;  // GND is negative input (Single-ended Mode)
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:228: AMX0N = LQFP32_MUX_GND;  // GND is negative input (Single-ended Mode)
 	mov	_AMX0N,#0x1F
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:208: AD0BUSY=1;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:230: AD0BUSY=1;
 	setb	_AD0BUSY
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:209: while (AD0BUSY); // Wait for dummy conversion to finish
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:231: while (AD0BUSY); // Wait for dummy conversion to finish
 L009001?:
 	jb	_AD0BUSY,L009001?
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:211: AD0BUSY = 1;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:233: AD0BUSY = 1;
 	setb	_AD0BUSY
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:212: while (AD0BUSY); // Wait for conversion to complete
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:234: while (AD0BUSY); // Wait for conversion to complete
 L009004?:
 	jb	_AD0BUSY,L009004?
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:213: return (ADC0L+(ADC0H*0x100));
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:235: return (ADC0L+(ADC0H*0x100));
 	mov	r2,_ADC0L
 	mov	r3,#0x00
 	mov	r5,_ADC0H
@@ -825,12 +830,12 @@ L009004?:
 ;------------------------------------------------------------
 ;pin                       Allocated to registers r2 
 ;------------------------------------------------------------
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:220: float Volts_at_Pin(unsigned char pin)
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:242: float Volts_at_Pin(unsigned char pin)
 ;	-----------------------------------------
 ;	 function Volts_at_Pin
 ;	-----------------------------------------
 _Volts_at_Pin:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:222: return ((ADC_at_Pin(pin)*VDD_onboard)/1024.0);
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:244: return ((ADC_at_Pin(pin)*VDD_onboard)/1024.0);
 	lcall	_ADC_at_Pin
 	lcall	___uint2fs
 	mov	r2,dpl
@@ -880,7 +885,7 @@ _Volts_at_Pin:
 ;Allocation info for local variables in function 'Timer2_ISR'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:229: void Timer2_ISR (void) interrupt 5
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:251: void Timer2_ISR (void) interrupt 5
 ;	-----------------------------------------
 ;	 function Timer2_ISR
 ;	-----------------------------------------
@@ -888,38 +893,38 @@ _Timer2_ISR:
 	push	acc
 	push	psw
 	mov	psw,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:231: TF2H = 0; // Clear Timer2 interrupt flag
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:253: TF2H = 0; // Clear Timer2 interrupt flag
 	clr	_TF2H
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:233: pwm_count++;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:255: pwm_count++;
 	inc	_pwm_count
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:234: if(pwm_count>100) pwm_count=0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:256: if(pwm_count>100) pwm_count=0;
 	mov	a,_pwm_count
 	add	a,#0xff - 0x64
 	jnc	L011002?
 	mov	_pwm_count,#0x00
 L011002?:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:236: BLU0=pwm_count>pwm_BLU0?0:1;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:258: BLU0=pwm_count>pwm_BLU0?0:1;
 	clr	c
 	mov	a,_pwm_BLU0
 	subb	a,_pwm_count
 	mov  _Timer2_ISR_sloc0_1_0,c
 	cpl	c
 	mov	_P2_2,c
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:237: BLU1=pwm_count>pwm_BLU1?0:1;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:259: BLU1=pwm_count>pwm_BLU1?0:1;
 	clr	c
 	mov	a,_pwm_BLU1
 	subb	a,_pwm_count
 	mov  _Timer2_ISR_sloc0_1_0,c
 	cpl	c
 	mov	_P2_5,c
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:239: RED0=pwm_count>pwm_RED0?0:1;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:261: RED0=pwm_count>pwm_RED0?0:1;
 	clr	c
 	mov	a,_pwm_RED0
 	subb	a,_pwm_count
 	mov  _Timer2_ISR_sloc0_1_0,c
 	cpl	c
 	mov	_P2_4,c
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:240: RED1=pwm_count>pwm_RED1?0:1;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:262: RED1=pwm_count>pwm_RED1?0:1;
 	clr	c
 	mov	a,_pwm_RED1
 	subb	a,_pwm_count
@@ -936,53 +941,53 @@ L011002?:
 ;Allocation info for local variables in function 'ReadFrequency'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:247: void ReadFrequency (void)
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:269: void ReadFrequency (void)
 ;	-----------------------------------------
 ;	 function ReadFrequency
 ;	-----------------------------------------
 _ReadFrequency:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:251: TL0=0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:273: TL0=0;
 	mov	_TL0,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:252: TH0=0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:274: TH0=0;
 	mov	_TH0,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:253: TF0=0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:275: TF0=0;
 	clr	_TF0
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:254: overflow_count=0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:276: overflow_count=0;
 	mov	_overflow_count,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:256: while(FRQIN!=0); // Wait for the signal to be zero
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:278: while(FRQIN!=0); // Wait for the signal to be zero
 L012001?:
 	jb	_P1_6,L012001?
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:257: while(FRQIN!=1); // Wait for the signal to be one
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:279: while(FRQIN!=1); // Wait for the signal to be one
 L012004?:
 	jnb	_P1_6,L012004?
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:258: TR0=1; // Start the timer
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:280: TR0=1; // Start the timer
 	setb	_TR0
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:259: while(FRQIN!=0) // Wait for the signal to be zero
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:281: while(FRQIN!=0) // Wait for the signal to be zero
 L012009?:
 	jnb	_P1_6,L012014?
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:261: if(TF0==1) // Did the 16-bit timer overflow?
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:263: TF0=0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:283: if(TF0==1) // Did the 16-bit timer overflow?
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:285: TF0=0;
 	jbc	_TF0,L012031?
 	sjmp	L012009?
 L012031?:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:264: overflow_count++;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:286: overflow_count++;
 	inc	_overflow_count
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:267: while(FRQIN!=1) // Wait for the signal to be one
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:289: while(FRQIN!=1) // Wait for the signal to be one
 	sjmp	L012009?
 L012014?:
 	jb	_P1_6,L012016?
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:269: if(TF0==1) // Did the 16-bit timer overflow?
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:271: TF0=0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:291: if(TF0==1) // Did the 16-bit timer overflow?
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:293: TF0=0;
 	jbc	_TF0,L012033?
 	sjmp	L012014?
 L012033?:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:272: overflow_count++;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:294: overflow_count++;
 	inc	_overflow_count
 	sjmp	L012014?
 L012016?:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:276: TR0=0; // Stop timer 0, the 24-bit number [overflow_count-TH0-TL0] has the period. Then convert it to frequency
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:298: TR0=0; // Stop timer 0, the 24-bit number [overflow_count-TH0-TL0] has the period. Then convert it to frequency
 	clr	_TR0
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:278: frequency=1.0/((overflow_count*65536.0+TH0*256.0+TL0)*(12.0/SYSCLK)); // Compute frequency
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:300: frequency=1.0/((overflow_count*65536.0+TH0*256.0+TL0)*(12.0/SYSCLK)); // Compute frequency
 	mov	dpl,_overflow_count
 	lcall	___uchar2fs
 	mov	r2,dpl
@@ -1114,110 +1119,40 @@ L012016?:
 	mov	sp,a
 	ret
 ;------------------------------------------------------------
-;Allocation info for local variables in function 'ReadCommand'
+;Allocation info for local variables in function 'DetermineMode'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:285: void ReadCommand (void)
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:306: void DetermineMode (void) {
 ;	-----------------------------------------
-;	 function ReadCommand
+;	 function DetermineMode
 ;	-----------------------------------------
-_ReadCommand:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:287: ReadFrequency();
+_DetermineMode:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:307: ReadFrequency();
 	ljmp	_ReadFrequency
 ;------------------------------------------------------------
-;Allocation info for local variables in function 'DebuggingFctn'
+;Allocation info for local variables in function 'ReadInductorStatus'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:293: void DebuggingFctn (void)
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:318: void ReadInductorStatus (void)
 ;	-----------------------------------------
-;	 function DebuggingFctn
+;	 function ReadInductorStatus
 ;	-----------------------------------------
-_DebuggingFctn:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:295: printf("frequency = %f Hz\n", frequency);
-	push	_frequency
-	push	(_frequency + 1)
-	push	(_frequency + 2)
-	push	(_frequency + 3)
-	mov	a,#__str_0
-	push	acc
-	mov	a,#(__str_0 >> 8)
-	push	acc
-	mov	a,#0x80
-	push	acc
-	lcall	_printf
-	mov	a,sp
-	add	a,#0xf9
-	mov	sp,a
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:296: printf("Left(blue) ind voltage = %f V\n", BluIndVolt);
-	push	_BluIndVolt
-	push	(_BluIndVolt + 1)
-	push	(_BluIndVolt + 2)
-	push	(_BluIndVolt + 3)
-	mov	a,#__str_1
-	push	acc
-	mov	a,#(__str_1 >> 8)
-	push	acc
-	mov	a,#0x80
-	push	acc
-	lcall	_printf
-	mov	a,sp
-	add	a,#0xf9
-	mov	sp,a
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:297: printf("Right(red) ind voltage = %f V\n", RedIndVolt);
-	push	_RedIndVolt
-	push	(_RedIndVolt + 1)
-	push	(_RedIndVolt + 2)
-	push	(_RedIndVolt + 3)
-	mov	a,#__str_2
-	push	acc
-	mov	a,#(__str_2 >> 8)
-	push	acc
-	mov	a,#0x80
-	push	acc
-	lcall	_printf
-	mov	a,sp
-	add	a,#0xf9
-	mov	sp,a
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:298: printf("Front inductor voltage = %f V\n", FrtIndVolt);
-	push	_FrtIndVolt
-	push	(_FrtIndVolt + 1)
-	push	(_FrtIndVolt + 2)
-	push	(_FrtIndVolt + 3)
-	mov	a,#__str_3
-	push	acc
-	mov	a,#(__str_3 >> 8)
-	push	acc
-	mov	a,#0x80
-	push	acc
-	lcall	_printf
-	mov	a,sp
-	add	a,#0xf9
-	mov	sp,a
-	ret
-;------------------------------------------------------------
-;Allocation info for local variables in function 'ReadStatus'
-;------------------------------------------------------------
-;------------------------------------------------------------
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:305: void ReadStatus (void)
-;	-----------------------------------------
-;	 function ReadStatus
-;	-----------------------------------------
-_ReadStatus:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:307: BluIndVolt = Volts_at_Pin(LQFP32_MUX_P2_7);
+_ReadInductorStatus:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:320: BluIndVolt = Volts_at_Pin(LQFP32_MUX_P2_7);
 	mov	dpl,#0x0F
 	lcall	_Volts_at_Pin
 	mov	_BluIndVolt,dpl
 	mov	(_BluIndVolt + 1),dph
 	mov	(_BluIndVolt + 2),b
 	mov	(_BluIndVolt + 3),a
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:308: RedIndVolt = Volts_at_Pin(LQFP32_MUX_P1_7);
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:321: RedIndVolt = Volts_at_Pin(LQFP32_MUX_P1_7);
 	mov	dpl,#0x07
 	lcall	_Volts_at_Pin
 	mov	_RedIndVolt,dpl
 	mov	(_RedIndVolt + 1),dph
 	mov	(_RedIndVolt + 2),b
 	mov	(_RedIndVolt + 3),a
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:309: FrtIndVolt = Volts_at_Pin(LQFP32_MUX_P2_0);
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:322: FrtIndVolt = Volts_at_Pin(LQFP32_MUX_P2_0);
 	mov	dpl,#0x08
 	lcall	_Volts_at_Pin
 	mov	_FrtIndVolt,dpl
@@ -1229,12 +1164,53 @@ _ReadStatus:
 ;Allocation info for local variables in function 'MotorControl'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:316: void MotorControl (void)
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:329: void MotorControl (void)
 ;	-----------------------------------------
 ;	 function MotorControl
 ;	-----------------------------------------
 _MotorControl:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:319: if(BluIndVolt > Vblue_thresh){
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:332: switch (mode){
+	clr	a
+	cjne	a,_mode,L015021?
+	ljmp	L015011?
+L015021?:
+	mov	a,#0x03
+	cjne	a,_mode,L015022?
+	sjmp	L015023?
+L015022?:
+	ret
+L015023?:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:334: if(FrtIndVolt > Vfront_thresh){
+	clr	a
+	push	acc
+	push	acc
+	push	acc
+	mov	a,#0x40
+	push	acc
+	mov	dpl,_FrtIndVolt
+	mov	dph,(_FrtIndVolt + 1)
+	mov	b,(_FrtIndVolt + 2)
+	mov	a,(_FrtIndVolt + 3)
+	lcall	___fsgt
+	mov	r2,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	mov	a,r2
+	jz	L015009?
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:335: pwm_BLU1= power;
+	mov	_pwm_BLU1,_power
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:336: pwm_BLU0 = 0;
+	mov	_pwm_BLU0,#0x00
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:337: pwm_RED1 = power;
+	mov	_pwm_RED1,_power
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:338: pwm_RED0 = 0; 
+	mov	_pwm_RED0,#0x00
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:339: waitms(100);
+	mov	dptr,#0x0064
+	ljmp	_waitms
+L015009?:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:341: else if(BluIndVolt > Vblue_thresh){
 	mov	a,#0x33
 	push	acc
 	push	acc
@@ -1252,22 +1228,22 @@ _MotorControl:
 	add	a,#0xfc
 	mov	sp,a
 	mov	a,r2
-	jz	L016005?
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:320: pwm_BLU1= power-15;
+	jz	L015006?
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:342: pwm_BLU1= power-25;
 	mov	a,_power
-	add	a,#0xf1
+	add	a,#0xe7
 	mov	_pwm_BLU1,a
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:321: pwm_BLU0 = 0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:343: pwm_BLU0 = 0;
 	mov	_pwm_BLU0,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:322: pwm_RED1 = power+15;
-	mov	a,#0x0F
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:344: pwm_RED1 = power+25;
+	mov	a,#0x19
 	add	a,_power
 	mov	_pwm_RED1,a
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:323: pwm_RED0 = 0;   
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:345: pwm_RED0 = 0;   
 	mov	_pwm_RED0,#0x00
 	ret
-L016005?:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:326: else if(RedIndVolt > Vred_thresh){
+L015006?:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:348: else if(RedIndVolt > Vred_thresh){
 	mov	a,#0x33
 	push	acc
 	push	acc
@@ -1285,62 +1261,145 @@ L016005?:
 	add	a,#0xfc
 	mov	sp,a
 	mov	a,r2
-	jz	L016002?
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:327: pwm_BLU1=power+15;
-	mov	a,#0x0F
+	jz	L015003?
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:349: pwm_BLU1=power+25;
+	mov	a,#0x19
 	add	a,_power
 	mov	_pwm_BLU1,a
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:328: pwm_BLU0=0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:350: pwm_BLU0=0;
 	mov	_pwm_BLU0,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:329: pwm_RED1=power-15;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:351: pwm_RED1=power-25;
 	mov	a,_power
-	add	a,#0xf1
+	add	a,#0xe7
 	mov	_pwm_RED1,a
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:330: pwm_RED0=0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:352: pwm_RED0=0;
 	mov	_pwm_RED0,#0x00
 	ret
-L016002?:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:333: pwm_BLU1 = power;
+L015003?:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:355: pwm_BLU1 = power;
 	mov	_pwm_BLU1,_power
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:334: pwm_BLU0 = 0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:356: pwm_BLU0 = 0;
 	mov	_pwm_BLU0,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:335: pwm_RED1 = power;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:357: pwm_RED1 = power;
 	mov	_pwm_RED1,_power
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:336: pwm_RED0 = 0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:358: pwm_RED0 = 0;
 	mov	_pwm_RED0,#0x00
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:360: break;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:362: case STOP:
+	ret
+L015011?:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:363: pwm_BLU1 = 0;
+	mov	_pwm_BLU1,#0x00
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:364: pwm_BLU0 = 0;
+	mov	_pwm_BLU0,#0x00
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:365: pwm_RED1 = 0;
+	mov	_pwm_RED1,#0x00
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:366: pwm_RED0 = 0;
+	mov	_pwm_RED0,#0x00
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:372: }
+	ret
+;------------------------------------------------------------
+;Allocation info for local variables in function 'DebuggingFctn'
+;------------------------------------------------------------
+;------------------------------------------------------------
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:379: void DebuggingFctn (void)
+;	-----------------------------------------
+;	 function DebuggingFctn
+;	-----------------------------------------
+_DebuggingFctn:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:381: printf("frequency = %f Hz\n", frequency);
+	push	_frequency
+	push	(_frequency + 1)
+	push	(_frequency + 2)
+	push	(_frequency + 3)
+	mov	a,#__str_0
+	push	acc
+	mov	a,#(__str_0 >> 8)
+	push	acc
+	mov	a,#0x80
+	push	acc
+	lcall	_printf
+	mov	a,sp
+	add	a,#0xf9
+	mov	sp,a
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:382: printf("Left(blue) ind voltage = %f V\n", BluIndVolt);
+	push	_BluIndVolt
+	push	(_BluIndVolt + 1)
+	push	(_BluIndVolt + 2)
+	push	(_BluIndVolt + 3)
+	mov	a,#__str_1
+	push	acc
+	mov	a,#(__str_1 >> 8)
+	push	acc
+	mov	a,#0x80
+	push	acc
+	lcall	_printf
+	mov	a,sp
+	add	a,#0xf9
+	mov	sp,a
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:383: printf("Right(red) ind voltage = %f V\n", RedIndVolt);
+	push	_RedIndVolt
+	push	(_RedIndVolt + 1)
+	push	(_RedIndVolt + 2)
+	push	(_RedIndVolt + 3)
+	mov	a,#__str_2
+	push	acc
+	mov	a,#(__str_2 >> 8)
+	push	acc
+	mov	a,#0x80
+	push	acc
+	lcall	_printf
+	mov	a,sp
+	add	a,#0xf9
+	mov	sp,a
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:384: printf("Front inductor voltage = %f V\n", FrtIndVolt);
+	push	_FrtIndVolt
+	push	(_FrtIndVolt + 1)
+	push	(_FrtIndVolt + 2)
+	push	(_FrtIndVolt + 3)
+	mov	a,#__str_3
+	push	acc
+	mov	a,#(__str_3 >> 8)
+	push	acc
+	mov	a,#0x80
+	push	acc
+	lcall	_printf
+	mov	a,sp
+	add	a,#0xf9
+	mov	sp,a
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'main'
 ;------------------------------------------------------------
 ;------------------------------------------------------------
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:344: void main (void)
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:392: void main (void)
 ;	-----------------------------------------
 ;	 function main
 ;	-----------------------------------------
 _main:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:347: TIMER0_Init(); // Initialize timer 0 to read the frequency of the fm signal
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:395: TIMER0_Init(); // Initialize timer 0 to read the frequency of the fm signal
 	lcall	_TIMER0_Init
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:348: TIMER2_Init(); // Initialize timer 2 for periodic interrupts used for motor control
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:396: TIMER2_Init(); // Initialize timer 2 for periodic interrupts used for motor control
 	lcall	_TIMER2_Init
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:349: EA=1; // Enable interrupts
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:397: EA=1; // Enable interrupts
 	setb	_EA
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:350: dirout = 0; // define initial direction to be CCW
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:398: dirout = 0; // define initial direction to be CCW
 	mov	_dirout,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:351: InitPinADC(1, 7); // Configure P1.7 as analog input
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:399: InitPinADC(1, 7); // Configure P1.7 as analog input
 	mov	_InitPinADC_PARM_2,#0x07
 	mov	dpl,#0x01
 	lcall	_InitPinADC
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:352: InitPinADC(2, 0); // Configure P2.0 as analog input
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:400: InitPinADC(2, 0); // Configure P2.0 as analog input
 	mov	_InitPinADC_PARM_2,#0x00
 	mov	dpl,#0x02
 	lcall	_InitPinADC
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:353: InitPinADC(2, 7); // Configure P2.7 as analog input
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:401: InitPinADC(2, 7); // Configure P2.7 as analog input
 	mov	_InitPinADC_PARM_2,#0x07
 	mov	dpl,#0x02
 	lcall	_InitPinADC
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:354: InitADC();
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:402: InitADC();
 	lcall	_InitADC
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:356: printf("\x1b[2J"); // Clear screen using ANSI escape sequence.
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:404: printf("\x1b[2J"); // Clear screen using ANSI escape sequence.
 	mov	a,#__str_4
 	push	acc
 	mov	a,#(__str_4 >> 8)
@@ -1351,16 +1410,16 @@ _main:
 	dec	sp
 	dec	sp
 	dec	sp
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:360: while(1)
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:408: while(1)
 L017002?:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:363: ReadCommand();
-	lcall	_ReadCommand
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:366: ReadStatus();
-	lcall	_ReadStatus
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:369: MotorControl();
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:411: DetermineMode();
+	lcall	_DetermineMode
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:414: ReadInductorStatus();
+	lcall	_ReadInductorStatus
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:417: MotorControl();
 	lcall	_MotorControl
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:376: waitms(100);
-	mov	dptr,#0x0064
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:424: waitms(80);
+	mov	dptr,#0x0050
 	lcall	_waitms
 	sjmp	L017002?
 	rseg R_CSEG

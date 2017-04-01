@@ -9,6 +9,7 @@
 #define VDD_onboard 	3.377
 #define Vblue_thresh	1.65
 #define Vred_thresh 	1.15
+#define Vfront_thresh   2.0
 
 #define BLU0 P2_2
 #define BLU1 P2_5
@@ -19,6 +20,25 @@
 #define BluINDIN P2_7
 #define RedINDIN P1_7
 #define FRTINDIN P2_0
+
+
+#define STOP 0
+#define NITL 1
+#define NITR 2
+#define FORWARD 3
+#define BACKWARD 4
+#define ROTATE 5
+
+#define FRQLOW 15840.0
+#define FRQHIGH 16160.0
+#define FRQSTOP 0.0
+#define FRQNITL 0.0
+#define FRQNITR 0.0
+#define FRQFORWARD 0.0
+#define FRQBACKWARD 0.0
+#define FRQROTATE 0.0
+
+
 
 
 
@@ -36,6 +56,8 @@ float frequency=0;
 volatile float BluIndVolt=0;
 volatile float RedIndVolt=0;
 volatile float FrtIndVolt=0; 
+unsigned char mode=FORWARD;
+
 
 
 
@@ -280,12 +302,76 @@ void ReadFrequency (void)
 
 
 
-
-//----------
-void ReadCommand (void)
-{
+// --------------
+void DetermineMode (void) {
 	ReadFrequency();
+  
+  //if( frequency > FRQHIGH || frequency < FRQLOW){
+  	//mode = STOP;
+  //}
+  
 }
+
+
+
+//-------------
+void ReadInductorStatus (void)
+{
+	BluIndVolt = Volts_at_Pin(LQFP32_MUX_P2_7);
+	RedIndVolt = Volts_at_Pin(LQFP32_MUX_P1_7);
+	FrtIndVolt = Volts_at_Pin(LQFP32_MUX_P2_0);
+  
+}
+
+
+
+//-------------
+void MotorControl (void)
+{
+  
+  switch (mode){
+  case FORWARD:
+    if(FrtIndVolt > Vfront_thresh){
+      pwm_BLU1= power;
+      pwm_BLU0 = 0;
+      pwm_RED1 = power;
+      pwm_RED0 = 0; 
+      waitms(100);
+    }
+  	else if(BluIndVolt > Vblue_thresh){
+      pwm_BLU1= power-25;
+      pwm_BLU0 = 0;
+      pwm_RED1 = power+25;
+      pwm_RED0 = 0;   
+  	}
+  
+  	else if(RedIndVolt > Vred_thresh){
+  		pwm_BLU1=power+25;
+    	pwm_BLU0=0;
+    	pwm_RED1=power-25;
+    	pwm_RED0=0;
+  	}
+  	else{
+  		pwm_BLU1 = power;
+    	pwm_BLU0 = 0;
+    	pwm_RED1 = power;
+    	pwm_RED0 = 0;
+  	}
+    break;
+    
+  case STOP:
+    pwm_BLU1 = 0;
+    pwm_BLU0 = 0;
+    pwm_RED1 = 0;
+    pwm_RED0 = 0;
+   
+    break;
+    
+    default:
+    ;
+  }
+}
+
 
 
 
@@ -301,49 +387,11 @@ void DebuggingFctn (void)
 
 
 
-//-------------
-void ReadStatus (void)
-{
-	BluIndVolt = Volts_at_Pin(LQFP32_MUX_P2_7);
-	RedIndVolt = Volts_at_Pin(LQFP32_MUX_P1_7);
-	FrtIndVolt = Volts_at_Pin(LQFP32_MUX_P2_0);
-  
-}
-
-
-
-//-------------
-void MotorControl (void)
-{
-  
-  if(BluIndVolt > Vblue_thresh){
-      pwm_BLU1= power-15;
-      pwm_BLU0 = 0;
-      pwm_RED1 = power+15;
-      pwm_RED0 = 0;   
-  }
-  
-  else if(RedIndVolt > Vred_thresh){
-  		pwm_BLU1=power+15;
-    	pwm_BLU0=0;
-    	pwm_RED1=power-15;
-    	pwm_RED0=0;
-  }
-  else{
-  	pwm_BLU1 = power;
-    pwm_BLU0 = 0;
-    pwm_RED1 = power;
-    pwm_RED0 = 0;
-  }
-  
-}
-
-
 
 //--------------
 void main (void)
 {
-	// initialize variables, pins, etc.
+	// initialize (some, not all) variables, pins, etc.
   	TIMER0_Init(); // Initialize timer 0 to read the frequency of the fm signal
   	TIMER2_Init(); // Initialize timer 2 for periodic interrupts used for motor control
   	EA=1; // Enable interrupts
@@ -359,20 +407,21 @@ void main (void)
   	// The forever loop
 	while(1)
 	{
-    // Read command from the frequency-modulated signal
-     ReadCommand();
+    // Read command from the frequency-modulated signal, and determine the current mode of operation
+    DetermineMode();
     
-    // Read the status of the vehicle 
-    ReadStatus();
+    // Read the input voltages from the inductors 
+    ReadInductorStatus();
     
-    // Control the motors using pwm signal
-     MotorControl();
+    // Control the motors using (mode determined) pwm signal
+    MotorControl();
     
     // (For debugging only) Show the user current command and status of the vehicle
      //DebuggingFctn();
     
     
     // pause
-    	waitms(100);
+    	waitms(80);
 	}
 }
+ 

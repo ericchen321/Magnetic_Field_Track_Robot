@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by C51
 ; Version 1.0.0 #1069 (Apr 23 2015) (MSVC)
-; This file was generated Thu Mar 30 23:31:50 2017
+; This file was generated Sat Apr 01 15:42:09 2017
 ;--------------------------------------------------------
 $name Receiver
 $optc51 --model-small
@@ -1235,11 +1235,12 @@ _ReadStatus:
 ;	-----------------------------------------
 _MotorControl:
 ;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:319: if(BluIndVolt > Vblue_thresh){
-	clr	a
+	mov	a,#0x33
 	push	acc
 	push	acc
+	mov	a,#0xD3
 	push	acc
-	mov	a,#0x40
+	mov	a,#0x3F
 	push	acc
 	mov	dpl,_BluIndVolt
 	mov	dph,(_BluIndVolt + 1)
@@ -1252,25 +1253,25 @@ _MotorControl:
 	mov	sp,a
 	mov	a,r2
 	jz	L016005?
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:320: pwm_BLU1= power+10;
-	mov	a,#0x0A
-	add	a,_power
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:320: pwm_BLU1= power-15;
+	mov	a,_power
+	add	a,#0xf1
 	mov	_pwm_BLU1,a
 ;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:321: pwm_BLU0 = 0;
 	mov	_pwm_BLU0,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:322: pwm_RED1 = power-30;
-	mov	a,_power
-	add	a,#0xe2
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:322: pwm_RED1 = power+15;
+	mov	a,#0x0F
+	add	a,_power
 	mov	_pwm_RED1,a
 ;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:323: pwm_RED0 = 0;   
 	mov	_pwm_RED0,#0x00
 	ret
 L016005?:
 ;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:326: else if(RedIndVolt > Vred_thresh){
-	clr	a
+	mov	a,#0x33
 	push	acc
 	push	acc
-	mov	a,#0x80
+	mov	a,#0x93
 	push	acc
 	mov	a,#0x3F
 	push	acc
@@ -1285,15 +1286,15 @@ L016005?:
 	mov	sp,a
 	mov	a,r2
 	jz	L016002?
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:327: pwm_BLU1=power-30;
-	mov	a,_power
-	add	a,#0xe2
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:327: pwm_BLU1=power+15;
+	mov	a,#0x0F
+	add	a,_power
 	mov	_pwm_BLU1,a
 ;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:328: pwm_BLU0=0;
 	mov	_pwm_BLU0,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:329: pwm_RED1=power+10;
-	mov	a,#0x0A
-	add	a,_power
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:329: pwm_RED1=power-15;
+	mov	a,_power
+	add	a,#0xf1
 	mov	_pwm_RED1,a
 ;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:330: pwm_RED0=0;
 	mov	_pwm_RED0,#0x00
@@ -1358,8 +1359,6 @@ L017002?:
 	lcall	_ReadStatus
 ;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:369: MotorControl();
 	lcall	_MotorControl
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:372: DebuggingFctn();
-	lcall	_DebuggingFctn
 ;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:376: waitms(100);
 	mov	dptr,#0x0064
 	lcall	_waitms

@@ -25,19 +25,19 @@ R_IXSEG,xdata,0000,NO
 R_ISEG,idata,0000,NO
 R_HOME,code,0000,NO
 R_XINIT,code,0000,NO
-R_CSEG,code,047A,NO
+R_CSEG,code,047B,NO
 </SEGMENTS>
 
 <LOCALS>
 L003007?,R_CSEG,005E,0000
 L003004?,R_CSEG,004E,0000
 L003001?,R_CSEG,0053,0000
-L016005?,R_CSEG,03E2,0000
-L016002?,R_CSEG,041B,0000
+L016005?,R_CSEG,03E5,0000
+L016002?,R_CSEG,041F,0000
 L004001?,R_CSEG,0066,0000
 L008014?,R_CSEG,00DB,0000
 L008012?,R_CSEG,00CB,0000
-L017002?,R_CSEG,0466,0000
+L017002?,R_CSEG,046A,0000
 L008010?,R_CSEG,00C9,0000
 L012016?,R_CSEG,01EE,0000
 L012014?,R_CSEG,01E2,0000
@@ -69,7 +69,7 @@ _InitPinADC,R_CSEG,00BE,0000
 _TIMER0_Init,R_CSEG,0094,0000
 _Volts_at_Pin,R_CSEG,0129,0000
 _DebuggingFctn,R_CSEG,0302,0000
-_main,R_CSEG,0428,0000
+_main,R_CSEG,042C,0000
 _pwm_RED0,R_DSEG,0004,0001
 _pwm_RED1,R_DSEG,0005,0001
 _ReadFrequency,R_CSEG,01C3,0000
@@ -614,11 +614,12 @@ F5 data8(_RedIndVolt;0x0003;+;)
 85 F0 data8(_FrtIndVolt;0x0002;+;)
 F5 data8(_FrtIndVolt;0x0003;+;)
 22
-E4
+74 33
 C0 E0
 C0 E0
+74 D3
 C0 E0
-74 40
+74 3F
 C0 E0
 85 data8(_BluIndVolt;) 82
 85 data8(_BluIndVolt;0x0001;+;) 83
@@ -631,19 +632,19 @@ E5 81
 F5 81
 EA
 60 rel2(L016005?;)
-74 0A
-25 data8(_power;)
+E5 data8(_power;)
+24 F1
 F5 data8(_pwm_BLU1;)
 75 data8(_pwm_BLU0;) 00
-E5 data8(_power;)
-24 E2
+74 0F
+25 data8(_power;)
 F5 data8(_pwm_RED1;)
 75 data8(_pwm_RED0;) 00
 22
-E4
+74 33
 C0 E0
 C0 E0
-74 80
+74 93
 C0 E0
 74 3F
 C0 E0
@@ -658,12 +659,12 @@ E5 81
 F5 81
 EA
 60 rel2(L016002?;)
-E5 data8(_power;)
-24 E2
+74 0F
+25 data8(_power;)
 F5 data8(_pwm_BLU1;)
 75 data8(_pwm_BLU0;) 00
-74 0A
-25 data8(_power;)
+E5 data8(_power;)
+24 F1
 F5 data8(_pwm_RED1;)
 75 data8(_pwm_RED0;) 00
 22
@@ -699,7 +700,6 @@ C0 E0
 12 addr16(_ReadCommand;)  
 12 addr16(_ReadStatus;)  
 12 addr16(_MotorControl;)  
-12 addr16(_DebuggingFctn;)  
 90 00 64
 12 addr16(_waitms;)  
 80 rel2(L017002?;)

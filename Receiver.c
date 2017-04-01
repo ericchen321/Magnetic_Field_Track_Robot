@@ -7,8 +7,8 @@
 #define BAUDRATE  115200L   // Baud rate of UART in bps
 
 #define VDD_onboard 	3.377
-#define Vblue_thresh	2.0
-#define Vred_thresh 	1.0
+#define Vblue_thresh	1.65
+#define Vred_thresh 	1.15
 
 #define BLU0 P2_2
 #define BLU1 P2_5
@@ -317,16 +317,16 @@ void MotorControl (void)
 {
   
   if(BluIndVolt > Vblue_thresh){
-      pwm_BLU1= power+10;
+      pwm_BLU1= power-15;
       pwm_BLU0 = 0;
-      pwm_RED1 = power-30;
+      pwm_RED1 = power+15;
       pwm_RED0 = 0;   
   }
   
   else if(RedIndVolt > Vred_thresh){
-  		pwm_BLU1=power-30;
+  		pwm_BLU1=power+15;
     	pwm_BLU0=0;
-    	pwm_RED1=power+10;
+    	pwm_RED1=power-15;
     	pwm_RED0=0;
   }
   else{
@@ -369,7 +369,7 @@ void main (void)
      MotorControl();
     
     // (For debugging only) Show the user current command and status of the vehicle
-     DebuggingFctn();
+     //DebuggingFctn();
     
     
     // pause

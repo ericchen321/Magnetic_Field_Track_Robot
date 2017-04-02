@@ -25,20 +25,20 @@ R_IXSEG,xdata,0000,NO
 R_ISEG,idata,0000,NO
 R_HOME,code,0000,NO
 R_XINIT,code,0000,NO
-R_CSEG,code,04CD,NO
+R_CSEG,code,0573,NO
 </SEGMENTS>
 
 <LOCALS>
-L015009?,R_CSEG,037B,0000
-L015006?,R_CSEG,03B5,0000
-L015003?,R_CSEG,03EF,0000
+L015008?,R_CSEG,04A2,0000
+L015006?,R_CSEG,03ED,0000
+L015003?,R_CSEG,0495,0000
 L003007?,R_CSEG,005E,0000
 L003004?,R_CSEG,004E,0000
 L003001?,R_CSEG,0053,0000
 L004001?,R_CSEG,0066,0000
 L008014?,R_CSEG,00DB,0000
 L008012?,R_CSEG,00CB,0000
-L017002?,R_CSEG,04BC,0000
+L017002?,R_CSEG,0562,0000
 L008010?,R_CSEG,00C9,0000
 L012016?,R_CSEG,01EE,0000
 L012014?,R_CSEG,01E2,0000
@@ -56,15 +56,14 @@ L008004?,R_CSEG,00FF,0000
 L008003?,R_CSEG,00F7,0000
 L008002?,R_CSEG,00EF,0000
 L008001?,R_CSEG,00E7,0000
-L015011?,R_CSEG,03FC,0000
+L015019?,R_CSEG,0345,0000
+L015018?,R_CSEG,0344,0000
+L015017?,R_CSEG,033D,0000
 L012009?,R_CSEG,01D6,0000
 L012004?,R_CSEG,01D1,0000
 L012001?,R_CSEG,01CE,0000
 L009004?,R_CSEG,0115,0000
 L009001?,R_CSEG,0110,0000
-L015023?,R_CSEG,0345,0000
-L015022?,R_CSEG,0344,0000
-L015021?,R_CSEG,033D,0000
 L004011?,R_CSEG,0092,0000
 L004010?,R_CSEG,006D,0000
 </LOCALS>
@@ -73,8 +72,8 @@ L004010?,R_CSEG,006D,0000
 _InitPinADC,R_CSEG,00BE,0000
 _TIMER0_Init,R_CSEG,0094,0000
 _Volts_at_Pin,R_CSEG,0129,0000
-_DebuggingFctn,R_CSEG,0409,0000
-_main,R_CSEG,047E,0000
+_DebuggingFctn,R_CSEG,04AF,0000
+_main,R_CSEG,0524,0000
 _pwm_RED0,R_DSEG,0004,0001
 _pwm_RED1,R_DSEG,0005,0001
 _ReadFrequency,R_CSEG,01C3,0000
@@ -565,39 +564,16 @@ F5 data8(_RedIndVolt;0x0003;+;)
 F5 data8(_FrtIndVolt;0x0003;+;)
 22
 E4
-B5 data8(_mode;) rel3(L015021?;)
-02 addr16(L015011?;)  
+B5 data8(_mode;) rel3(L015017?;)
+02 addr16(L015008?;)  
 74 03
-B5 data8(_mode;) rel3(L015022?;)
-80 rel2(L015023?;)
+B5 data8(_mode;) rel3(L015018?;)
+80 rel2(L015019?;)
 22
-E4
+74 66
 C0 E0
 C0 E0
-C0 E0
-74 40
-C0 E0
-85 data8(_FrtIndVolt;) 82
-85 data8(_FrtIndVolt;0x0001;+;) 83
-85 data8(_FrtIndVolt;0x0002;+;) F0
-E5 data8(_FrtIndVolt;0x0003;+;)
-12 addr16(___fsgt;)  
-AA 82
-E5 81
-24 FC
-F5 81
-EA
-60 rel2(L015009?;)
-85 data8(_power;) data8(_pwm_BLU1;)
-75 data8(_pwm_BLU0;) 00
-85 data8(_power;) data8(_pwm_RED1;)
-75 data8(_pwm_RED0;) 00
-90 00 64
-02 addr16(_waitms;)  
-74 33
-C0 E0
-C0 E0
-74 D3
+74 E6
 C0 E0
 74 3F
 C0 E0
@@ -605,6 +581,64 @@ C0 E0
 85 data8(_BluIndVolt;0x0001;+;) 83
 85 data8(_BluIndVolt;0x0002;+;) F0
 E5 data8(_BluIndVolt;0x0003;+;)
+12 addr16(___fsdiv;)  
+AA 82
+AB 83
+AC F0
+FD
+E5 81
+24 FC
+F5 81
+C0 02
+C0 03
+C0 04
+C0 05
+C0 data8(_RedIndVolt;)
+C0 data8(_RedIndVolt;0x0001;+;)
+C0 data8(_RedIndVolt;0x0002;+;)
+C0 data8(_RedIndVolt;0x0003;+;)
+90 CC CD
+75 F0 8C
+74 3F
+12 addr16(___fsmul;)  
+AE 82
+AF 83
+A8 F0
+F9
+E5 81
+24 FC
+F5 81
+74 66
+C0 E0
+C0 E0
+74 E6
+C0 E0
+74 3F
+C0 E0
+8E 82
+8F 83
+88 F0
+E9
+12 addr16(___fsdiv;)  
+AE 82
+AF 83
+A8 F0
+F9
+E5 81
+24 FC
+F5 81
+D0 05
+D0 04
+D0 03
+D0 02
+C0 06
+C0 07
+C0 00
+C0 01
+8A 82
+8B 83
+8C F0
+ED
 12 addr16(___fsgt;)  
 AA 82
 E5 81
@@ -612,19 +646,15 @@ E5 81
 F5 81
 EA
 60 rel2(L015006?;)
-E5 data8(_power;)
-24 E7
-F5 data8(_pwm_BLU1;)
+85 data8(_power;) data8(_pwm_BLU1;)
 75 data8(_pwm_BLU0;) 00
-74 19
-25 data8(_power;)
-F5 data8(_pwm_RED1;)
+75 data8(_pwm_RED1;) 00
 75 data8(_pwm_RED0;) 00
 22
-74 33
+74 66
 C0 E0
 C0 E0
-74 93
+74 E6
 C0 E0
 74 3F
 C0 E0
@@ -632,6 +662,64 @@ C0 E0
 85 data8(_RedIndVolt;0x0001;+;) 83
 85 data8(_RedIndVolt;0x0002;+;) F0
 E5 data8(_RedIndVolt;0x0003;+;)
+12 addr16(___fsdiv;)  
+AA 82
+AB 83
+AC F0
+FD
+E5 81
+24 FC
+F5 81
+C0 02
+C0 03
+C0 04
+C0 05
+C0 data8(_BluIndVolt;)
+C0 data8(_BluIndVolt;0x0001;+;)
+C0 data8(_BluIndVolt;0x0002;+;)
+C0 data8(_BluIndVolt;0x0003;+;)
+90 CC CD
+75 F0 8C
+74 3F
+12 addr16(___fsmul;)  
+AE 82
+AF 83
+A8 F0
+F9
+E5 81
+24 FC
+F5 81
+74 66
+C0 E0
+C0 E0
+74 E6
+C0 E0
+74 3F
+C0 E0
+8E 82
+8F 83
+88 F0
+E9
+12 addr16(___fsdiv;)  
+AE 82
+AF 83
+A8 F0
+F9
+E5 81
+24 FC
+F5 81
+D0 05
+D0 04
+D0 03
+D0 02
+C0 06
+C0 07
+C0 00
+C0 01
+8A 82
+8B 83
+8C F0
+ED
 12 addr16(___fsgt;)  
 AA 82
 E5 81
@@ -639,13 +727,9 @@ E5 81
 F5 81
 EA
 60 rel2(L015003?;)
-74 19
-25 data8(_power;)
-F5 data8(_pwm_BLU1;)
+75 data8(_pwm_BLU1;) 00
 75 data8(_pwm_BLU0;) 00
-E5 data8(_power;)
-24 E7
-F5 data8(_pwm_RED1;)
+85 data8(_power;) data8(_pwm_RED1;)
 75 data8(_pwm_RED0;) 00
 22
 85 data8(_power;) data8(_pwm_BLU1;)

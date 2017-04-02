@@ -331,33 +331,26 @@ void MotorControl (void)
   
   switch (mode){
   case FORWARD:
-    if(FrtIndVolt > Vfront_thresh){
+    if(BluIndVolt/1.8 > 1.1*RedIndVolt/1.8){
       pwm_BLU1= power;
       pwm_BLU0 = 0;
-      pwm_RED1 = power;
-      pwm_RED0 = 0; 
-      waitms(100);
-    }
-  	else if(BluIndVolt > Vblue_thresh){
-      pwm_BLU1= power-25;
-      pwm_BLU0 = 0;
-      pwm_RED1 = power+25;
+      pwm_RED1 = 0;
       pwm_RED0 = 0;   
-  	}
+  }
   
-  	else if(RedIndVolt > Vred_thresh){
-  		pwm_BLU1=power+25;
+  else if(RedIndVolt/1.8 > 1.1*BluIndVolt/1.8){
+  		pwm_BLU1=0;
     	pwm_BLU0=0;
-    	pwm_RED1=power-25;
+    	pwm_RED1=power;
     	pwm_RED0=0;
-  	}
-  	else{
-  		pwm_BLU1 = power;
-    	pwm_BLU0 = 0;
-    	pwm_RED1 = power;
-    	pwm_RED0 = 0;
-  	}
-    break;
+  }
+  else{
+  	pwm_BLU1 = power;
+    pwm_BLU0 = 0;
+    pwm_RED1 = power;
+    pwm_RED0 = 0;
+  }
+  break;
     
   case STOP:
     pwm_BLU1 = 0;

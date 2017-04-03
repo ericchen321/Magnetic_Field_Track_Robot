@@ -395,7 +395,7 @@ void MotorControl (volatile float IndVolts[])
 //-------------
 void DebuggingFctn (volatile float IndVolts[])
 {
-	printf("Freq = %5.3f HZ, Ratio = %5.3f V\r", frequency, IndVolts[0]/IndVolts[1]);
+	printf("Freq = %5.3f HZ, Blue = %5.3f V, Red = %5.3f V, Ratio = %5.3f\r", frequency, IndVolts[0], IndVolts[1], IndVolts[0]/IndVolts[1]);
 }
 
 
@@ -414,7 +414,7 @@ void main (void)
   	TIMER2_Init(); // Initialize timer 2 for periodic interrupts used for motor control
   	EA=1; // Enable interrupts
 	
-  	InitPinADC(1, 7); // Configure P1.7 as analog input
+  	InitPinADC(1, 4); // Configure P1.4 as analog input
 	InitPinADC(2, 0); // Configure P2.0 as analog input
   	InitPinADC(2, 7); // Configure P2.7 as analog input
   	InitADC();
@@ -428,17 +428,17 @@ void main (void)
 	while(1)
 	{
     // Read command from the frequency-modulated signal, and determine the current mode of operation
-    DetermineMode();
+    //DetermineMode();
     
     // Read the input voltages from the inductors 
     //ReadInductorStatus();
 	  IndVolts[0] = Volts_at_Pin(LQFP32_MUX_P2_7);
-	  IndVolts[1] = Volts_at_Pin(LQFP32_MUX_P1_7);
+	  IndVolts[1] = Volts_at_Pin(LQFP32_MUX_P1_4);
 	  IndVolts[2] = Volts_at_Pin(LQFP32_MUX_P2_0);
 	
     
     // Control the motors using (mode determined) pwm signal
-    MotorControl(IndVolts);
+    //MotorControl(IndVolts);
     
     // (For debugging only) Show the user current command and status of the vehicle
     DebuggingFctn(IndVolts);

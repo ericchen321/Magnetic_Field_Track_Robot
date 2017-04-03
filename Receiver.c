@@ -7,9 +7,11 @@
 #define BAUDRATE  115200L   // Baud rate of UART in bps
 
 #define VDD_onboard 	3.326
-#define Vblue_thresh	0.9
-#define Vred_thresh 	1.0
+#define Vblue_thresh	0.1065
+#define Vred_thresh 	0.05325
 #define Vfront_thresh   2.0
+#define Vblue_middle		0.4845
+#define Vred_middle		0.40075
 
 #define BLU0 P2_5
 #define BLU1 P2_2
@@ -332,36 +334,18 @@ void MotorControl (volatile float IndVolts[])
   switch (mode){
   
   case FORWARD:
-    if(IndVolts[0] > Vblue_thresh + 0.1 || IndVolts[0]/IndVolts[1] > 1){
-    if (IndVolts[0]/IndVolts[1]>1.3){
-    	pwm_RED1=0;
-    	pwm_RED0=0;
-    	pwm_BLU1=2*power;
-    	pwm_BLU0=0;
-    	
-    }
-    else{
+    if((IndVolts[0] - Vblue_middle) > Vblue_thresh){
       pwm_BLU1= 0;
       pwm_BLU0 = 0;
       pwm_RED1 = power;
       pwm_RED0 = 0; 
-    }  
   }
   
-  else if(IndVolts[1] > Vred_thresh + 0.1 || IndVolts[0]/IndVolts[1] < 1){
-  	if (IndVolts[0]/IndVolts[1]<0.5){
-    	pwm_RED1=2*power;
-    	pwm_RED0=0;
-    	pwm_BLU1=0;
-    	pwm_BLU0=0;
-    	
-    }
-    else{
-  		pwm_BLU1=power;
-    	pwm_BLU0=0;
-    	pwm_RED1=0;
-    	pwm_RED0=0;
-    }
+  else if( (IndVolts[1] - Vred_middle) > Vred_thresh ){
+  	  pwm_BLU1=power;
+      pwm_BLU0=0;
+      pwm_RED1=0;
+      pwm_RED0=0;
   }
   else{
   	pwm_BLU1 = power;
@@ -438,7 +422,7 @@ void main (void)
 	
     
     // Control the motors using (mode determined) pwm signal
-    //MotorControl(IndVolts);
+    MotorControl(IndVolts);
     
     // (For debugging only) Show the user current command and status of the vehicle
     DebuggingFctn(IndVolts);

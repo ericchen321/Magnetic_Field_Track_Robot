@@ -308,9 +308,9 @@ void DetermineMode (void) {
   unsigned char ReadCount = 0;
   ReadFrequency();
   
-  // Determine mode if millisecond is a multiple of 800
+  // Determine mode if millisecond is a multiple of 600
   
-  if (millisecond%800==0){
+  if (millisecond%600==0){
   // Write one frequency to the frequency buffer
   FreqBuffer[WriteCount]=frequency;
   WriteCount++;
@@ -323,32 +323,32 @@ void DetermineMode (void) {
 	if (FreqBuffer[ReadCount]>0.99*FRQFORWARD && FreqBuffer[ReadCount]<1.01*FRQFORWARD){
 		ForwardSigCount++;
 	}
-	if (FreqBuffer[ReadCount]>0.99*FRQSTOP && FreqBuffer[ReadCount]<1.01*FRQSTOP){
+	if (FreqBuffer[ReadCount]>0.98*FRQSTOP && FreqBuffer[ReadCount]<1.02*FRQSTOP){
 		StopSigCount++;	
-		printf("Stop sig detected\n");	
 	}
   }
   
   
-  if (ForwardSigCount >= 2){
+  if (StopSigCount > 2){
+	  mode = STOP;
+	  StopSigCount = 0;
+	  return;
+  }
+  
+  
+  if (ForwardSigCount > 2){
 	  mode = FORWARD;
-	  /*
+	  
 	  while (frequency< FRQLOW || frequency>FRQHIGH){
 		  power=0;
 		  ReadFrequency();		  
 	  }
-	  */
+	  
 	  power=30;
 	  ForwardSigCount = 0;
 	  return;
   }
   
-  
-  if (StopSigCount == 4){
-	  mode = STOP;
-	  StopSigCount = 0;
-	  return;
-  }
   }
 	
 

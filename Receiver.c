@@ -6,19 +6,19 @@
 #define SYSCLK    48000000L // SYSCLK frequency in Hz
 #define BAUDRATE  115200L   // Baud rate of UART in bps
 
-#define VDD_onboard 	3.377
-#define Vblue_thresh	1.65
-#define Vred_thresh 	1.15
+#define VDD_onboard 	3.326
+#define Vblue_thresh	0.9
+#define Vred_thresh 	1.0
 #define Vfront_thresh   2.0
 
-#define BLU0 P2_2
-#define BLU1 P2_5
-#define RED0 P2_4
-#define RED1 P2_3
+#define BLU0 P2_5
+#define BLU1 P2_2
+#define RED0 P2_3
+#define RED1 P2_4
 
 #define FRQIN P1_6
 #define BluINDIN P2_7
-#define RedINDIN P1_7
+#define RedINDIN P1_4
 #define FRTINDIN P2_0
 
 
@@ -44,7 +44,7 @@
 
 // global variables
 volatile unsigned char pwm_count=0;
-volatile unsigned char power=50;
+volatile unsigned char power=30;
 volatile unsigned char pwm_BLU0=0;
 volatile unsigned char pwm_BLU1=0;
 volatile unsigned char pwm_RED0=0;
@@ -53,10 +53,9 @@ volatile unsigned char dirout=0;
 volatile unsigned char overflow_count=0;
 int i = 0;
 float frequency=0;
-volatile float BluIndVolt=0;
-volatile float RedIndVolt=0;
-volatile float FrtIndVolt=0; 
 unsigned char mode=FORWARD;
+
+
 
 
 
@@ -106,7 +105,7 @@ char _c51_external_startup (void)
 
 	// Configure the pins used for square output
 	P2MDOUT|=0b_0000_0011;
-	P0MDOUT |= 0x10; // Enable UTX as push-pull output
+	P0MDOUT |= 0x01;  // set P0.0 and P0.4 as push-pull outputs
 	XBR0     = 0x01; // Enable UART on P0.4(TX) and P0.5(RX)
 	XBR1     = 0x40; // Enable crossbar and weak pull-ups
   
@@ -313,36 +312,56 @@ void DetermineMode (void) {
 }
 
 
-
+/*
 //-------------
 void ReadInductorStatus (void)
 {
-	BluIndVolt = Volts_at_Pin(LQFP32_MUX_P2_7);
-	RedIndVolt = Volts_at_Pin(LQFP32_MUX_P1_7);
-	FrtIndVolt = Volts_at_Pin(LQFP32_MUX_P2_0);
+	IndVolts[0] = Volts_at_Pin(LQFP32_MUX_P2_7);
+	IndVolts[1] = Volts_at_Pin(LQFP32_MUX_P1_7);
+	IndVolts[2] = Volts_at_Pin(LQFP32_MUX_P2_0);
   
 }
+*/
 
 
 
 //-------------
-void MotorControl (void)
+void MotorControl (volatile float IndVolts[])
 {
   
   switch (mode){
+  
   case FORWARD:
-    if(BluIndVolt/1.8 > 1.1*RedIndVolt/1.8){
-      pwm_BLU1= power;
+    if(IndVolts[0] > Vblue_thresh + 0.1 || IndVolts[0]/IndVolts[1] > 1){
+    if (IndVolts[0]/IndVolts[1]>1.3){
+    	pwm_RED1=0;
+    	pwm_RED0=0;
+    	pwm_BLU1=2*power;
+    	pwm_BLU0=0;
+    	
+    }
+    else{
+      pwm_BLU1= 0;
       pwm_BLU0 = 0;
-      pwm_RED1 = 0;
-      pwm_RED0 = 0;   
+      pwm_RED1 = power;
+      pwm_RED0 = 0; 
+    }  
   }
   
-  else if(RedIndVolt/1.8 > 1.1*BluIndVolt/1.8){
-  		pwm_BLU1=0;
-    	pwm_BLU0=0;
-    	pwm_RED1=power;
+  else if(IndVolts[1] > Vred_thresh + 0.1 || IndVolts[0]/IndVolts[1] < 1){
+  	if (IndVolts[0]/IndVolts[1]<0.5){
+    	pwm_RED1=2*power;
     	pwm_RED0=0;
+    	pwm_BLU1=0;
+    	pwm_BLU0=0;
+    	
+    }
+    else{
+  		pwm_BLU1=power;
+    	pwm_BLU0=0;
+    	pwm_RED1=0;
+    	pwm_RED0=0;
+    }
   }
   else{
   	pwm_BLU1 = power;
@@ -362,20 +381,24 @@ void MotorControl (void)
     
     default:
     ;
+   
   }
+  
+  
+  
+  
 }
 
 
 
 
 //-------------
-void DebuggingFctn (void)
+void DebuggingFctn (volatile float IndVolts[])
 {
-	printf("frequency = %f Hz\n", frequency);
-	printf("Left(blue) ind voltage = %f V\n", BluIndVolt);
-	printf("Right(red) ind voltage = %f V\n", RedIndVolt);
-	printf("Front inductor voltage = %f V\n", FrtIndVolt);
+	printf("Freq = %5.3f HZ, Ratio = %5.3f V\r", frequency, IndVolts[0]/IndVolts[1]);
 }
+
+
 
 
 
@@ -384,17 +407,21 @@ void DebuggingFctn (void)
 //--------------
 void main (void)
 {
+	
 	// initialize (some, not all) variables, pins, etc.
+	volatile float IndVolts[3]; // Blue - IndVolts0, Red - IndVolts1, Front - IndVolts2
   	TIMER0_Init(); // Initialize timer 0 to read the frequency of the fm signal
   	TIMER2_Init(); // Initialize timer 2 for periodic interrupts used for motor control
   	EA=1; // Enable interrupts
-	dirout = 0; // define initial direction to be CCW
+	
   	InitPinADC(1, 7); // Configure P1.7 as analog input
 	InitPinADC(2, 0); // Configure P2.0 as analog input
   	InitPinADC(2, 7); // Configure P2.7 as analog input
   	InitADC();
-	
-	printf("\x1b[2J"); // Clear screen using ANSI escape sequence.
+  	printf("\x1b[2J"); // Clear screen using ANSI escape sequence.
+  	
+  	
+		
 	
   
   	// The forever loop
@@ -404,17 +431,23 @@ void main (void)
     DetermineMode();
     
     // Read the input voltages from the inductors 
-    ReadInductorStatus();
+    //ReadInductorStatus();
+	  IndVolts[0] = Volts_at_Pin(LQFP32_MUX_P2_7);
+	  IndVolts[1] = Volts_at_Pin(LQFP32_MUX_P1_7);
+	  IndVolts[2] = Volts_at_Pin(LQFP32_MUX_P2_0);
+	
     
     // Control the motors using (mode determined) pwm signal
-    MotorControl();
+    MotorControl(IndVolts);
     
     // (For debugging only) Show the user current command and status of the vehicle
-     //DebuggingFctn();
+    DebuggingFctn(IndVolts);
     
     
     // pause
-    	waitms(80);
+    	waitms(20);
+    
 	}
+	
 }
  

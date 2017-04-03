@@ -1,7 +1,7 @@
 0000              1   ;--------------------------------------------------------
 0000              2   ; File Created by C51
 0000              3   ; Version 1.0.0 #1069 (Apr 23 2015) (MSVC)
-0000              4   ; This file was generated Sat Apr 01 23:30:01 2017
+0000              4   ; This file was generated Sun Apr 02 15:21:20 2017
 0000              5   ;--------------------------------------------------------
                   5   $name Receiver
                   6   $optc51 --model-small
@@ -28,1529 +28,1581 @@
 0000             28            public _main
 0000             29            public _DebuggingFctn
 0000             30            public _MotorControl
-0000             31            public _ReadInductorStatus
-0000             32            public _DetermineMode
-0000             33            public _ReadFrequency
-0000             34            public _Timer2_ISR
-0000             35            public _Volts_at_Pin
-0000             36            public _ADC_at_Pin
-0000             37            public _InitPinADC
-0000             38            public _InitADC
-0000             39            public _TIMER2_Init
-0000             40            public _TIMER0_Init
-0000             41            public _waitms
-0000             42            public _Timer3us
-0000             43            public __c51_external_startup
-0000             44            public _mode
-0000             45            public _FrtIndVolt
-0000             46            public _RedIndVolt
-0000             47            public _BluIndVolt
-0000             48            public _frequency
-0000             49            public _i
-0000             50            public _overflow_count
-0000             51            public _dirout
-0000             52            public _pwm_RED1
-0000             53            public _pwm_RED0
-0000             54            public _pwm_BLU1
-0000             55            public _pwm_BLU0
-0000             56            public _power
-0000             57            public _pwm_count
-0000             58   ;--------------------------------------------------------
-0000             59   ; Special Function Registers
-0000             60   ;--------------------------------------------------------
-0000             61   _P0             DATA 0x80
-0000             62   _SP             DATA 0x81
-0000             63   _DPL            DATA 0x82
-0000             64   _DPH            DATA 0x83
-0000             65   _EMI0TC         DATA 0x84
-0000             66   _EMI0CF         DATA 0x85
-0000             67   _OSCLCN         DATA 0x86
-0000             68   _PCON           DATA 0x87
-0000             69   _TCON           DATA 0x88
-0000             70   _TMOD           DATA 0x89
-0000             71   _TL0            DATA 0x8a
-0000             72   _TL1            DATA 0x8b
-0000             73   _TH0            DATA 0x8c
-0000             74   _TH1            DATA 0x8d
-0000             75   _CKCON          DATA 0x8e
-0000             76   _PSCTL          DATA 0x8f
-0000             77   _P1             DATA 0x90
-0000             78   _TMR3CN         DATA 0x91
-0000             79   _TMR4CN         DATA 0x91
-0000             80   _TMR3RLL        DATA 0x92
-0000             81   _TMR4RLL        DATA 0x92
-0000             82   _TMR3RLH        DATA 0x93
-0000             83   _TMR4RLH        DATA 0x93
-0000             84   _TMR3L          DATA 0x94
-0000             85   _TMR4L          DATA 0x94
-0000             86   _TMR3H          DATA 0x95
-0000             87   _TMR4H          DATA 0x95
-0000             88   _USB0ADR        DATA 0x96
-0000             89   _USB0DAT        DATA 0x97
-0000             90   _SCON           DATA 0x98
-0000             91   _SCON0          DATA 0x98
-0000             92   _SBUF           DATA 0x99
-0000             93   _SBUF0          DATA 0x99
-0000             94   _CPT1CN         DATA 0x9a
-0000             95   _CPT0CN         DATA 0x9b
-0000             96   _CPT1MD         DATA 0x9c
-0000             97   _CPT0MD         DATA 0x9d
-0000             98   _CPT1MX         DATA 0x9e
-0000             99   _CPT0MX         DATA 0x9f
-0000            100   _P2             DATA 0xa0
-0000            101   _SPI0CFG        DATA 0xa1
-0000            102   _SPI0CKR        DATA 0xa2
-0000            103   _SPI0DAT        DATA 0xa3
-0000            104   _P0MDOUT        DATA 0xa4
-0000            105   _P1MDOUT        DATA 0xa5
-0000            106   _P2MDOUT        DATA 0xa6
-0000            107   _P3MDOUT        DATA 0xa7
-0000            108   _IE             DATA 0xa8
-0000            109   _CLKSEL         DATA 0xa9
-0000            110   _EMI0CN         DATA 0xaa
-0000            111   __XPAGE         DATA 0xaa
-0000            112   _SBCON1         DATA 0xac
-0000            113   _P4MDOUT        DATA 0xae
-0000            114   _PFE0CN         DATA 0xaf
-0000            115   _P3             DATA 0xb0
-0000            116   _OSCXCN         DATA 0xb1
-0000            117   _OSCICN         DATA 0xb2
-0000            118   _OSCICL         DATA 0xb3
-0000            119   _SBRLL1         DATA 0xb4
-0000            120   _SBRLH1         DATA 0xb5
-0000            121   _FLSCL          DATA 0xb6
-0000            122   _FLKEY          DATA 0xb7
-0000            123   _IP             DATA 0xb8
-0000            124   _CLKMUL         DATA 0xb9
-0000            125   _SMBTC          DATA 0xb9
-0000            126   _AMX0N          DATA 0xba
-0000            127   _AMX0P          DATA 0xbb
-0000            128   _ADC0CF         DATA 0xbc
-0000            129   _ADC0L          DATA 0xbd
-0000            130   _ADC0H          DATA 0xbe
-0000            131   _SFRPAGE        DATA 0xbf
-0000            132   _SMB0CN         DATA 0xc0
-0000            133   _SMB1CN         DATA 0xc0
-0000            134   _SMB0CF         DATA 0xc1
-0000            135   _SMB1CF         DATA 0xc1
-0000            136   _SMB0DAT        DATA 0xc2
-0000            137   _SMB1DAT        DATA 0xc2
-0000            138   _ADC0GTL        DATA 0xc3
-0000            139   _ADC0GTH        DATA 0xc4
-0000            140   _ADC0LTL        DATA 0xc5
-0000            141   _ADC0LTH        DATA 0xc6
-0000            142   _P4             DATA 0xc7
-0000            143   _TMR2CN         DATA 0xc8
-0000            144   _TMR5CN         DATA 0xc8
-0000            145   _REG01CN        DATA 0xc9
-0000            146   _TMR2RLL        DATA 0xca
-0000            147   _TMR5RLL        DATA 0xca
-0000            148   _TMR2RLH        DATA 0xcb
-0000            149   _TMR5RLH        DATA 0xcb
-0000            150   _TMR2L          DATA 0xcc
-0000            151   _TMR5L          DATA 0xcc
-0000            152   _TMR2H          DATA 0xcd
-0000            153   _TMR5H          DATA 0xcd
-0000            154   _SMB0ADM        DATA 0xce
-0000            155   _SMB1ADM        DATA 0xce
-0000            156   _SMB0ADR        DATA 0xcf
-0000            157   _SMB1ADR        DATA 0xcf
-0000            158   _PSW            DATA 0xd0
-0000            159   _REF0CN         DATA 0xd1
-0000            160   _SCON1          DATA 0xd2
-0000            161   _SBUF1          DATA 0xd3
-0000            162   _P0SKIP         DATA 0xd4
-0000            163   _P1SKIP         DATA 0xd5
-0000            164   _P2SKIP         DATA 0xd6
-0000            165   _USB0XCN        DATA 0xd7
-0000            166   _PCA0CN         DATA 0xd8
-0000            167   _PCA0MD         DATA 0xd9
-0000            168   _PCA0CPM0       DATA 0xda
-0000            169   _PCA0CPM1       DATA 0xdb
-0000            170   _PCA0CPM2       DATA 0xdc
-0000            171   _PCA0CPM3       DATA 0xdd
-0000            172   _PCA0CPM4       DATA 0xde
-0000            173   _P3SKIP         DATA 0xdf
-0000            174   _ACC            DATA 0xe0
-0000            175   _XBR0           DATA 0xe1
-0000            176   _XBR1           DATA 0xe2
-0000            177   _XBR2           DATA 0xe3
-0000            178   _IT01CF         DATA 0xe4
-0000            179   _CKCON1         DATA 0xe4
-0000            180   _SMOD1          DATA 0xe5
-0000            181   _EIE1           DATA 0xe6
-0000            182   _EIE2           DATA 0xe7
-0000            183   _ADC0CN         DATA 0xe8
-0000            184   _PCA0CPL1       DATA 0xe9
-0000            185   _PCA0CPH1       DATA 0xea
-0000            186   _PCA0CPL2       DATA 0xeb
-0000            187   _PCA0CPH2       DATA 0xec
-0000            188   _PCA0CPL3       DATA 0xed
-0000            189   _PCA0CPH3       DATA 0xee
-0000            190   _RSTSRC         DATA 0xef
-0000            191   _B              DATA 0xf0
-0000            192   _P0MDIN         DATA 0xf1
-0000            193   _P1MDIN         DATA 0xf2
-0000            194   _P2MDIN         DATA 0xf3
-0000            195   _P3MDIN         DATA 0xf4
-0000            196   _P4MDIN         DATA 0xf5
-0000            197   _EIP1           DATA 0xf6
-0000            198   _EIP2           DATA 0xf7
-0000            199   _SPI0CN         DATA 0xf8
-0000            200   _PCA0L          DATA 0xf9
-0000            201   _PCA0H          DATA 0xfa
-0000            202   _PCA0CPL0       DATA 0xfb
-0000            203   _PCA0CPH0       DATA 0xfc
-0000            204   _PCA0CPL4       DATA 0xfd
-0000            205   _PCA0CPH4       DATA 0xfe
-0000            206   _VDM0CN         DATA 0xff
-0000            207   _DPTR           DATA 0x8382
-0000            208   _TMR2RL         DATA 0xcbca
-0000            209   _TMR3RL         DATA 0x9392
-0000            210   _TMR4RL         DATA 0x9392
-0000            211   _TMR5RL         DATA 0xcbca
-0000            212   _TMR2           DATA 0xcdcc
-0000            213   _TMR3           DATA 0x9594
-0000            214   _TMR4           DATA 0x9594
-0000            215   _TMR5           DATA 0xcdcc
-0000            216   _SBRL1          DATA 0xb5b4
-0000            217   _ADC0           DATA 0xbebd
-0000            218   _ADC0GT         DATA 0xc4c3
-0000            219   _ADC0LT         DATA 0xc6c5
-0000            220   _PCA0           DATA 0xfaf9
-0000            221   _PCA0CP1        DATA 0xeae9
-0000            222   _PCA0CP2        DATA 0xeceb
-0000            223   _PCA0CP3        DATA 0xeeed
-0000            224   _PCA0CP0        DATA 0xfcfb
-0000            225   _PCA0CP4        DATA 0xfefd
-0000            226   ;--------------------------------------------------------
-0000            227   ; special function bits
-0000            228   ;--------------------------------------------------------
-0000            229   _P0_0           BIT 0x80
-0000            230   _P0_1           BIT 0x81
-0000            231   _P0_2           BIT 0x82
-0000            232   _P0_3           BIT 0x83
-0000            233   _P0_4           BIT 0x84
-0000            234   _P0_5           BIT 0x85
-0000            235   _P0_6           BIT 0x86
-0000            236   _P0_7           BIT 0x87
-0000            237   _TF1            BIT 0x8f
-0000            238   _TR1            BIT 0x8e
-0000            239   _TF0            BIT 0x8d
-0000            240   _TR0            BIT 0x8c
-0000            241   _IE1            BIT 0x8b
-0000            242   _IT1            BIT 0x8a
-0000            243   _IE0            BIT 0x89
-0000            244   _IT0            BIT 0x88
-0000            245   _P1_0           BIT 0x90
-0000            246   _P1_1           BIT 0x91
-0000            247   _P1_2           BIT 0x92
-0000            248   _P1_3           BIT 0x93
-0000            249   _P1_4           BIT 0x94
-0000            250   _P1_5           BIT 0x95
-0000            251   _P1_6           BIT 0x96
-0000            252   _P1_7           BIT 0x97
-0000            253   _S0MODE         BIT 0x9f
-0000            254   _SCON0_6        BIT 0x9e
-0000            255   _MCE0           BIT 0x9d
-0000            256   _REN0           BIT 0x9c
-0000            257   _TB80           BIT 0x9b
-0000            258   _RB80           BIT 0x9a
-0000            259   _TI0            BIT 0x99
-0000            260   _RI0            BIT 0x98
-0000            261   _SCON_6         BIT 0x9e
-0000            262   _MCE            BIT 0x9d
-0000            263   _REN            BIT 0x9c
-0000            264   _TB8            BIT 0x9b
-0000            265   _RB8            BIT 0x9a
-0000            266   _TI             BIT 0x99
-0000            267   _RI             BIT 0x98
-0000            268   _P2_0           BIT 0xa0
-0000            269   _P2_1           BIT 0xa1
-0000            270   _P2_2           BIT 0xa2
-0000            271   _P2_3           BIT 0xa3
-0000            272   _P2_4           BIT 0xa4
-0000            273   _P2_5           BIT 0xa5
-0000            274   _P2_6           BIT 0xa6
-0000            275   _P2_7           BIT 0xa7
-0000            276   _EA             BIT 0xaf
-0000            277   _ESPI0          BIT 0xae
-0000            278   _ET2            BIT 0xad
-0000            279   _ES0            BIT 0xac
-0000            280   _ET1            BIT 0xab
-0000            281   _EX1            BIT 0xaa
-0000            282   _ET0            BIT 0xa9
-0000            283   _EX0            BIT 0xa8
-0000            284   _P3_0           BIT 0xb0
-0000            285   _P3_1           BIT 0xb1
-0000            286   _P3_2           BIT 0xb2
-0000            287   _P3_3           BIT 0xb3
-0000            288   _P3_4           BIT 0xb4
-0000            289   _P3_5           BIT 0xb5
-0000            290   _P3_6           BIT 0xb6
-0000            291   _P3_7           BIT 0xb7
-0000            292   _IP_7           BIT 0xbf
-0000            293   _PSPI0          BIT 0xbe
-0000            294   _PT2            BIT 0xbd
-0000            295   _PS0            BIT 0xbc
-0000            296   _PT1            BIT 0xbb
-0000            297   _PX1            BIT 0xba
-0000            298   _PT0            BIT 0xb9
-0000            299   _PX0            BIT 0xb8
-0000            300   _MASTER0        BIT 0xc7
-0000            301   _TXMODE0        BIT 0xc6
-0000            302   _STA0           BIT 0xc5
-0000            303   _STO0           BIT 0xc4
-0000            304   _ACKRQ0         BIT 0xc3
-0000            305   _ARBLOST0       BIT 0xc2
-0000            306   _ACK0           BIT 0xc1
-0000            307   _SI0            BIT 0xc0
-0000            308   _MASTER1        BIT 0xc7
-0000            309   _TXMODE1        BIT 0xc6
-0000            310   _STA1           BIT 0xc5
-0000            311   _STO1           BIT 0xc4
-0000            312   _ACKRQ1         BIT 0xc3
-0000            313   _ARBLOST1       BIT 0xc2
-0000            314   _ACK1           BIT 0xc1
-0000            315   _SI1            BIT 0xc0
-0000            316   _TF2            BIT 0xcf
-0000            317   _TF2H           BIT 0xcf
-0000            318   _TF2L           BIT 0xce
-0000            319   _TF2LEN         BIT 0xcd
-0000            320   _TF2CEN         BIT 0xcc
-0000            321   _T2SPLIT        BIT 0xcb
-0000            322   _TR2            BIT 0xca
-0000            323   _T2CSS          BIT 0xc9
-0000            324   _T2XCLK         BIT 0xc8
-0000            325   _TF5H           BIT 0xcf
-0000            326   _TF5L           BIT 0xce
-0000            327   _TF5LEN         BIT 0xcd
-0000            328   _TMR5CN_4       BIT 0xcc
-0000            329   _T5SPLIT        BIT 0xcb
-0000            330   _TR5            BIT 0xca
-0000            331   _TMR5CN_1       BIT 0xc9
-0000            332   _T5XCLK         BIT 0xc8
-0000            333   _CY             BIT 0xd7
-0000            334   _AC             BIT 0xd6
-0000            335   _F0             BIT 0xd5
-0000            336   _RS1            BIT 0xd4
-0000            337   _RS0            BIT 0xd3
-0000            338   _OV             BIT 0xd2
-0000            339   _F1             BIT 0xd1
-0000            340   _PARITY         BIT 0xd0
-0000            341   _CF             BIT 0xdf
-0000            342   _CR             BIT 0xde
-0000            343   _PCA0CN_5       BIT 0xde
-0000            344   _CCF4           BIT 0xdc
-0000            345   _CCF3           BIT 0xdb
-0000            346   _CCF2           BIT 0xda
-0000            347   _CCF1           BIT 0xd9
-0000            348   _CCF0           BIT 0xd8
-0000            349   _ACC_7          BIT 0xe7
-0000            350   _ACC_6          BIT 0xe6
-0000            351   _ACC_5          BIT 0xe5
-0000            352   _ACC_4          BIT 0xe4
-0000            353   _ACC_3          BIT 0xe3
-0000            354   _ACC_2          BIT 0xe2
-0000            355   _ACC_1          BIT 0xe1
-0000            356   _ACC_0          BIT 0xe0
-0000            357   _AD0EN          BIT 0xef
-0000            358   _AD0TM          BIT 0xee
-0000            359   _AD0INT         BIT 0xed
-0000            360   _AD0BUSY        BIT 0xec
-0000            361   _AD0WINT        BIT 0xeb
-0000            362   _AD0CM2         BIT 0xea
-0000            363   _AD0CM1         BIT 0xe9
-0000            364   _AD0CM0         BIT 0xe8
-0000            365   _B_7            BIT 0xf7
-0000            366   _B_6            BIT 0xf6
-0000            367   _B_5            BIT 0xf5
-0000            368   _B_4            BIT 0xf4
-0000            369   _B_3            BIT 0xf3
-0000            370   _B_2            BIT 0xf2
-0000            371   _B_1            BIT 0xf1
-0000            372   _B_0            BIT 0xf0
-0000            373   _SPIF           BIT 0xff
-0000            374   _WCOL           BIT 0xfe
-0000            375   _MODF           BIT 0xfd
-0000            376   _RXOVRN         BIT 0xfc
-0000            377   _NSSMD1         BIT 0xfb
-0000            378   _NSSMD0         BIT 0xfa
-0000            379   _TXBMT          BIT 0xf9
-0000            380   _SPIEN          BIT 0xf8
+0000             31            public _DetermineMode
+0000             32            public _ReadFrequency
+0000             33            public _Timer2_ISR
+0000             34            public _Volts_at_Pin
+0000             35            public _ADC_at_Pin
+0000             36            public _InitPinADC
+0000             37            public _InitADC
+0000             38            public _TIMER2_Init
+0000             39            public _TIMER0_Init
+0000             40            public _waitms
+0000             41            public _Timer3us
+0000             42            public __c51_external_startup
+0000             43            public _mode
+0000             44            public _frequency
+0000             45            public _i
+0000             46            public _overflow_count
+0000             47            public _dirout
+0000             48            public _pwm_RED1
+0000             49            public _pwm_RED0
+0000             50            public _pwm_BLU1
+0000             51            public _pwm_BLU0
+0000             52            public _power
+0000             53            public _pwm_count
+0000             54   ;--------------------------------------------------------
+0000             55   ; Special Function Registers
+0000             56   ;--------------------------------------------------------
+0000             57   _P0             DATA 0x80
+0000             58   _SP             DATA 0x81
+0000             59   _DPL            DATA 0x82
+0000             60   _DPH            DATA 0x83
+0000             61   _EMI0TC         DATA 0x84
+0000             62   _EMI0CF         DATA 0x85
+0000             63   _OSCLCN         DATA 0x86
+0000             64   _PCON           DATA 0x87
+0000             65   _TCON           DATA 0x88
+0000             66   _TMOD           DATA 0x89
+0000             67   _TL0            DATA 0x8a
+0000             68   _TL1            DATA 0x8b
+0000             69   _TH0            DATA 0x8c
+0000             70   _TH1            DATA 0x8d
+0000             71   _CKCON          DATA 0x8e
+0000             72   _PSCTL          DATA 0x8f
+0000             73   _P1             DATA 0x90
+0000             74   _TMR3CN         DATA 0x91
+0000             75   _TMR4CN         DATA 0x91
+0000             76   _TMR3RLL        DATA 0x92
+0000             77   _TMR4RLL        DATA 0x92
+0000             78   _TMR3RLH        DATA 0x93
+0000             79   _TMR4RLH        DATA 0x93
+0000             80   _TMR3L          DATA 0x94
+0000             81   _TMR4L          DATA 0x94
+0000             82   _TMR3H          DATA 0x95
+0000             83   _TMR4H          DATA 0x95
+0000             84   _USB0ADR        DATA 0x96
+0000             85   _USB0DAT        DATA 0x97
+0000             86   _SCON           DATA 0x98
+0000             87   _SCON0          DATA 0x98
+0000             88   _SBUF           DATA 0x99
+0000             89   _SBUF0          DATA 0x99
+0000             90   _CPT1CN         DATA 0x9a
+0000             91   _CPT0CN         DATA 0x9b
+0000             92   _CPT1MD         DATA 0x9c
+0000             93   _CPT0MD         DATA 0x9d
+0000             94   _CPT1MX         DATA 0x9e
+0000             95   _CPT0MX         DATA 0x9f
+0000             96   _P2             DATA 0xa0
+0000             97   _SPI0CFG        DATA 0xa1
+0000             98   _SPI0CKR        DATA 0xa2
+0000             99   _SPI0DAT        DATA 0xa3
+0000            100   _P0MDOUT        DATA 0xa4
+0000            101   _P1MDOUT        DATA 0xa5
+0000            102   _P2MDOUT        DATA 0xa6
+0000            103   _P3MDOUT        DATA 0xa7
+0000            104   _IE             DATA 0xa8
+0000            105   _CLKSEL         DATA 0xa9
+0000            106   _EMI0CN         DATA 0xaa
+0000            107   __XPAGE         DATA 0xaa
+0000            108   _SBCON1         DATA 0xac
+0000            109   _P4MDOUT        DATA 0xae
+0000            110   _PFE0CN         DATA 0xaf
+0000            111   _P3             DATA 0xb0
+0000            112   _OSCXCN         DATA 0xb1
+0000            113   _OSCICN         DATA 0xb2
+0000            114   _OSCICL         DATA 0xb3
+0000            115   _SBRLL1         DATA 0xb4
+0000            116   _SBRLH1         DATA 0xb5
+0000            117   _FLSCL          DATA 0xb6
+0000            118   _FLKEY          DATA 0xb7
+0000            119   _IP             DATA 0xb8
+0000            120   _CLKMUL         DATA 0xb9
+0000            121   _SMBTC          DATA 0xb9
+0000            122   _AMX0N          DATA 0xba
+0000            123   _AMX0P          DATA 0xbb
+0000            124   _ADC0CF         DATA 0xbc
+0000            125   _ADC0L          DATA 0xbd
+0000            126   _ADC0H          DATA 0xbe
+0000            127   _SFRPAGE        DATA 0xbf
+0000            128   _SMB0CN         DATA 0xc0
+0000            129   _SMB1CN         DATA 0xc0
+0000            130   _SMB0CF         DATA 0xc1
+0000            131   _SMB1CF         DATA 0xc1
+0000            132   _SMB0DAT        DATA 0xc2
+0000            133   _SMB1DAT        DATA 0xc2
+0000            134   _ADC0GTL        DATA 0xc3
+0000            135   _ADC0GTH        DATA 0xc4
+0000            136   _ADC0LTL        DATA 0xc5
+0000            137   _ADC0LTH        DATA 0xc6
+0000            138   _P4             DATA 0xc7
+0000            139   _TMR2CN         DATA 0xc8
+0000            140   _TMR5CN         DATA 0xc8
+0000            141   _REG01CN        DATA 0xc9
+0000            142   _TMR2RLL        DATA 0xca
+0000            143   _TMR5RLL        DATA 0xca
+0000            144   _TMR2RLH        DATA 0xcb
+0000            145   _TMR5RLH        DATA 0xcb
+0000            146   _TMR2L          DATA 0xcc
+0000            147   _TMR5L          DATA 0xcc
+0000            148   _TMR2H          DATA 0xcd
+0000            149   _TMR5H          DATA 0xcd
+0000            150   _SMB0ADM        DATA 0xce
+0000            151   _SMB1ADM        DATA 0xce
+0000            152   _SMB0ADR        DATA 0xcf
+0000            153   _SMB1ADR        DATA 0xcf
+0000            154   _PSW            DATA 0xd0
+0000            155   _REF0CN         DATA 0xd1
+0000            156   _SCON1          DATA 0xd2
+0000            157   _SBUF1          DATA 0xd3
+0000            158   _P0SKIP         DATA 0xd4
+0000            159   _P1SKIP         DATA 0xd5
+0000            160   _P2SKIP         DATA 0xd6
+0000            161   _USB0XCN        DATA 0xd7
+0000            162   _PCA0CN         DATA 0xd8
+0000            163   _PCA0MD         DATA 0xd9
+0000            164   _PCA0CPM0       DATA 0xda
+0000            165   _PCA0CPM1       DATA 0xdb
+0000            166   _PCA0CPM2       DATA 0xdc
+0000            167   _PCA0CPM3       DATA 0xdd
+0000            168   _PCA0CPM4       DATA 0xde
+0000            169   _P3SKIP         DATA 0xdf
+0000            170   _ACC            DATA 0xe0
+0000            171   _XBR0           DATA 0xe1
+0000            172   _XBR1           DATA 0xe2
+0000            173   _XBR2           DATA 0xe3
+0000            174   _IT01CF         DATA 0xe4
+0000            175   _CKCON1         DATA 0xe4
+0000            176   _SMOD1          DATA 0xe5
+0000            177   _EIE1           DATA 0xe6
+0000            178   _EIE2           DATA 0xe7
+0000            179   _ADC0CN         DATA 0xe8
+0000            180   _PCA0CPL1       DATA 0xe9
+0000            181   _PCA0CPH1       DATA 0xea
+0000            182   _PCA0CPL2       DATA 0xeb
+0000            183   _PCA0CPH2       DATA 0xec
+0000            184   _PCA0CPL3       DATA 0xed
+0000            185   _PCA0CPH3       DATA 0xee
+0000            186   _RSTSRC         DATA 0xef
+0000            187   _B              DATA 0xf0
+0000            188   _P0MDIN         DATA 0xf1
+0000            189   _P1MDIN         DATA 0xf2
+0000            190   _P2MDIN         DATA 0xf3
+0000            191   _P3MDIN         DATA 0xf4
+0000            192   _P4MDIN         DATA 0xf5
+0000            193   _EIP1           DATA 0xf6
+0000            194   _EIP2           DATA 0xf7
+0000            195   _SPI0CN         DATA 0xf8
+0000            196   _PCA0L          DATA 0xf9
+0000            197   _PCA0H          DATA 0xfa
+0000            198   _PCA0CPL0       DATA 0xfb
+0000            199   _PCA0CPH0       DATA 0xfc
+0000            200   _PCA0CPL4       DATA 0xfd
+0000            201   _PCA0CPH4       DATA 0xfe
+0000            202   _VDM0CN         DATA 0xff
+0000            203   _DPTR           DATA 0x8382
+0000            204   _TMR2RL         DATA 0xcbca
+0000            205   _TMR3RL         DATA 0x9392
+0000            206   _TMR4RL         DATA 0x9392
+0000            207   _TMR5RL         DATA 0xcbca
+0000            208   _TMR2           DATA 0xcdcc
+0000            209   _TMR3           DATA 0x9594
+0000            210   _TMR4           DATA 0x9594
+0000            211   _TMR5           DATA 0xcdcc
+0000            212   _SBRL1          DATA 0xb5b4
+0000            213   _ADC0           DATA 0xbebd
+0000            214   _ADC0GT         DATA 0xc4c3
+0000            215   _ADC0LT         DATA 0xc6c5
+0000            216   _PCA0           DATA 0xfaf9
+0000            217   _PCA0CP1        DATA 0xeae9
+0000            218   _PCA0CP2        DATA 0xeceb
+0000            219   _PCA0CP3        DATA 0xeeed
+0000            220   _PCA0CP0        DATA 0xfcfb
+0000            221   _PCA0CP4        DATA 0xfefd
+0000            222   ;--------------------------------------------------------
+0000            223   ; special function bits
+0000            224   ;--------------------------------------------------------
+0000            225   _P0_0           BIT 0x80
+0000            226   _P0_1           BIT 0x81
+0000            227   _P0_2           BIT 0x82
+0000            228   _P0_3           BIT 0x83
+0000            229   _P0_4           BIT 0x84
+0000            230   _P0_5           BIT 0x85
+0000            231   _P0_6           BIT 0x86
+0000            232   _P0_7           BIT 0x87
+0000            233   _TF1            BIT 0x8f
+0000            234   _TR1            BIT 0x8e
+0000            235   _TF0            BIT 0x8d
+0000            236   _TR0            BIT 0x8c
+0000            237   _IE1            BIT 0x8b
+0000            238   _IT1            BIT 0x8a
+0000            239   _IE0            BIT 0x89
+0000            240   _IT0            BIT 0x88
+0000            241   _P1_0           BIT 0x90
+0000            242   _P1_1           BIT 0x91
+0000            243   _P1_2           BIT 0x92
+0000            244   _P1_3           BIT 0x93
+0000            245   _P1_4           BIT 0x94
+0000            246   _P1_5           BIT 0x95
+0000            247   _P1_6           BIT 0x96
+0000            248   _P1_7           BIT 0x97
+0000            249   _S0MODE         BIT 0x9f
+0000            250   _SCON0_6        BIT 0x9e
+0000            251   _MCE0           BIT 0x9d
+0000            252   _REN0           BIT 0x9c
+0000            253   _TB80           BIT 0x9b
+0000            254   _RB80           BIT 0x9a
+0000            255   _TI0            BIT 0x99
+0000            256   _RI0            BIT 0x98
+0000            257   _SCON_6         BIT 0x9e
+0000            258   _MCE            BIT 0x9d
+0000            259   _REN            BIT 0x9c
+0000            260   _TB8            BIT 0x9b
+0000            261   _RB8            BIT 0x9a
+0000            262   _TI             BIT 0x99
+0000            263   _RI             BIT 0x98
+0000            264   _P2_0           BIT 0xa0
+0000            265   _P2_1           BIT 0xa1
+0000            266   _P2_2           BIT 0xa2
+0000            267   _P2_3           BIT 0xa3
+0000            268   _P2_4           BIT 0xa4
+0000            269   _P2_5           BIT 0xa5
+0000            270   _P2_6           BIT 0xa6
+0000            271   _P2_7           BIT 0xa7
+0000            272   _EA             BIT 0xaf
+0000            273   _ESPI0          BIT 0xae
+0000            274   _ET2            BIT 0xad
+0000            275   _ES0            BIT 0xac
+0000            276   _ET1            BIT 0xab
+0000            277   _EX1            BIT 0xaa
+0000            278   _ET0            BIT 0xa9
+0000            279   _EX0            BIT 0xa8
+0000            280   _P3_0           BIT 0xb0
+0000            281   _P3_1           BIT 0xb1
+0000            282   _P3_2           BIT 0xb2
+0000            283   _P3_3           BIT 0xb3
+0000            284   _P3_4           BIT 0xb4
+0000            285   _P3_5           BIT 0xb5
+0000            286   _P3_6           BIT 0xb6
+0000            287   _P3_7           BIT 0xb7
+0000            288   _IP_7           BIT 0xbf
+0000            289   _PSPI0          BIT 0xbe
+0000            290   _PT2            BIT 0xbd
+0000            291   _PS0            BIT 0xbc
+0000            292   _PT1            BIT 0xbb
+0000            293   _PX1            BIT 0xba
+0000            294   _PT0            BIT 0xb9
+0000            295   _PX0            BIT 0xb8
+0000            296   _MASTER0        BIT 0xc7
+0000            297   _TXMODE0        BIT 0xc6
+0000            298   _STA0           BIT 0xc5
+0000            299   _STO0           BIT 0xc4
+0000            300   _ACKRQ0         BIT 0xc3
+0000            301   _ARBLOST0       BIT 0xc2
+0000            302   _ACK0           BIT 0xc1
+0000            303   _SI0            BIT 0xc0
+0000            304   _MASTER1        BIT 0xc7
+0000            305   _TXMODE1        BIT 0xc6
+0000            306   _STA1           BIT 0xc5
+0000            307   _STO1           BIT 0xc4
+0000            308   _ACKRQ1         BIT 0xc3
+0000            309   _ARBLOST1       BIT 0xc2
+0000            310   _ACK1           BIT 0xc1
+0000            311   _SI1            BIT 0xc0
+0000            312   _TF2            BIT 0xcf
+0000            313   _TF2H           BIT 0xcf
+0000            314   _TF2L           BIT 0xce
+0000            315   _TF2LEN         BIT 0xcd
+0000            316   _TF2CEN         BIT 0xcc
+0000            317   _T2SPLIT        BIT 0xcb
+0000            318   _TR2            BIT 0xca
+0000            319   _T2CSS          BIT 0xc9
+0000            320   _T2XCLK         BIT 0xc8
+0000            321   _TF5H           BIT 0xcf
+0000            322   _TF5L           BIT 0xce
+0000            323   _TF5LEN         BIT 0xcd
+0000            324   _TMR5CN_4       BIT 0xcc
+0000            325   _T5SPLIT        BIT 0xcb
+0000            326   _TR5            BIT 0xca
+0000            327   _TMR5CN_1       BIT 0xc9
+0000            328   _T5XCLK         BIT 0xc8
+0000            329   _CY             BIT 0xd7
+0000            330   _AC             BIT 0xd6
+0000            331   _F0             BIT 0xd5
+0000            332   _RS1            BIT 0xd4
+0000            333   _RS0            BIT 0xd3
+0000            334   _OV             BIT 0xd2
+0000            335   _F1             BIT 0xd1
+0000            336   _PARITY         BIT 0xd0
+0000            337   _CF             BIT 0xdf
+0000            338   _CR             BIT 0xde
+0000            339   _PCA0CN_5       BIT 0xde
+0000            340   _CCF4           BIT 0xdc
+0000            341   _CCF3           BIT 0xdb
+0000            342   _CCF2           BIT 0xda
+0000            343   _CCF1           BIT 0xd9
+0000            344   _CCF0           BIT 0xd8
+0000            345   _ACC_7          BIT 0xe7
+0000            346   _ACC_6          BIT 0xe6
+0000            347   _ACC_5          BIT 0xe5
+0000            348   _ACC_4          BIT 0xe4
+0000            349   _ACC_3          BIT 0xe3
+0000            350   _ACC_2          BIT 0xe2
+0000            351   _ACC_1          BIT 0xe1
+0000            352   _ACC_0          BIT 0xe0
+0000            353   _AD0EN          BIT 0xef
+0000            354   _AD0TM          BIT 0xee
+0000            355   _AD0INT         BIT 0xed
+0000            356   _AD0BUSY        BIT 0xec
+0000            357   _AD0WINT        BIT 0xeb
+0000            358   _AD0CM2         BIT 0xea
+0000            359   _AD0CM1         BIT 0xe9
+0000            360   _AD0CM0         BIT 0xe8
+0000            361   _B_7            BIT 0xf7
+0000            362   _B_6            BIT 0xf6
+0000            363   _B_5            BIT 0xf5
+0000            364   _B_4            BIT 0xf4
+0000            365   _B_3            BIT 0xf3
+0000            366   _B_2            BIT 0xf2
+0000            367   _B_1            BIT 0xf1
+0000            368   _B_0            BIT 0xf0
+0000            369   _SPIF           BIT 0xff
+0000            370   _WCOL           BIT 0xfe
+0000            371   _MODF           BIT 0xfd
+0000            372   _RXOVRN         BIT 0xfc
+0000            373   _NSSMD1         BIT 0xfb
+0000            374   _NSSMD0         BIT 0xfa
+0000            375   _TXBMT          BIT 0xf9
+0000            376   _SPIEN          BIT 0xf8
+0000            377   ;--------------------------------------------------------
+0000            378   ; overlayable register banks
+0000            379   ;--------------------------------------------------------
+0000            380            rbank0 segment data overlay
 0000            381   ;--------------------------------------------------------
-0000            382   ; overlayable register banks
+0000            382   ; internal ram data
 0000            383   ;--------------------------------------------------------
-0000            384            rbank0 segment data overlay
-0000            385   ;--------------------------------------------------------
-0000            386   ; internal ram data
-0000            387   ;--------------------------------------------------------
-0000            388            rseg R_DSEG
-0000            389   _pwm_count:
-0000            390            ds 1
-0001            391   _power:
-0001            392            ds 1
-0002            393   _pwm_BLU0:
-0002            394            ds 1
-0003            395   _pwm_BLU1:
-0003            396            ds 1
-0004            397   _pwm_RED0:
-0004            398            ds 1
-0005            399   _pwm_RED1:
-0005            400            ds 1
-0006            401   _dirout:
-0006            402            ds 1
-0007            403   _overflow_count:
-0007            404            ds 1
-0008            405   _i:
-0008            406            ds 2
-000A            407   _frequency:
-000A            408            ds 4
-000E            409   _BluIndVolt:
-000E            410            ds 4
-0012            411   _RedIndVolt:
-0012            412            ds 4
-0016            413   _FrtIndVolt:
-0016            414            ds 4
-001A            415   _mode:
-001A            416            ds 1
-001B            417   ;--------------------------------------------------------
-001B            418   ; overlayable items in internal ram 
-001B            419   ;--------------------------------------------------------
-0000            420            rseg    R_OSEG
-0000            421            rseg    R_OSEG
-0000            422   _InitPinADC_PARM_2:
-0000            423            ds 1
-0001            424            rseg    R_OSEG
-0001            425   ;--------------------------------------------------------
-0001            426   ; indirectly addressable internal ram data
+0000            384            rseg R_DSEG
+0000            385   _pwm_count:
+0000            386            ds 1
+0001            387   _power:
+0001            388            ds 1
+0002            389   _pwm_BLU0:
+0002            390            ds 1
+0003            391   _pwm_BLU1:
+0003            392            ds 1
+0004            393   _pwm_RED0:
+0004            394            ds 1
+0005            395   _pwm_RED1:
+0005            396            ds 1
+0006            397   _dirout:
+0006            398            ds 1
+0007            399   _overflow_count:
+0007            400            ds 1
+0008            401   _i:
+0008            402            ds 2
+000A            403   _frequency:
+000A            404            ds 4
+000E            405   _mode:
+000E            406            ds 1
+000F            407   _MotorControl_IndVolts_1_73:
+000F            408            ds 3
+0012            409   _MotorControl_sloc0_1_0:
+0012            410            ds 3
+0015            411   _MotorControl_sloc1_1_0:
+0015            412            ds 4
+0019            413   _DebuggingFctn_IndVolts_1_79:
+0019            414            ds 3
+001C            415   _DebuggingFctn_sloc0_1_0:
+001C            416            ds 4
+0020            417   _main_IndVolts_1_82:
+0020            418            ds 12
+002C            419   ;--------------------------------------------------------
+002C            420   ; overlayable items in internal ram 
+002C            421   ;--------------------------------------------------------
+0000            422            rseg    R_OSEG
+0000            423            rseg    R_OSEG
+0000            424   _InitPinADC_PARM_2:
+0000            425            ds 1
+0001            426            rseg    R_OSEG
 0001            427   ;--------------------------------------------------------
-0000            428            rseg R_ISEG
-0000            429   ;--------------------------------------------------------
-0000            430   ; absolute internal ram data
+0001            428   ; indirectly addressable internal ram data
+0001            429   ;--------------------------------------------------------
+0000            430            rseg R_ISEG
 0000            431   ;--------------------------------------------------------
-0000            432            DSEG
+0000            432   ; absolute internal ram data
 0000            433   ;--------------------------------------------------------
-0000            434   ; bit data
+0000            434            DSEG
 0000            435   ;--------------------------------------------------------
-0000            436            rseg R_BSEG
-0000            437   _Timer2_ISR_sloc0_1_0:
-0000            438            DBIT    1
-0001            439   ;--------------------------------------------------------
-0001            440   ; paged external ram data
+0000            436   ; bit data
+0000            437   ;--------------------------------------------------------
+0000            438            rseg R_BSEG
+0000            439   _Timer2_ISR_sloc0_1_0:
+0000            440            DBIT    1
 0001            441   ;--------------------------------------------------------
-0000            442            rseg R_PSEG
-0000            443   ;--------------------------------------------------------
-0000            444   ; external ram data
+0001            442   ; paged external ram data
+0001            443   ;--------------------------------------------------------
+0000            444            rseg R_PSEG
 0000            445   ;--------------------------------------------------------
-0000            446            rseg R_XSEG
+0000            446   ; external ram data
 0000            447   ;--------------------------------------------------------
-0000            448   ; absolute external ram data
+0000            448            rseg R_XSEG
 0000            449   ;--------------------------------------------------------
-0000            450            XSEG
+0000            450   ; absolute external ram data
 0000            451   ;--------------------------------------------------------
-0000            452   ; external initialized ram data
+0000            452            XSEG
 0000            453   ;--------------------------------------------------------
-0000            454            rseg R_IXSEG
-0000            455            rseg R_HOME
-0000            456            rseg R_GSINIT
-0000            457            rseg R_CSEG
-0000            458   ;--------------------------------------------------------
-0000            459   ; Reset entry point and interrupt vectors
+0000            454   ; external initialized ram data
+0000            455   ;--------------------------------------------------------
+0000            456            rseg R_IXSEG
+0000            457            rseg R_HOME
+0000            458            rseg R_GSINIT
+0000            459            rseg R_CSEG
 0000            460   ;--------------------------------------------------------
-0000            461            CSEG at 0x0000
-0000 020100     462            ljmp    _crt0
-002B            463            CSEG at 0x002b
-002B 020100     464            ljmp    _Timer2_ISR
-002E            465   ;--------------------------------------------------------
-002E            466   ; global & static initialisations
+0000            461   ; Reset entry point and interrupt vectors
+0000            462   ;--------------------------------------------------------
+0000            463            CSEG at 0x0000
+0000 020100     464            ljmp    _crt0
+002B            465            CSEG at 0x002b
+002B 020100     466            ljmp    _Timer2_ISR
 002E            467   ;--------------------------------------------------------
-0000            468            rseg R_HOME
-0000            469            rseg R_GSINIT
-0000            470            rseg R_GSINIT
-0000            471   ;--------------------------------------------------------
-0000            472   ; data variables initialization
+002E            468   ; global & static initialisations
+002E            469   ;--------------------------------------------------------
+0000            470            rseg R_HOME
+0000            471            rseg R_GSINIT
+0000            472            rseg R_GSINIT
 0000            473   ;--------------------------------------------------------
-0000            474            rseg R_DINIT
-0000            475   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:46: volatile unsigned char pwm_count=0;
-0000 75D000     476            mov     _pwm_count,#0x00
-0003            477   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:47: volatile unsigned char power=50;
-0003 759032     478            mov     _power,#0x32
-0006            479   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:48: volatile unsigned char pwm_BLU0=0;
-0006 757000     480            mov     _pwm_BLU0,#0x00
-0009            481   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:49: volatile unsigned char pwm_BLU1=0;
-0009 753000     482            mov     _pwm_BLU1,#0x00
-000C            483   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:50: volatile unsigned char pwm_RED0=0;
-000C 75F000     484            mov     _pwm_RED0,#0x00
-000F            485   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:51: volatile unsigned char pwm_RED1=0;
-000F 75B000     486            mov     _pwm_RED1,#0x00
-0012            487   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:52: volatile unsigned char dirout=0;
-0012 757000     488            mov     _dirout,#0x00
-0015            489   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:53: volatile unsigned char overflow_count=0;
-0015 753000     490            mov     _overflow_count,#0x00
-0018            491   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:54: int i = 0;
-0018 E4         492            clr     a
-0019 F5F0       493            mov     _i,a
-001B F5F1       494            mov     (_i + 1),a
-001D            495   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:55: float frequency=0;
-001D 75B000     496            mov     _frequency,#0x00
-0020 75B100     497            mov     (_frequency + 1),#0x00
-0023 75B200     498            mov     (_frequency + 2),#0x00
-0026 75B300     499            mov     (_frequency + 3),#0x00
-0029            500   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:56: volatile float BluIndVolt=0;
-0029 757000     501            mov     _BluIndVolt,#0x00
-002C 757100     502            mov     (_BluIndVolt + 1),#0x00
-002F 757200     503            mov     (_BluIndVolt + 2),#0x00
-0032 757300     504            mov     (_BluIndVolt + 3),#0x00
-0035            505   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:57: volatile float RedIndVolt=0;
-0035 753000     506            mov     _RedIndVolt,#0x00
-0038 753100     507            mov     (_RedIndVolt + 1),#0x00
-003B 753200     508            mov     (_RedIndVolt + 2),#0x00
-003E 753300     509            mov     (_RedIndVolt + 3),#0x00
-0041            510   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:58: volatile float FrtIndVolt=0; 
-0041 75F000     511            mov     _FrtIndVolt,#0x00
-0044 75F100     512            mov     (_FrtIndVolt + 1),#0x00
-0047 75F200     513            mov     (_FrtIndVolt + 2),#0x00
-004A 75F300     514            mov     (_FrtIndVolt + 3),#0x00
-004D            515   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:59: unsigned char mode=FORWARD;
-004D 75B003     516            mov     _mode,#0x03
-0050            517            ; The linker places a 'ret' at the end of segment R_DINIT.
-0050            518   ;--------------------------------------------------------
-0050            519   ; code
-0050            520   ;--------------------------------------------------------
-0000            521            rseg R_CSEG
-0000            522   ;------------------------------------------------------------
-0000            523   ;Allocation info for local variables in function '_c51_external_startup'
-0000            524   ;------------------------------------------------------------
-0000            525   ;------------------------------------------------------------
-0000            526   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:65: char _c51_external_startup (void)
-0000            527   ;        -----------------------------------------
-0000            528   ;         function _c51_external_startup
-0000            529   ;        -----------------------------------------
-0000            530   __c51_external_startup:
-0000            531            using   0
-0000            532   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:67: PCA0MD&=(~0x40) ;    // DISABLE WDT: clear Watchdog Enable bit
-0000 53D9BF     533            anl     _PCA0MD,#0xBF
-0003            534   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:68: VDM0CN=0x80; // enable VDD monitor
-0003 75FF80     535            mov     _VDM0CN,#0x80
-0006            536   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:69: RSTSRC=0x02|0x04; // Enable reset on missing clock detector and VDD
-0006 75EF06     537            mov     _RSTSRC,#0x06
-0009            538   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:77: CLKSEL|=0b_0000_0011; // SYSCLK derived from the Internal High-Frequency Oscillator / 1.
-0009 43A903     539            orl     _CLKSEL,#0x03
-000C            540   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:81: OSCICN |= 0x03; // Configure internal oscillator for its maximum frequency
-000C 43B203     541            orl     _OSCICN,#0x03
-000F            542   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:84: SCON0 = 0x10;
-000F 759810     543            mov     _SCON0,#0x10
-0012            544   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:86: TH1 = 0x10000-((SYSCLK/BAUDRATE)/2L);
-0012 758D30     545            mov     _TH1,#0x30
-0015            546   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:87: CKCON &= ~0x0B;                  // T1M = 1; SCA1:0 = xx
-0015 538EF4     547            anl     _CKCON,#0xF4
-0018            548   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:88: CKCON |=  0x08;
-0018 438E08     549            orl     _CKCON,#0x08
-001B            550   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:101: TL1 = TH1;      // Init Timer1
-001B 858D8B     551            mov     _TL1,_TH1
-001E            552   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:102: TMOD &= ~0xf0;  // TMOD: timer 1 in 8-bit autoreload
-001E 53890F     553            anl     _TMOD,#0x0F
-0021            554   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:103: TMOD |=  0x20;
-0021 438920     555            orl     _TMOD,#0x20
-0024            556   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:104: TR1 = 1; // START Timer1
-0024 D28E       557            setb    _TR1
-0026            558   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:105: TI = 1;  // Indicate TX0 ready
-0026 D299       559            setb    _TI
-0028            560   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:108: P2MDOUT|=0b_0000_0011;
-0028 43A603     561            orl     _P2MDOUT,#0x03
-002B            562   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:109: P0MDOUT |= 0x10; // Enable UTX as push-pull output
-002B 43A410     563            orl     _P0MDOUT,#0x10
-002E            564   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:110: XBR0     = 0x01; // Enable UART on P0.4(TX) and P0.5(RX)
-002E 75E101     565            mov     _XBR0,#0x01
-0031            566   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:111: XBR1     = 0x40; // Enable crossbar and weak pull-ups
-0031 75E240     567            mov     _XBR1,#0x40
-0034            568   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:113: return 0;
-0034 758200     569            mov     dpl,#0x00
-0037 22         570            ret
-0038            571   ;------------------------------------------------------------
-0038            572   ;Allocation info for local variables in function 'Timer3us'
-0038            573   ;------------------------------------------------------------
-0038            574   ;us                        Allocated to registers r2 
-0038            575   ;i                         Allocated to registers r3 
-0038            576   ;------------------------------------------------------------
-0038            577   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:120: void Timer3us(unsigned char us)
-0038            578   ;        -----------------------------------------
-0038            579   ;         function Timer3us
-0038            580   ;        -----------------------------------------
-0038            581   _Timer3us:
-0038 AA82       582            mov     r2,dpl
-003A            583   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:125: CKCON|=0b_0100_0000;
-003A 438E40     584            orl     _CKCON,#0x40
-003D            585   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:127: TMR3RL = (-(SYSCLK)/1000000L); // Set Timer3 to overflow in 1us.
-003D 7592D0     586            mov     _TMR3RL,#0xD0
-0040 7593FF     587            mov     (_TMR3RL >> 8),#0xFF
-0043            588   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:128: TMR3 = TMR3RL;                 // Initialize Timer3 for first overflow
-0043 859294     589            mov     _TMR3,_TMR3RL
-0046 859395     590            mov     (_TMR3 >> 8),(_TMR3RL >> 8)
-0049            591   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:130: TMR3CN = 0x04;                 // Sart Timer3 and clear overflow flag
-0049 759104     592            mov     _TMR3CN,#0x04
-004C            593   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:131: for (i = 0; i < us; i++)       // Count <us> overflows
-004C 7B00       594            mov     r3,#0x00
-004E            595   L003004?:
-004E C3         596            clr     c
-004F EB         597            mov     a,r3
-0050 9A         598            subb    a,r2
-0051 5001       599            jnc     L003007?
-0053            600   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:133: while (!(TMR3CN & 0x80));  // Wait for overflow
-0053            601   L003001?:
-0053 E591       602            mov     a,_TMR3CN
-0055 30E7E0     603            jnb     acc.7,L003001?
-0058            604   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:134: TMR3CN &= ~(0x80);         // Clear overflow indicator
-0058 53917F     605            anl     _TMR3CN,#0x7F
-005B            606   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:131: for (i = 0; i < us; i++)       // Count <us> overflows
-005B 0B         607            inc     r3
-005C 8001       608            sjmp    L003004?
-005E            609   L003007?:
-005E            610   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:136: TMR3CN = 0 ;                   // Stop Timer3 and clear overflow flag
-005E 759100     611            mov     _TMR3CN,#0x00
-0061 22         612            ret
-0062            613   ;------------------------------------------------------------
-0062            614   ;Allocation info for local variables in function 'waitms'
-0062            615   ;------------------------------------------------------------
-0062            616   ;ms                        Allocated to registers r2 r3 
-0062            617   ;j                         Allocated to registers r2 r3 
-0062            618   ;------------------------------------------------------------
-0062            619   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:143: void waitms (unsigned int ms)
-0062            620   ;        -----------------------------------------
-0062            621   ;         function waitms
-0062            622   ;        -----------------------------------------
-0062            623   _waitms:
-0062 AA82       624            mov     r2,dpl
-0064 AB83       625            mov     r3,dph
-0066            626   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:146: for(j=ms; j!=0; j--)
-0066            627   L004001?:
-0066 BA00E0     628            cjne    r2,#0x00,L004010?
-0069 BB00E0     629            cjne    r3,#0x00,L004010?
-006C 22         630            ret
-006D            631   L004010?:
-006D            632   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:148: Timer3us(249);
-006D 7582F9     633            mov     dpl,#0xF9
-0070 C002       634            push    ar2
-0072 C003       635            push    ar3
-0074 120100     636            lcall   _Timer3us
-0077            637   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:149: Timer3us(249);
-0077 7582F9     638            mov     dpl,#0xF9
-007A 120100     639            lcall   _Timer3us
-007D            640   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:150: Timer3us(249);
-007D 7582F9     641            mov     dpl,#0xF9
-0080 120100     642            lcall   _Timer3us
-0083            643   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:151: Timer3us(250);
-0083 7582FA     644            mov     dpl,#0xFA
-0086 120100     645            lcall   _Timer3us
-0089 D003       646            pop     ar3
-008B D002       647            pop     ar2
-008D            648   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:146: for(j=ms; j!=0; j--)
-008D 1A         649            dec     r2
-008E BAFF20     650            cjne    r2,#0xff,L004011?
-0091 1B         651            dec     r3
-0092            652   L004011?:
-0092 8001       653            sjmp    L004001?
-0094            654   ;------------------------------------------------------------
-0094            655   ;Allocation info for local variables in function 'TIMER0_Init'
-0094            656   ;------------------------------------------------------------
-0094            657   ;------------------------------------------------------------
-0094            658   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:157: void TIMER0_Init(void)
-0094            659   ;        -----------------------------------------
-0094            660   ;         function TIMER0_Init
-0094            661   ;        -----------------------------------------
-0094            662   _TIMER0_Init:
-0094            663   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:159: TMOD&=0b_1111_0000; // Set the bits of Timer/Counter 0 to zero
-0094 5389F0     664            anl     _TMOD,#0xF0
-0097            665   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:160: TMOD|=0b_0000_0001; // Timer/Counter 0 used as a 16-bit timer
-0097 438901     666            orl     _TMOD,#0x01
-009A            667   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:161: TR0=0; // Stop Timer/Counter 0
-009A C28C       668            clr     _TR0
-009C 22         669            ret
-009D            670   ;------------------------------------------------------------
-009D            671   ;Allocation info for local variables in function 'TIMER2_Init'
-009D            672   ;------------------------------------------------------------
-009D            673   ;------------------------------------------------------------
-009D            674   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:167: void TIMER2_Init(void)
-009D            675   ;        -----------------------------------------
-009D            676   ;         function TIMER2_Init
-009D            677   ;        -----------------------------------------
-009D            678   _TIMER2_Init:
-009D            679   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:169: TMR2CN=0x00;   // Stop Timer2; Clear TF2;
-009D 75C800     680            mov     _TMR2CN,#0x00
-00A0            681   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:170: CKCON|=0b_0001_0000;
-00A0 438E10     682            orl     _CKCON,#0x10
-00A3            683   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:171: TMR2RL=(-(SYSCLK/(2*48))/(100L)); // Initialize reload value
-00A3 75CA78     684            mov     _TMR2RL,#0x78
-00A6 75CBEC     685            mov     (_TMR2RL >> 8),#0xEC
-00A9            686   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:172: TMR2=0xffff;   // Set to reload immediately
-00A9 75CCFF     687            mov     _TMR2,#0xFF
-00AC 75CDFF     688            mov     (_TMR2 >> 8),#0xFF
-00AF            689   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:173: ET2=1;         // Enable Timer2 interrupts
-00AF D2AD       690            setb    _ET2
-00B1            691   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:174: TR2=1;         // Start Timer2
-00B1 D2CA       692            setb    _TR2
-00B3 22         693            ret
-00B4            694   ;------------------------------------------------------------
-00B4            695   ;Allocation info for local variables in function 'InitADC'
-00B4            696   ;------------------------------------------------------------
-00B4            697   ;------------------------------------------------------------
-00B4            698   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:180: void InitADC (void)
-00B4            699   ;        -----------------------------------------
-00B4            700   ;         function InitADC
-00B4            701   ;        -----------------------------------------
-00B4            702   _InitADC:
-00B4            703   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:183: ADC0CF = 0xF8; // SAR clock = 31, Right-justified result
-00B4 75BCF8     704            mov     _ADC0CF,#0xF8
-00B7            705   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:184: ADC0CN = 0b_1000_0000; // AD0EN=1, AD0TM=0
-00B7 75E880     706            mov     _ADC0CN,#0x80
-00BA            707   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:185: REF0CN = 0b_0000_1000; //Select VDD as the voltage reference for the converter
-00BA 75D108     708            mov     _REF0CN,#0x08
-00BD 22         709            ret
-00BE            710   ;------------------------------------------------------------
-00BE            711   ;Allocation info for local variables in function 'InitPinADC'
-00BE            712   ;------------------------------------------------------------
-00BE            713   ;pinno                     Allocated with name '_InitPinADC_PARM_2'
-00BE            714   ;portno                    Allocated to registers r2 
-00BE            715   ;mask                      Allocated to registers r3 
-00BE            716   ;------------------------------------------------------------
-00BE            717   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:192: void InitPinADC (unsigned char portno, unsigned char pinno)
-00BE            718   ;        -----------------------------------------
-00BE            719   ;         function InitPinADC
-00BE            720   ;        -----------------------------------------
-00BE            721   _InitPinADC:
-00BE AA82       722            mov     r2,dpl
-00C0            723   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:196: mask=1<<pinno;
-00C0 8550F0     724            mov     b,_InitPinADC_PARM_2
-00C3 05F0       725            inc     b
-00C5 7401       726            mov     a,#0x01
-00C7 8001       727            sjmp    L008012?
-00C9            728   L008010?:
-00C9 25E0       729            add     a,acc
-00CB            730   L008012?:
-00CB D5F0E0     731            djnz    b,L008010?
-00CE FB         732            mov     r3,a
-00CF            733   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:198: switch (portno)
-00CF EA         734            mov     a,r2
-00D0 24FC       735            add     a,#0xff - 0x03
-00D2 4001       736            jc      L008007?
-00D4 EA         737            mov     a,r2
-00D5 2A         738            add     a,r2
-00D6 2A         739            add     a,r2
-00D7 909D60     740            mov     dptr,#L008014?
-00DA 73         741            jmp     @a+dptr
-00DB            742   L008014?:
-00DB 020100     743            ljmp    L008001?
-00DE 020100     744            ljmp    L008002?
-00E1 020100     745            ljmp    L008003?
-00E4 020100     746            ljmp    L008004?
-00E7            747   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:200: case 0:
-00E7            748   L008001?:
-00E7            749   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:201: P0MDIN &= (~mask); // Set pin as analog input
-00E7 EB         750            mov     a,r3
-00E8 F4         751            cpl     a
-00E9 52F1       752            anl     _P0MDIN,a
-00EB            753   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:202: P0SKIP |= mask; // Skip Crossbar decoding for this pin
-00EB EB         754            mov     a,r3
-00EC 42D4       755            orl     _P0SKIP,a
-00EE            756   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:203: break;
-00EE            757   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:204: case 1:
-00EE 22         758            ret
-00EF            759   L008002?:
-00EF            760   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:205: P1MDIN &= (~mask); // Set pin as analog input
-00EF EB         761            mov     a,r3
-00F0 F4         762            cpl     a
-00F1 52F2       763            anl     _P1MDIN,a
-00F3            764   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:206: P1SKIP |= mask; // Skip Crossbar decoding for this pin
-00F3 EB         765            mov     a,r3
-00F4 42D5       766            orl     _P1SKIP,a
-00F6            767   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:207: break;
-00F6            768   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:208: case 2:
-00F6 22         769            ret
-00F7            770   L008003?:
-00F7            771   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:209: P2MDIN &= (~mask); // Set pin as analog input
-00F7 EB         772            mov     a,r3
-00F8 F4         773            cpl     a
-00F9 52F3       774            anl     _P2MDIN,a
-00FB            775   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:210: P2SKIP |= mask; // Skip Crossbar decoding for this pin
-00FB EB         776            mov     a,r3
-00FC 42D6       777            orl     _P2SKIP,a
-00FE            778   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:211: break;
-00FE            779   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:212: case 3:
-00FE 22         780            ret
-00FF            781   L008004?:
-00FF            782   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:213: P3MDIN &= (~mask); // Set pin as analog input
-00FF EB         783            mov     a,r3
-0100 F4         784            cpl     a
-0101 FA         785            mov     r2,a
-0102 52F4       786            anl     _P3MDIN,a
-0104            787   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:214: P3SKIP |= mask; // Skip Crossbar decoding for this pin
-0104 EB         788            mov     a,r3
-0105 42DF       789            orl     _P3SKIP,a
-0107            790   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:218: }
-0107            791   L008007?:
-0107 22         792            ret
-0108            793   ;------------------------------------------------------------
-0108            794   ;Allocation info for local variables in function 'ADC_at_Pin'
-0108            795   ;------------------------------------------------------------
-0108            796   ;pin                       Allocated to registers 
-0108            797   ;------------------------------------------------------------
-0108            798   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:225: unsigned int ADC_at_Pin(unsigned char pin)
-0108            799   ;        -----------------------------------------
-0108            800   ;         function ADC_at_Pin
-0108            801   ;        -----------------------------------------
-0108            802   _ADC_at_Pin:
-0108 8582BB     803            mov     _AMX0P,dpl
-010B            804   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:228: AMX0N = LQFP32_MUX_GND;  // GND is negative input (Single-ended Mode)
-010B 75BA1F     805            mov     _AMX0N,#0x1F
-010E            806   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:230: AD0BUSY=1;
-010E D2EC       807            setb    _AD0BUSY
-0110            808   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:231: while (AD0BUSY); // Wait for dummy conversion to finish
-0110            809   L009001?:
-0110 20ECA0     810            jb      _AD0BUSY,L009001?
-0113            811   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:233: AD0BUSY = 1;
-0113 D2EC       812            setb    _AD0BUSY
-0115            813   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:234: while (AD0BUSY); // Wait for conversion to complete
-0115            814   L009004?:
-0115 20ECE0     815            jb      _AD0BUSY,L009004?
-0118            816   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:235: return (ADC0L+(ADC0H*0x100));
-0118 AABD       817            mov     r2,_ADC0L
-011A 7B00       818            mov     r3,#0x00
-011C ADBE       819            mov     r5,_ADC0H
-011E 7C00       820            mov     r4,#0x00
-0120 EC         821            mov     a,r4
-0121 2A         822            add     a,r2
-0122 F582       823            mov     dpl,a
-0124 ED         824            mov     a,r5
-0125 3B         825            addc    a,r3
-0126 F583       826            mov     dph,a
-0128 22         827            ret
-0129            828   ;------------------------------------------------------------
-0129            829   ;Allocation info for local variables in function 'Volts_at_Pin'
-0129            830   ;------------------------------------------------------------
-0129            831   ;pin                       Allocated to registers r2 
-0129            832   ;------------------------------------------------------------
-0129            833   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:242: float Volts_at_Pin(unsigned char pin)
-0129            834   ;        -----------------------------------------
-0129            835   ;         function Volts_at_Pin
-0129            836   ;        -----------------------------------------
-0129            837   _Volts_at_Pin:
-0129            838   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:244: return ((ADC_at_Pin(pin)*VDD_onboard)/1024.0);
-0129 120100     839            lcall   _ADC_at_Pin
-012C 120100     840            lcall   ___uint2fs
-012F AA82       841            mov     r2,dpl
-0131 AB83       842            mov     r3,dph
-0133 ACF0       843            mov     r4,b
-0135 FD         844            mov     r5,a
-0136 C002       845            push    ar2
-0138 C003       846            push    ar3
-013A C004       847            push    ar4
-013C C005       848            push    ar5
-013E 9020C5     849            mov     dptr,#0x20C5
-0141 75F058     850            mov     b,#0x58
-0144 7440       851            mov     a,#0x40
-0146 120100     852            lcall   ___fsmul
-0149 AA82       853            mov     r2,dpl
-014B AB83       854            mov     r3,dph
-014D ACF0       855            mov     r4,b
-014F FD         856            mov     r5,a
-0150 E581       857            mov     a,sp
-0152 24FC       858            add     a,#0xfc
-0154 F581       859            mov     sp,a
-0156 E4         860            clr     a
-0157 C0E0       861            push    acc
-0159 C0E0       862            push    acc
-015B 7480       863            mov     a,#0x80
-015D C0E0       864            push    acc
-015F 7444       865            mov     a,#0x44
-0161 C0E0       866            push    acc
-0163 8A82       867            mov     dpl,r2
-0165 8B83       868            mov     dph,r3
-0167 8CF0       869            mov     b,r4
-0169 ED         870            mov     a,r5
-016A 120100     871            lcall   ___fsdiv
-016D AA82       872            mov     r2,dpl
-016F AB83       873            mov     r3,dph
-0171 ACF0       874            mov     r4,b
-0173 FD         875            mov     r5,a
-0174 E581       876            mov     a,sp
-0176 24FC       877            add     a,#0xfc
-0178 F581       878            mov     sp,a
-017A 8A82       879            mov     dpl,r2
-017C 8B83       880            mov     dph,r3
-017E 8CF0       881            mov     b,r4
-0180 ED         882            mov     a,r5
-0181 22         883            ret
-0182            884   ;------------------------------------------------------------
-0182            885   ;Allocation info for local variables in function 'Timer2_ISR'
-0182            886   ;------------------------------------------------------------
-0182            887   ;------------------------------------------------------------
-0182            888   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:251: void Timer2_ISR (void) interrupt 5
-0182            889   ;        -----------------------------------------
-0182            890   ;         function Timer2_ISR
-0182            891   ;        -----------------------------------------
-0182            892   _Timer2_ISR:
-0182 C0E0       893            push    acc
-0184 C0D0       894            push    psw
-0186 75D000     895            mov     psw,#0x00
-0189            896   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:253: TF2H = 0; // Clear Timer2 interrupt flag
-0189 C2CF       897            clr     _TF2H
-018B            898   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:255: pwm_count++;
-018B 05D0       899            inc     _pwm_count
-018D            900   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:256: if(pwm_count>100) pwm_count=0;
-018D E5D0       901            mov     a,_pwm_count
-018F 249B       902            add     a,#0xff - 0x64
-0191 5001       903            jnc     L011002?
-0193 75D000     904            mov     _pwm_count,#0x00
-0196            905   L011002?:
-0196            906   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:258: BLU0=pwm_count>pwm_BLU0?0:1;
-0196 C3         907            clr     c
-0197 E570       908            mov     a,_pwm_BLU0
-0199 95D0       909            subb    a,_pwm_count
-019B 92A0       910            mov  _Timer2_ISR_sloc0_1_0,c
-019D B3         911            cpl     c
-019E 92A2       912            mov     _P2_2,c
-01A0            913   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:259: BLU1=pwm_count>pwm_BLU1?0:1;
-01A0 C3         914            clr     c
-01A1 E530       915            mov     a,_pwm_BLU1
-01A3 95D0       916            subb    a,_pwm_count
-01A5 92A0       917            mov  _Timer2_ISR_sloc0_1_0,c
-01A7 B3         918            cpl     c
-01A8 92A5       919            mov     _P2_5,c
-01AA            920   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:261: RED0=pwm_count>pwm_RED0?0:1;
-01AA C3         921            clr     c
-01AB E5F0       922            mov     a,_pwm_RED0
-01AD 95D0       923            subb    a,_pwm_count
-01AF 92A0       924            mov  _Timer2_ISR_sloc0_1_0,c
-01B1 B3         925            cpl     c
-01B2 92A4       926            mov     _P2_4,c
-01B4            927   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:262: RED1=pwm_count>pwm_RED1?0:1;
-01B4 C3         928            clr     c
-01B5 E5B0       929            mov     a,_pwm_RED1
-01B7 95D0       930            subb    a,_pwm_count
-01B9 92A0       931            mov  _Timer2_ISR_sloc0_1_0,c
-01BB B3         932            cpl     c
-01BC 92A3       933            mov     _P2_3,c
-01BE D0D0       934            pop     psw
-01C0 D0E0       935            pop     acc
-01C2 32         936            reti
-01C3            937   ;        eliminated unneeded push/pop dpl
-01C3            938   ;        eliminated unneeded push/pop dph
-01C3            939   ;        eliminated unneeded push/pop b
-01C3            940   ;------------------------------------------------------------
-01C3            941   ;Allocation info for local variables in function 'ReadFrequency'
-01C3            942   ;------------------------------------------------------------
-01C3            943   ;------------------------------------------------------------
-01C3            944   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:269: void ReadFrequency (void)
-01C3            945   ;        -----------------------------------------
-01C3            946   ;         function ReadFrequency
-01C3            947   ;        -----------------------------------------
-01C3            948   _ReadFrequency:
-01C3            949   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:273: TL0=0;
-01C3 758A00     950            mov     _TL0,#0x00
-01C6            951   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:274: TH0=0;
-01C6 758C00     952            mov     _TH0,#0x00
-01C9            953   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:275: TF0=0;
-01C9 C28D       954            clr     _TF0
-01CB            955   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:276: overflow_count=0;
-01CB 753000     956            mov     _overflow_count,#0x00
-01CE            957   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:278: while(FRQIN!=0); // Wait for the signal to be zero
-01CE            958   L012001?:
-01CE 2096A8     959            jb      _P1_6,L012001?
-01D1            960   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:279: while(FRQIN!=1); // Wait for the signal to be one
-01D1            961   L012004?:
-01D1 3096E8     962            jnb     _P1_6,L012004?
-01D4            963   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:280: TR0=1; // Start the timer
-01D4 D28C       964            setb    _TR0
-01D6            965   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:281: while(FRQIN!=0) // Wait for the signal to be zero
-01D6            966   L012009?:
-01D6 309668     967            jnb     _P1_6,L012014?
-01D9            968   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:283: if(TF0==1) // Did the 16-bit timer overflow?
-01D9            969   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:285: TF0=0;
-01D9 108DA8     970            jbc     _TF0,L012031?
-01DC 8001       971            sjmp    L012009?
-01DE            972   L012031?:
-01DE            973   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:286: overflow_count++;
-01DE 0530       974            inc     _overflow_count
-01E0            975   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:289: while(FRQIN!=1) // Wait for the signal to be one
-01E0 8001       976            sjmp    L012009?
-01E2            977   L012014?:
-01E2 2096E8     978            jb      _P1_6,L012016?
-01E5            979   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:291: if(TF0==1) // Did the 16-bit timer overflow?
-01E5            980   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:293: TF0=0;
-01E5 108D28     981            jbc     _TF0,L012033?
-01E8 8001       982            sjmp    L012014?
-01EA            983   L012033?:
-01EA            984   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:294: overflow_count++;
-01EA 0530       985            inc     _overflow_count
-01EC 8001       986            sjmp    L012014?
-01EE            987   L012016?:
-01EE            988   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:298: TR0=0; // Stop timer 0, the 24-bit number [overflow_count-TH0-TL0] has the period. Then convert it to frequency
-01EE C28C       989            clr     _TR0
-01F0            990   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:300: frequency=1.0/((overflow_count*65536.0+TH0*256.0+TL0)*(12.0/SYSCLK)); // Compute frequency
-01F0 853082     991            mov     dpl,_overflow_count
-01F3 120100     992            lcall   ___uchar2fs
-01F6 AA82       993            mov     r2,dpl
-01F8 AB83       994            mov     r3,dph
-01FA ACF0       995            mov     r4,b
-01FC FD         996            mov     r5,a
-01FD C002       997            push    ar2
-01FF C003       998            push    ar3
-0201 C004       999            push    ar4
-0203 C005      1000            push    ar5
-0205 900000    1001            mov     dptr,#0x0000
-0208 75F080    1002            mov     b,#0x80
-020B 7447      1003            mov     a,#0x47
-020D 120100    1004            lcall   ___fsmul
-0210 AA82      1005            mov     r2,dpl
-0212 AB83      1006            mov     r3,dph
-0214 ACF0      1007            mov     r4,b
-0216 FD        1008            mov     r5,a
-0217 E581      1009            mov     a,sp
-0219 24FC      1010            add     a,#0xfc
-021B F581      1011            mov     sp,a
-021D 858C82    1012            mov     dpl,_TH0
-0220 C002      1013            push    ar2
-0222 C003      1014            push    ar3
-0224 C004      1015            push    ar4
-0226 C005      1016            push    ar5
-0228 120100    1017            lcall   ___uchar2fs
-022B AE82      1018            mov     r6,dpl
-022D AF83      1019            mov     r7,dph
-022F A8F0      1020            mov     r0,b
-0231 F9        1021            mov     r1,a
-0232 C006      1022            push    ar6
-0234 C007      1023            push    ar7
-0236 C000      1024            push    ar0
-0238 C001      1025            push    ar1
-023A 900000    1026            mov     dptr,#0x0000
-023D 75F080    1027            mov     b,#0x80
-0240 7443      1028            mov     a,#0x43
-0242 120100    1029            lcall   ___fsmul
-0245 AE82      1030            mov     r6,dpl
-0247 AF83      1031            mov     r7,dph
-0249 A8F0      1032            mov     r0,b
-024B F9        1033            mov     r1,a
-024C E581      1034            mov     a,sp
-024E 24FC      1035            add     a,#0xfc
-0250 F581      1036            mov     sp,a
-0252 D005      1037            pop     ar5
-0254 D004      1038            pop     ar4
-0256 D003      1039            pop     ar3
-0258 D002      1040            pop     ar2
-025A C006      1041            push    ar6
-025C C007      1042            push    ar7
-025E C000      1043            push    ar0
-0260 C001      1044            push    ar1
-0262 8A82      1045            mov     dpl,r2
-0264 8B83      1046            mov     dph,r3
-0266 8CF0      1047            mov     b,r4
-0268 ED        1048            mov     a,r5
-0269 120100    1049            lcall   ___fsadd
-026C AA82      1050            mov     r2,dpl
-026E AB83      1051            mov     r3,dph
-0270 ACF0      1052            mov     r4,b
-0272 FD        1053            mov     r5,a
-0273 E581      1054            mov     a,sp
-0275 24FC      1055            add     a,#0xfc
-0277 F581      1056            mov     sp,a
-0279 AE8A      1057            mov     r6,_TL0
-027B 7F00      1058            mov     r7,#0x00
-027D 8E82      1059            mov     dpl,r6
-027F 8F83      1060            mov     dph,r7
-0281 C002      1061            push    ar2
-0283 C003      1062            push    ar3
-0285 C004      1063            push    ar4
-0287 C005      1064            push    ar5
-0289 120100    1065            lcall   ___sint2fs
-028C AE82      1066            mov     r6,dpl
-028E AF83      1067            mov     r7,dph
-0290 A8F0      1068            mov     r0,b
-0292 F9        1069            mov     r1,a
-0293 D005      1070            pop     ar5
-0295 D004      1071            pop     ar4
-0297 D003      1072            pop     ar3
-0299 D002      1073            pop     ar2
-029B C006      1074            push    ar6
-029D C007      1075            push    ar7
-029F C000      1076            push    ar0
-02A1 C001      1077            push    ar1
-02A3 8A82      1078            mov     dpl,r2
-02A5 8B83      1079            mov     dph,r3
-02A7 8CF0      1080            mov     b,r4
-02A9 ED        1081            mov     a,r5
-02AA 120100    1082            lcall   ___fsadd
-02AD AA82      1083            mov     r2,dpl
-02AF AB83      1084            mov     r3,dph
-02B1 ACF0      1085            mov     r4,b
-02B3 FD        1086            mov     r5,a
-02B4 E581      1087            mov     a,sp
-02B6 24FC      1088            add     a,#0xfc
-02B8 F581      1089            mov     sp,a
-02BA C002      1090            push    ar2
-02BC C003      1091            push    ar3
-02BE C004      1092            push    ar4
-02C0 C005      1093            push    ar5
-02C2 9037BD    1094            mov     dptr,#0x37BD
-02C5 75F086    1095            mov     b,#0x86
-02C8 7434      1096            mov     a,#0x34
-02CA 120100    1097            lcall   ___fsmul
-02CD AA82      1098            mov     r2,dpl
-02CF AB83      1099            mov     r3,dph
-02D1 ACF0      1100            mov     r4,b
-02D3 FD        1101            mov     r5,a
-02D4 E581      1102            mov     a,sp
-02D6 24FC      1103            add     a,#0xfc
-02D8 F581      1104            mov     sp,a
-02DA C002      1105            push    ar2
-02DC C003      1106            push    ar3
-02DE C004      1107            push    ar4
-02E0 C005      1108            push    ar5
-02E2 900000    1109            mov     dptr,#0x0000
-02E5 75F080    1110            mov     b,#0x80
-02E8 743F      1111            mov     a,#0x3F
-02EA 120100    1112            lcall   ___fsdiv
-02ED 8582B0    1113            mov     _frequency,dpl
-02F0 8583B1    1114            mov     (_frequency + 1),dph
-02F3 85F0B2    1115            mov     (_frequency + 2),b
-02F6 F5B3      1116            mov     (_frequency + 3),a
-02F8 E581      1117            mov     a,sp
-02FA 24FC      1118            add     a,#0xfc
-02FC F581      1119            mov     sp,a
-02FE 22        1120            ret
-02FF           1121   ;------------------------------------------------------------
-02FF           1122   ;Allocation info for local variables in function 'DetermineMode'
-02FF           1123   ;------------------------------------------------------------
-02FF           1124   ;------------------------------------------------------------
-02FF           1125   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:306: void DetermineMode (void) {
-02FF           1126   ;        -----------------------------------------
-02FF           1127   ;         function DetermineMode
-02FF           1128   ;        -----------------------------------------
-02FF           1129   _DetermineMode:
-02FF           1130   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:307: ReadFrequency();
-02FF 020100    1131            ljmp    _ReadFrequency
-0302           1132   ;------------------------------------------------------------
-0302           1133   ;Allocation info for local variables in function 'ReadInductorStatus'
-0302           1134   ;------------------------------------------------------------
-0302           1135   ;------------------------------------------------------------
-0302           1136   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:318: void ReadInductorStatus (void)
-0302           1137   ;        -----------------------------------------
-0302           1138   ;         function ReadInductorStatus
-0302           1139   ;        -----------------------------------------
-0302           1140   _ReadInductorStatus:
-0302           1141   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:320: BluIndVolt = Volts_at_Pin(LQFP32_MUX_P2_7);
-0302 75820F    1142            mov     dpl,#0x0F
-0305 120100    1143            lcall   _Volts_at_Pin
-0308 858270    1144            mov     _BluIndVolt,dpl
-030B 858371    1145            mov     (_BluIndVolt + 1),dph
-030E 85F072    1146            mov     (_BluIndVolt + 2),b
-0311 F573      1147            mov     (_BluIndVolt + 3),a
-0313           1148   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:321: RedIndVolt = Volts_at_Pin(LQFP32_MUX_P1_7);
-0313 758207    1149            mov     dpl,#0x07
-0316 120100    1150            lcall   _Volts_at_Pin
-0319 858230    1151            mov     _RedIndVolt,dpl
-031C 858331    1152            mov     (_RedIndVolt + 1),dph
-031F 85F032    1153            mov     (_RedIndVolt + 2),b
-0322 F533      1154            mov     (_RedIndVolt + 3),a
-0324           1155   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:322: FrtIndVolt = Volts_at_Pin(LQFP32_MUX_P2_0);
-0324 758208    1156            mov     dpl,#0x08
-0327 120100    1157            lcall   _Volts_at_Pin
-032A 8582F0    1158            mov     _FrtIndVolt,dpl
-032D 8583F1    1159            mov     (_FrtIndVolt + 1),dph
-0330 85F0F2    1160            mov     (_FrtIndVolt + 2),b
-0333 F5F3      1161            mov     (_FrtIndVolt + 3),a
-0335 22        1162            ret
-0336           1163   ;------------------------------------------------------------
-0336           1164   ;Allocation info for local variables in function 'MotorControl'
-0336           1165   ;------------------------------------------------------------
-0336           1166   ;------------------------------------------------------------
-0336           1167   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:329: void MotorControl (void)
-0336           1168   ;        -----------------------------------------
-0336           1169   ;         function MotorControl
-0336           1170   ;        -----------------------------------------
-0336           1171   _MotorControl:
-0336           1172   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:332: switch (mode){
-0336 E4        1173            clr     a
-0337 B5B028    1174            cjne    a,_mode,L015017?
-033A 020100    1175            ljmp    L015008?
-033D           1176   L015017?:
-033D 7403      1177            mov     a,#0x03
-033F B5B0A8    1178            cjne    a,_mode,L015018?
-0342 8001      1179            sjmp    L015019?
-0344           1180   L015018?:
-0344 22        1181            ret
-0345           1182   L015019?:
-0345           1183   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:334: if(BluIndVolt/1.8 > 1.1*RedIndVolt/1.8){
-0345 7466      1184            mov     a,#0x66
-0347 C0E0      1185            push    acc
-0349 C0E0      1186            push    acc
-034B 74E6      1187            mov     a,#0xE6
-034D C0E0      1188            push    acc
-034F 743F      1189            mov     a,#0x3F
-0351 C0E0      1190            push    acc
-0353 857082    1191            mov     dpl,_BluIndVolt
-0356 857183    1192            mov     dph,(_BluIndVolt + 1)
-0359 8572F0    1193            mov     b,(_BluIndVolt + 2)
-035C E573      1194            mov     a,(_BluIndVolt + 3)
-035E 120100    1195            lcall   ___fsdiv
-0361 AA82      1196            mov     r2,dpl
-0363 AB83      1197            mov     r3,dph
-0365 ACF0      1198            mov     r4,b
-0367 FD        1199            mov     r5,a
-0368 E581      1200            mov     a,sp
-036A 24FC      1201            add     a,#0xfc
-036C F581      1202            mov     sp,a
-036E C002      1203            push    ar2
-0370 C003      1204            push    ar3
-0372 C004      1205            push    ar4
-0374 C005      1206            push    ar5
-0376 C030      1207            push    _RedIndVolt
-0378 C031      1208            push    (_RedIndVolt + 1)
-037A C032      1209            push    (_RedIndVolt + 2)
-037C C033      1210            push    (_RedIndVolt + 3)
-037E 90CCCD    1211            mov     dptr,#0xCCCD
-0381 75F08C    1212            mov     b,#0x8C
-0384 743F      1213            mov     a,#0x3F
-0386 120100    1214            lcall   ___fsmul
-0389 AE82      1215            mov     r6,dpl
-038B AF83      1216            mov     r7,dph
-038D A8F0      1217            mov     r0,b
-038F F9        1218            mov     r1,a
-0390 E581      1219            mov     a,sp
-0392 24FC      1220            add     a,#0xfc
-0394 F581      1221            mov     sp,a
-0396 7466      1222            mov     a,#0x66
-0398 C0E0      1223            push    acc
-039A C0E0      1224            push    acc
-039C 74E6      1225            mov     a,#0xE6
-039E C0E0      1226            push    acc
-03A0 743F      1227            mov     a,#0x3F
-03A2 C0E0      1228            push    acc
-03A4 8E82      1229            mov     dpl,r6
-03A6 8F83      1230            mov     dph,r7
-03A8 88F0      1231            mov     b,r0
-03AA E9        1232            mov     a,r1
-03AB 120100    1233            lcall   ___fsdiv
-03AE AE82      1234            mov     r6,dpl
-03B0 AF83      1235            mov     r7,dph
-03B2 A8F0      1236            mov     r0,b
-03B4 F9        1237            mov     r1,a
-03B5 E581      1238            mov     a,sp
-03B7 24FC      1239            add     a,#0xfc
-03B9 F581      1240            mov     sp,a
-03BB D005      1241            pop     ar5
-03BD D004      1242            pop     ar4
-03BF D003      1243            pop     ar3
-03C1 D002      1244            pop     ar2
-03C3 C006      1245            push    ar6
-03C5 C007      1246            push    ar7
-03C7 C000      1247            push    ar0
-03C9 C001      1248            push    ar1
-03CB 8A82      1249            mov     dpl,r2
-03CD 8B83      1250            mov     dph,r3
-03CF 8CF0      1251            mov     b,r4
-03D1 ED        1252            mov     a,r5
-03D2 120100    1253            lcall   ___fsgt
-03D5 AA82      1254            mov     r2,dpl
-03D7 E581      1255            mov     a,sp
-03D9 24FC      1256            add     a,#0xfc
-03DB F581      1257            mov     sp,a
-03DD EA        1258            mov     a,r2
-03DE 6001      1259            jz      L015006?
-03E0           1260   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:335: pwm_BLU1= power;
-03E0 859030    1261            mov     _pwm_BLU1,_power
-03E3           1262   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:336: pwm_BLU0 = 0;
-03E3 757000    1263            mov     _pwm_BLU0,#0x00
-03E6           1264   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:337: pwm_RED1 = 0;
-03E6 75B000    1265            mov     _pwm_RED1,#0x00
-03E9           1266   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:338: pwm_RED0 = 0;   
-03E9 75F000    1267            mov     _pwm_RED0,#0x00
-03EC 22        1268            ret
-03ED           1269   L015006?:
-03ED           1270   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:341: else if(RedIndVolt/1.8 > 1.1*BluIndVolt/1.8){
-03ED 7466      1271            mov     a,#0x66
-03EF C0E0      1272            push    acc
-03F1 C0E0      1273            push    acc
-03F3 74E6      1274            mov     a,#0xE6
-03F5 C0E0      1275            push    acc
-03F7 743F      1276            mov     a,#0x3F
-03F9 C0E0      1277            push    acc
-03FB 853082    1278            mov     dpl,_RedIndVolt
-03FE 853183    1279            mov     dph,(_RedIndVolt + 1)
-0401 8532F0    1280            mov     b,(_RedIndVolt + 2)
-0404 E533      1281            mov     a,(_RedIndVolt + 3)
-0406 120100    1282            lcall   ___fsdiv
-0409 AA82      1283            mov     r2,dpl
-040B AB83      1284            mov     r3,dph
-040D ACF0      1285            mov     r4,b
-040F FD        1286            mov     r5,a
-0410 E581      1287            mov     a,sp
-0412 24FC      1288            add     a,#0xfc
-0414 F581      1289            mov     sp,a
-0416 C002      1290            push    ar2
-0418 C003      1291            push    ar3
-041A C004      1292            push    ar4
-041C C005      1293            push    ar5
-041E C070      1294            push    _BluIndVolt
-0420 C071      1295            push    (_BluIndVolt + 1)
-0422 C072      1296            push    (_BluIndVolt + 2)
-0424 C073      1297            push    (_BluIndVolt + 3)
-0426 90CCCD    1298            mov     dptr,#0xCCCD
-0429 75F08C    1299            mov     b,#0x8C
-042C 743F      1300            mov     a,#0x3F
-042E 120100    1301            lcall   ___fsmul
-0431 AE82      1302            mov     r6,dpl
-0433 AF83      1303            mov     r7,dph
-0435 A8F0      1304            mov     r0,b
-0437 F9        1305            mov     r1,a
-0438 E581      1306            mov     a,sp
-043A 24FC      1307            add     a,#0xfc
-043C F581      1308            mov     sp,a
-043E 7466      1309            mov     a,#0x66
-0440 C0E0      1310            push    acc
-0442 C0E0      1311            push    acc
-0444 74E6      1312            mov     a,#0xE6
-0446 C0E0      1313            push    acc
-0448 743F      1314            mov     a,#0x3F
-044A C0E0      1315            push    acc
-044C 8E82      1316            mov     dpl,r6
-044E 8F83      1317            mov     dph,r7
-0450 88F0      1318            mov     b,r0
-0452 E9        1319            mov     a,r1
-0453 120100    1320            lcall   ___fsdiv
-0456 AE82      1321            mov     r6,dpl
-0458 AF83      1322            mov     r7,dph
-045A A8F0      1323            mov     r0,b
-045C F9        1324            mov     r1,a
-045D E581      1325            mov     a,sp
-045F 24FC      1326            add     a,#0xfc
-0461 F581      1327            mov     sp,a
-0463 D005      1328            pop     ar5
-0465 D004      1329            pop     ar4
-0467 D003      1330            pop     ar3
-0469 D002      1331            pop     ar2
-046B C006      1332            push    ar6
-046D C007      1333            push    ar7
-046F C000      1334            push    ar0
-0471 C001      1335            push    ar1
-0473 8A82      1336            mov     dpl,r2
-0475 8B83      1337            mov     dph,r3
-0477 8CF0      1338            mov     b,r4
-0479 ED        1339            mov     a,r5
-047A 120100    1340            lcall   ___fsgt
-047D AA82      1341            mov     r2,dpl
-047F E581      1342            mov     a,sp
-0481 24FC      1343            add     a,#0xfc
-0483 F581      1344            mov     sp,a
-0485 EA        1345            mov     a,r2
-0486 6001      1346            jz      L015003?
-0488           1347   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:342: pwm_BLU1=0;
-0488 753000    1348            mov     _pwm_BLU1,#0x00
-048B           1349   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:343: pwm_BLU0=0;
-048B 757000    1350            mov     _pwm_BLU0,#0x00
-048E           1351   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:344: pwm_RED1=power;
-048E 8590B0    1352            mov     _pwm_RED1,_power
-0491           1353   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:345: pwm_RED0=0;
-0491 75F000    1354            mov     _pwm_RED0,#0x00
-0494 22        1355            ret
-0495           1356   L015003?:
-0495           1357   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:348: pwm_BLU1 = power;
-0495 859030    1358            mov     _pwm_BLU1,_power
-0498           1359   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:349: pwm_BLU0 = 0;
-0498 757000    1360            mov     _pwm_BLU0,#0x00
-049B           1361   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:350: pwm_RED1 = power;
-049B 8590B0    1362            mov     _pwm_RED1,_power
-049E           1363   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:351: pwm_RED0 = 0;
-049E 75F000    1364            mov     _pwm_RED0,#0x00
-04A1           1365   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:353: break;
-04A1           1366   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:355: case STOP:
-04A1 22        1367            ret
-04A2           1368   L015008?:
-04A2           1369   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:356: pwm_BLU1 = 0;
-04A2 753000    1370            mov     _pwm_BLU1,#0x00
-04A5           1371   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:357: pwm_BLU0 = 0;
-04A5 757000    1372            mov     _pwm_BLU0,#0x00
-04A8           1373   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:358: pwm_RED1 = 0;
-04A8 75B000    1374            mov     _pwm_RED1,#0x00
-04AB           1375   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:359: pwm_RED0 = 0;
-04AB 75F000    1376            mov     _pwm_RED0,#0x00
-04AE           1377   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:365: }
-04AE 22        1378            ret
-04AF           1379   ;------------------------------------------------------------
-04AF           1380   ;Allocation info for local variables in function 'DebuggingFctn'
-04AF           1381   ;------------------------------------------------------------
-04AF           1382   ;------------------------------------------------------------
-04AF           1383   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:372: void DebuggingFctn (void)
-04AF           1384   ;        -----------------------------------------
-04AF           1385   ;         function DebuggingFctn
-04AF           1386   ;        -----------------------------------------
-04AF           1387   _DebuggingFctn:
-04AF           1388   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:374: printf("frequency = %f Hz\n", frequency);
-04AF C0B0      1389            push    _frequency
-04B1 C0B1      1390            push    (_frequency + 1)
-04B3 C0B2      1391            push    (_frequency + 2)
-04B5 C0B3      1392            push    (_frequency + 3)
-04B7 74E8      1393            mov     a,#__str_0
-04B9 C0E0      1394            push    acc
-04BB 74A4      1395            mov     a,#(__str_0 >> 8)
-04BD C0E0      1396            push    acc
-04BF 7480      1397            mov     a,#0x80
-04C1 C0E0      1398            push    acc
-04C3 120100    1399            lcall   _printf
-04C6 E581      1400            mov     a,sp
-04C8 24F9      1401            add     a,#0xf9
-04CA F581      1402            mov     sp,a
-04CC           1403   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:375: printf("Left(blue) ind voltage = %f V\n", BluIndVolt);
-04CC C070      1404            push    _BluIndVolt
-04CE C071      1405            push    (_BluIndVolt + 1)
-04D0 C072      1406            push    (_BluIndVolt + 2)
-04D2 C073      1407            push    (_BluIndVolt + 3)
-04D4 7468      1408            mov     a,#__str_1
-04D6 C0E0      1409            push    acc
-04D8 74A5      1410            mov     a,#(__str_1 >> 8)
-04DA C0E0      1411            push    acc
-04DC 7480      1412            mov     a,#0x80
-04DE C0E0      1413            push    acc
-04E0 120100    1414            lcall   _printf
-04E3 E581      1415            mov     a,sp
-04E5 24F9      1416            add     a,#0xf9
-04E7 F581      1417            mov     sp,a
-04E9           1418   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:376: printf("Right(red) ind voltage = %f V\n", RedIndVolt);
-04E9 C030      1419            push    _RedIndVolt
-04EB C031      1420            push    (_RedIndVolt + 1)
-04ED C032      1421            push    (_RedIndVolt + 2)
-04EF C033      1422            push    (_RedIndVolt + 3)
-04F1 74A8      1423            mov     a,#__str_2
-04F3 C0E0      1424            push    acc
-04F5 74A5      1425            mov     a,#(__str_2 >> 8)
-04F7 C0E0      1426            push    acc
-04F9 7480      1427            mov     a,#0x80
-04FB C0E0      1428            push    acc
-04FD 120100    1429            lcall   _printf
-0500 E581      1430            mov     a,sp
-0502 24F9      1431            add     a,#0xf9
-0504 F581      1432            mov     sp,a
-0506           1433   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:377: printf("Front inductor voltage = %f V\n", FrtIndVolt);
-0506 C0F0      1434            push    _FrtIndVolt
-0508 C0F1      1435            push    (_FrtIndVolt + 1)
-050A C0F2      1436            push    (_FrtIndVolt + 2)
-050C C0F3      1437            push    (_FrtIndVolt + 3)
-050E 74E8      1438            mov     a,#__str_3
-0510 C0E0      1439            push    acc
-0512 74A5      1440            mov     a,#(__str_3 >> 8)
-0514 C0E0      1441            push    acc
-0516 7480      1442            mov     a,#0x80
-0518 C0E0      1443            push    acc
-051A 120100    1444            lcall   _printf
-051D E581      1445            mov     a,sp
-051F 24F9      1446            add     a,#0xf9
-0521 F581      1447            mov     sp,a
-0523 22        1448            ret
-0524           1449   ;------------------------------------------------------------
-0524           1450   ;Allocation info for local variables in function 'main'
-0524           1451   ;------------------------------------------------------------
-0524           1452   ;------------------------------------------------------------
-0524           1453   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:385: void main (void)
-0524           1454   ;        -----------------------------------------
-0524           1455   ;         function main
-0524           1456   ;        -----------------------------------------
-0524           1457   _main:
-0524           1458   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:388: TIMER0_Init(); // Initialize timer 0 to read the frequency of the fm signal
-0524 120100    1459            lcall   _TIMER0_Init
-0527           1460   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:389: TIMER2_Init(); // Initialize timer 2 for periodic interrupts used for motor control
-0527 120100    1461            lcall   _TIMER2_Init
-052A           1462   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:390: EA=1; // Enable interrupts
-052A D2AF      1463            setb    _EA
-052C           1464   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:391: dirout = 0; // define initial direction to be CCW
-052C 757000    1465            mov     _dirout,#0x00
-052F           1466   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:392: InitPinADC(1, 7); // Configure P1.7 as analog input
-052F 755007    1467            mov     _InitPinADC_PARM_2,#0x07
-0532 758201    1468            mov     dpl,#0x01
-0535 120100    1469            lcall   _InitPinADC
-0538           1470   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:393: InitPinADC(2, 0); // Configure P2.0 as analog input
-0538 755000    1471            mov     _InitPinADC_PARM_2,#0x00
-053B 758202    1472            mov     dpl,#0x02
-053E 120100    1473            lcall   _InitPinADC
-0541           1474   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:394: InitPinADC(2, 7); // Configure P2.7 as analog input
-0541 755007    1475            mov     _InitPinADC_PARM_2,#0x07
-0544 758202    1476            mov     dpl,#0x02
-0547 120100    1477            lcall   _InitPinADC
-054A           1478   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:395: InitADC();
-054A 120100    1479            lcall   _InitADC
-054D           1480   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:397: printf("\x1b[2J"); // Clear screen using ANSI escape sequence.
-054D 7428      1481            mov     a,#__str_4
-054F C0E0      1482            push    acc
-0551 74A6      1483            mov     a,#(__str_4 >> 8)
-0553 C0E0      1484            push    acc
-0555 7480      1485            mov     a,#0x80
-0557 C0E0      1486            push    acc
-0559 120100    1487            lcall   _printf
-055C 1581      1488            dec     sp
-055E 1581      1489            dec     sp
-0560 1581      1490            dec     sp
-0562           1491   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:401: while(1)
-0562           1492   L017002?:
-0562           1493   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:404: DetermineMode();
-0562 120100    1494            lcall   _DetermineMode
-0565           1495   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:407: ReadInductorStatus();
-0565 120100    1496            lcall   _ReadInductorStatus
-0568           1497   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:410: MotorControl();
-0568 120100    1498            lcall   _MotorControl
-056B           1499   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:417: waitms(80);
-056B 900050    1500            mov     dptr,#0x0050
-056E 120100    1501            lcall   _waitms
-0571 8001      1502            sjmp    L017002?
-0573           1503            rseg R_CSEG
-0573           1504   
-0000           1505            rseg R_XINIT
-0000           1506   
-0000           1507            rseg R_CONST
-0000           1508   __str_0:
-0000 66726571  1509            db 'frequency = %f Hz'
-     75656E63
-     79203D20
-     25662048
-     7A
-0011 0A        1510            db 0x0A
-0012 00        1511            db 0x00
-0013           1512   __str_1:
-0013 4C656674  1513            db 'Left(blue) ind voltage = %f V'
-     28626C75
-     65292069
-     6E642076
-     6F6C7461
-     6765203D
-     20256620
-     56
-0030 0A        1514            db 0x0A
-0031 00        1515            db 0x00
-0032           1516   __str_2:
-0032 52696768  1517            db 'Right(red) ind voltage = %f V'
-     74287265
-     64292069
-     6E642076
-     6F6C7461
-     6765203D
-     20256620
-     56
-004F 0A        1518            db 0x0A
-0050 00        1519            db 0x00
-0051           1520   __str_3:
-0051 46726F6E  1521            db 'Front inductor voltage = %f V'
-     7420696E
-     64756374
-     6F722076
-     6F6C7461
-     6765203D
-     20256620
-     56
-006E 0A        1522            db 0x0A
-006F 00        1523            db 0x00
-0070           1524   __str_4:
-0070 1B        1525            db 0x1B
-0071 5B324A    1526            db '[2J'
-0074 00        1527            db 0x00
-0075           1528   
-002E           1529            CSEG
-002E           1530   
-002E           1531   end
+0000            474   ; data variables initialization
+0000            475   ;--------------------------------------------------------
+0000            476            rseg R_DINIT
+0000            477   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:46: volatile unsigned char pwm_count=0;
+0000 75E000     478            mov     _pwm_count,#0x00
+0003            479   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:47: volatile unsigned char power=50;
+0003 75A032     480            mov     _power,#0x32
+0006            481   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:48: volatile unsigned char pwm_BLU0=0;
+0006 756000     482            mov     _pwm_BLU0,#0x00
+0009            483   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:49: volatile unsigned char pwm_BLU1=0;
+0009 752000     484            mov     _pwm_BLU1,#0x00
+000C            485   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:50: volatile unsigned char pwm_RED0=0;
+000C 75E000     486            mov     _pwm_RED0,#0x00
+000F            487   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:51: volatile unsigned char pwm_RED1=0;
+000F 75A000     488            mov     _pwm_RED1,#0x00
+0012            489   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:52: volatile unsigned char dirout=0;
+0012 756000     490            mov     _dirout,#0x00
+0015            491   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:53: volatile unsigned char overflow_count=0;
+0015 752000     492            mov     _overflow_count,#0x00
+0018            493   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:54: int i = 0;
+0018 E4         494            clr     a
+0019 F5E0       495            mov     _i,a
+001B F5E1       496            mov     (_i + 1),a
+001D            497   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:55: float frequency=0;
+001D 75A000     498            mov     _frequency,#0x00
+0020 75A100     499            mov     (_frequency + 1),#0x00
+0023 75A200     500            mov     (_frequency + 2),#0x00
+0026 75A300     501            mov     (_frequency + 3),#0x00
+0029            502   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:56: unsigned char mode=FORWARD;
+0029 756003     503            mov     _mode,#0x03
+002C            504            ; The linker places a 'ret' at the end of segment R_DINIT.
+002C            505   ;--------------------------------------------------------
+002C            506   ; code
+002C            507   ;--------------------------------------------------------
+0000            508            rseg R_CSEG
+0000            509   ;------------------------------------------------------------
+0000            510   ;Allocation info for local variables in function '_c51_external_startup'
+0000            511   ;------------------------------------------------------------
+0000            512   ;------------------------------------------------------------
+0000            513   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:64: char _c51_external_startup (void)
+0000            514   ;        -----------------------------------------
+0000            515   ;         function _c51_external_startup
+0000            516   ;        -----------------------------------------
+0000            517   __c51_external_startup:
+0000            518            using   0
+0000            519   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:66: PCA0MD&=(~0x40) ;    // DISABLE WDT: clear Watchdog Enable bit
+0000 53D9BF     520            anl     _PCA0MD,#0xBF
+0003            521   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:67: VDM0CN=0x80; // enable VDD monitor
+0003 75FF80     522            mov     _VDM0CN,#0x80
+0006            523   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:68: RSTSRC=0x02|0x04; // Enable reset on missing clock detector and VDD
+0006 75EF06     524            mov     _RSTSRC,#0x06
+0009            525   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:76: CLKSEL|=0b_0000_0011; // SYSCLK derived from the Internal High-Frequency Oscillator / 1.
+0009 43A903     526            orl     _CLKSEL,#0x03
+000C            527   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:80: OSCICN |= 0x03; // Configure internal oscillator for its maximum frequency
+000C 43B203     528            orl     _OSCICN,#0x03
+000F            529   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:83: SCON0 = 0x10;
+000F 759810     530            mov     _SCON0,#0x10
+0012            531   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:85: TH1 = 0x10000-((SYSCLK/BAUDRATE)/2L);
+0012 758D30     532            mov     _TH1,#0x30
+0015            533   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:86: CKCON &= ~0x0B;                  // T1M = 1; SCA1:0 = xx
+0015 538EF4     534            anl     _CKCON,#0xF4
+0018            535   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:87: CKCON |=  0x08;
+0018 438E08     536            orl     _CKCON,#0x08
+001B            537   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:100: TL1 = TH1;      // Init Timer1
+001B 858D8B     538            mov     _TL1,_TH1
+001E            539   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:101: TMOD &= ~0xf0;  // TMOD: timer 1 in 8-bit autoreload
+001E 53890F     540            anl     _TMOD,#0x0F
+0021            541   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:102: TMOD |=  0x20;
+0021 438920     542            orl     _TMOD,#0x20
+0024            543   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:103: TR1 = 1; // START Timer1
+0024 D28E       544            setb    _TR1
+0026            545   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:104: TI = 1;  // Indicate TX0 ready
+0026 D299       546            setb    _TI
+0028            547   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:107: P2MDOUT|=0b_0000_0011;
+0028 43A603     548            orl     _P2MDOUT,#0x03
+002B            549   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:108: P0MDOUT |= 0x01;  // set P0.0 and P0.4 as push-pull outputs
+002B 43A401     550            orl     _P0MDOUT,#0x01
+002E            551   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:109: XBR0     = 0x01; // Enable UART on P0.4(TX) and P0.5(RX)
+002E 75E101     552            mov     _XBR0,#0x01
+0031            553   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:110: XBR1     = 0x40; // Enable crossbar and weak pull-ups
+0031 75E240     554            mov     _XBR1,#0x40
+0034            555   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:112: return 0;
+0034 758200     556            mov     dpl,#0x00
+0037 22         557            ret
+0038            558   ;------------------------------------------------------------
+0038            559   ;Allocation info for local variables in function 'Timer3us'
+0038            560   ;------------------------------------------------------------
+0038            561   ;us                        Allocated to registers r2 
+0038            562   ;i                         Allocated to registers r3 
+0038            563   ;------------------------------------------------------------
+0038            564   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:119: void Timer3us(unsigned char us)
+0038            565   ;        -----------------------------------------
+0038            566   ;         function Timer3us
+0038            567   ;        -----------------------------------------
+0038            568   _Timer3us:
+0038 AA82       569            mov     r2,dpl
+003A            570   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:124: CKCON|=0b_0100_0000;
+003A 438E40     571            orl     _CKCON,#0x40
+003D            572   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:126: TMR3RL = (-(SYSCLK)/1000000L); // Set Timer3 to overflow in 1us.
+003D 7592D0     573            mov     _TMR3RL,#0xD0
+0040 7593FF     574            mov     (_TMR3RL >> 8),#0xFF
+0043            575   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:127: TMR3 = TMR3RL;                 // Initialize Timer3 for first overflow
+0043 859294     576            mov     _TMR3,_TMR3RL
+0046 859395     577            mov     (_TMR3 >> 8),(_TMR3RL >> 8)
+0049            578   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:129: TMR3CN = 0x04;                 // Sart Timer3 and clear overflow flag
+0049 759104     579            mov     _TMR3CN,#0x04
+004C            580   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:130: for (i = 0; i < us; i++)       // Count <us> overflows
+004C 7B00       581            mov     r3,#0x00
+004E            582   L003004?:
+004E C3         583            clr     c
+004F EB         584            mov     a,r3
+0050 9A         585            subb    a,r2
+0051 5001       586            jnc     L003007?
+0053            587   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:132: while (!(TMR3CN & 0x80));  // Wait for overflow
+0053            588   L003001?:
+0053 E591       589            mov     a,_TMR3CN
+0055 30E7B0     590            jnb     acc.7,L003001?
+0058            591   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:133: TMR3CN &= ~(0x80);         // Clear overflow indicator
+0058 53917F     592            anl     _TMR3CN,#0x7F
+005B            593   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:130: for (i = 0; i < us; i++)       // Count <us> overflows
+005B 0B         594            inc     r3
+005C 8001       595            sjmp    L003004?
+005E            596   L003007?:
+005E            597   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:135: TMR3CN = 0 ;                   // Stop Timer3 and clear overflow flag
+005E 759100     598            mov     _TMR3CN,#0x00
+0061 22         599            ret
+0062            600   ;------------------------------------------------------------
+0062            601   ;Allocation info for local variables in function 'waitms'
+0062            602   ;------------------------------------------------------------
+0062            603   ;ms                        Allocated to registers r2 r3 
+0062            604   ;j                         Allocated to registers r2 r3 
+0062            605   ;------------------------------------------------------------
+0062            606   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:142: void waitms (unsigned int ms)
+0062            607   ;        -----------------------------------------
+0062            608   ;         function waitms
+0062            609   ;        -----------------------------------------
+0062            610   _waitms:
+0062 AA82       611            mov     r2,dpl
+0064 AB83       612            mov     r3,dph
+0066            613   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:145: for(j=ms; j!=0; j--)
+0066            614   L004001?:
+0066 BA00B0     615            cjne    r2,#0x00,L004010?
+0069 BB00B0     616            cjne    r3,#0x00,L004010?
+006C 22         617            ret
+006D            618   L004010?:
+006D            619   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:147: Timer3us(249);
+006D 7582F9     620            mov     dpl,#0xF9
+0070 C002       621            push    ar2
+0072 C003       622            push    ar3
+0074 120100     623            lcall   _Timer3us
+0077            624   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:148: Timer3us(249);
+0077 7582F9     625            mov     dpl,#0xF9
+007A 120100     626            lcall   _Timer3us
+007D            627   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:149: Timer3us(249);
+007D 7582F9     628            mov     dpl,#0xF9
+0080 120100     629            lcall   _Timer3us
+0083            630   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:150: Timer3us(250);
+0083 7582FA     631            mov     dpl,#0xFA
+0086 120100     632            lcall   _Timer3us
+0089 D003       633            pop     ar3
+008B D002       634            pop     ar2
+008D            635   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:145: for(j=ms; j!=0; j--)
+008D 1A         636            dec     r2
+008E BAFFF0     637            cjne    r2,#0xff,L004011?
+0091 1B         638            dec     r3
+0092            639   L004011?:
+0092 8001       640            sjmp    L004001?
+0094            641   ;------------------------------------------------------------
+0094            642   ;Allocation info for local variables in function 'TIMER0_Init'
+0094            643   ;------------------------------------------------------------
+0094            644   ;------------------------------------------------------------
+0094            645   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:156: void TIMER0_Init(void)
+0094            646   ;        -----------------------------------------
+0094            647   ;         function TIMER0_Init
+0094            648   ;        -----------------------------------------
+0094            649   _TIMER0_Init:
+0094            650   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:158: TMOD&=0b_1111_0000; // Set the bits of Timer/Counter 0 to zero
+0094 5389F0     651            anl     _TMOD,#0xF0
+0097            652   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:159: TMOD|=0b_0000_0001; // Timer/Counter 0 used as a 16-bit timer
+0097 438901     653            orl     _TMOD,#0x01
+009A            654   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:160: TR0=0; // Stop Timer/Counter 0
+009A C28C       655            clr     _TR0
+009C 22         656            ret
+009D            657   ;------------------------------------------------------------
+009D            658   ;Allocation info for local variables in function 'TIMER2_Init'
+009D            659   ;------------------------------------------------------------
+009D            660   ;------------------------------------------------------------
+009D            661   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:166: void TIMER2_Init(void)
+009D            662   ;        -----------------------------------------
+009D            663   ;         function TIMER2_Init
+009D            664   ;        -----------------------------------------
+009D            665   _TIMER2_Init:
+009D            666   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:168: TMR2CN=0x00;   // Stop Timer2; Clear TF2;
+009D 75C800     667            mov     _TMR2CN,#0x00
+00A0            668   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:169: CKCON|=0b_0001_0000;
+00A0 438E10     669            orl     _CKCON,#0x10
+00A3            670   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:170: TMR2RL=(-(SYSCLK/(2*48))/(100L)); // Initialize reload value
+00A3 75CA78     671            mov     _TMR2RL,#0x78
+00A6 75CBEC     672            mov     (_TMR2RL >> 8),#0xEC
+00A9            673   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:171: TMR2=0xffff;   // Set to reload immediately
+00A9 75CCFF     674            mov     _TMR2,#0xFF
+00AC 75CDFF     675            mov     (_TMR2 >> 8),#0xFF
+00AF            676   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:172: ET2=1;         // Enable Timer2 interrupts
+00AF D2AD       677            setb    _ET2
+00B1            678   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:173: TR2=1;         // Start Timer2
+00B1 D2CA       679            setb    _TR2
+00B3 22         680            ret
+00B4            681   ;------------------------------------------------------------
+00B4            682   ;Allocation info for local variables in function 'InitADC'
+00B4            683   ;------------------------------------------------------------
+00B4            684   ;------------------------------------------------------------
+00B4            685   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:179: void InitADC (void)
+00B4            686   ;        -----------------------------------------
+00B4            687   ;         function InitADC
+00B4            688   ;        -----------------------------------------
+00B4            689   _InitADC:
+00B4            690   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:182: ADC0CF = 0xF8; // SAR clock = 31, Right-justified result
+00B4 75BCF8     691            mov     _ADC0CF,#0xF8
+00B7            692   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:183: ADC0CN = 0b_1000_0000; // AD0EN=1, AD0TM=0
+00B7 75E880     693            mov     _ADC0CN,#0x80
+00BA            694   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:184: REF0CN = 0b_0000_1000; //Select VDD as the voltage reference for the converter
+00BA 75D108     695            mov     _REF0CN,#0x08
+00BD 22         696            ret
+00BE            697   ;------------------------------------------------------------
+00BE            698   ;Allocation info for local variables in function 'InitPinADC'
+00BE            699   ;------------------------------------------------------------
+00BE            700   ;pinno                     Allocated with name '_InitPinADC_PARM_2'
+00BE            701   ;portno                    Allocated to registers r2 
+00BE            702   ;mask                      Allocated to registers r3 
+00BE            703   ;------------------------------------------------------------
+00BE            704   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:191: void InitPinADC (unsigned char portno, unsigned char pinno)
+00BE            705   ;        -----------------------------------------
+00BE            706   ;         function InitPinADC
+00BE            707   ;        -----------------------------------------
+00BE            708   _InitPinADC:
+00BE AA82       709            mov     r2,dpl
+00C0            710   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:195: mask=1<<pinno;
+00C0 8550F0     711            mov     b,_InitPinADC_PARM_2
+00C3 05F0       712            inc     b
+00C5 7401       713            mov     a,#0x01
+00C7 8001       714            sjmp    L008012?
+00C9            715   L008010?:
+00C9 25E0       716            add     a,acc
+00CB            717   L008012?:
+00CB D5F0B0     718            djnz    b,L008010?
+00CE FB         719            mov     r3,a
+00CF            720   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:197: switch (portno)
+00CF EA         721            mov     a,r2
+00D0 24FC       722            add     a,#0xff - 0x03
+00D2 4001       723            jc      L008007?
+00D4 EA         724            mov     a,r2
+00D5 2A         725            add     a,r2
+00D6 2A         726            add     a,r2
+00D7 909E30     727            mov     dptr,#L008014?
+00DA 73         728            jmp     @a+dptr
+00DB            729   L008014?:
+00DB 020100     730            ljmp    L008001?
+00DE 020100     731            ljmp    L008002?
+00E1 020100     732            ljmp    L008003?
+00E4 020100     733            ljmp    L008004?
+00E7            734   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:199: case 0:
+00E7            735   L008001?:
+00E7            736   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:200: P0MDIN &= (~mask); // Set pin as analog input
+00E7 EB         737            mov     a,r3
+00E8 F4         738            cpl     a
+00E9 52F1       739            anl     _P0MDIN,a
+00EB            740   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:201: P0SKIP |= mask; // Skip Crossbar decoding for this pin
+00EB EB         741            mov     a,r3
+00EC 42D4       742            orl     _P0SKIP,a
+00EE            743   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:202: break;
+00EE            744   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:203: case 1:
+00EE 22         745            ret
+00EF            746   L008002?:
+00EF            747   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:204: P1MDIN &= (~mask); // Set pin as analog input
+00EF EB         748            mov     a,r3
+00F0 F4         749            cpl     a
+00F1 52F2       750            anl     _P1MDIN,a
+00F3            751   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:205: P1SKIP |= mask; // Skip Crossbar decoding for this pin
+00F3 EB         752            mov     a,r3
+00F4 42D5       753            orl     _P1SKIP,a
+00F6            754   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:206: break;
+00F6            755   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:207: case 2:
+00F6 22         756            ret
+00F7            757   L008003?:
+00F7            758   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:208: P2MDIN &= (~mask); // Set pin as analog input
+00F7 EB         759            mov     a,r3
+00F8 F4         760            cpl     a
+00F9 52F3       761            anl     _P2MDIN,a
+00FB            762   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:209: P2SKIP |= mask; // Skip Crossbar decoding for this pin
+00FB EB         763            mov     a,r3
+00FC 42D6       764            orl     _P2SKIP,a
+00FE            765   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:210: break;
+00FE            766   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:211: case 3:
+00FE 22         767            ret
+00FF            768   L008004?:
+00FF            769   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:212: P3MDIN &= (~mask); // Set pin as analog input
+00FF EB         770            mov     a,r3
+0100 F4         771            cpl     a
+0101 FA         772            mov     r2,a
+0102 52F4       773            anl     _P3MDIN,a
+0104            774   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:213: P3SKIP |= mask; // Skip Crossbar decoding for this pin
+0104 EB         775            mov     a,r3
+0105 42DF       776            orl     _P3SKIP,a
+0107            777   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:217: }
+0107            778   L008007?:
+0107 22         779            ret
+0108            780   ;------------------------------------------------------------
+0108            781   ;Allocation info for local variables in function 'ADC_at_Pin'
+0108            782   ;------------------------------------------------------------
+0108            783   ;pin                       Allocated to registers 
+0108            784   ;------------------------------------------------------------
+0108            785   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:224: unsigned int ADC_at_Pin(unsigned char pin)
+0108            786   ;        -----------------------------------------
+0108            787   ;         function ADC_at_Pin
+0108            788   ;        -----------------------------------------
+0108            789   _ADC_at_Pin:
+0108 8582BB     790            mov     _AMX0P,dpl
+010B            791   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:227: AMX0N = LQFP32_MUX_GND;  // GND is negative input (Single-ended Mode)
+010B 75BA1F     792            mov     _AMX0N,#0x1F
+010E            793   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:229: AD0BUSY=1;
+010E D2EC       794            setb    _AD0BUSY
+0110            795   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:230: while (AD0BUSY); // Wait for dummy conversion to finish
+0110            796   L009001?:
+0110 20EC70     797            jb      _AD0BUSY,L009001?
+0113            798   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:232: AD0BUSY = 1;
+0113 D2EC       799            setb    _AD0BUSY
+0115            800   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:233: while (AD0BUSY); // Wait for conversion to complete
+0115            801   L009004?:
+0115 20ECB0     802            jb      _AD0BUSY,L009004?
+0118            803   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:234: return (ADC0L+(ADC0H*0x100));
+0118 AABD       804            mov     r2,_ADC0L
+011A 7B00       805            mov     r3,#0x00
+011C ADBE       806            mov     r5,_ADC0H
+011E 7C00       807            mov     r4,#0x00
+0120 EC         808            mov     a,r4
+0121 2A         809            add     a,r2
+0122 F582       810            mov     dpl,a
+0124 ED         811            mov     a,r5
+0125 3B         812            addc    a,r3
+0126 F583       813            mov     dph,a
+0128 22         814            ret
+0129            815   ;------------------------------------------------------------
+0129            816   ;Allocation info for local variables in function 'Volts_at_Pin'
+0129            817   ;------------------------------------------------------------
+0129            818   ;pin                       Allocated to registers r2 
+0129            819   ;------------------------------------------------------------
+0129            820   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:241: float Volts_at_Pin(unsigned char pin)
+0129            821   ;        -----------------------------------------
+0129            822   ;         function Volts_at_Pin
+0129            823   ;        -----------------------------------------
+0129            824   _Volts_at_Pin:
+0129            825   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:243: return ((ADC_at_Pin(pin)*VDD_onboard)/1024.0);
+0129 120100     826            lcall   _ADC_at_Pin
+012C 120100     827            lcall   ___uint2fs
+012F AA82       828            mov     r2,dpl
+0131 AB83       829            mov     r3,dph
+0133 ACF0       830            mov     r4,b
+0135 FD         831            mov     r5,a
+0136 C002       832            push    ar2
+0138 C003       833            push    ar3
+013A C004       834            push    ar4
+013C C005       835            push    ar5
+013E 90DD2F     836            mov     dptr,#0xDD2F
+0141 75F054     837            mov     b,#0x54
+0144 7440       838            mov     a,#0x40
+0146 120100     839            lcall   ___fsmul
+0149 AA82       840            mov     r2,dpl
+014B AB83       841            mov     r3,dph
+014D ACF0       842            mov     r4,b
+014F FD         843            mov     r5,a
+0150 E581       844            mov     a,sp
+0152 24FC       845            add     a,#0xfc
+0154 F581       846            mov     sp,a
+0156 E4         847            clr     a
+0157 C0E0       848            push    acc
+0159 C0E0       849            push    acc
+015B 7480       850            mov     a,#0x80
+015D C0E0       851            push    acc
+015F 7444       852            mov     a,#0x44
+0161 C0E0       853            push    acc
+0163 8A82       854            mov     dpl,r2
+0165 8B83       855            mov     dph,r3
+0167 8CF0       856            mov     b,r4
+0169 ED         857            mov     a,r5
+016A 120100     858            lcall   ___fsdiv
+016D AA82       859            mov     r2,dpl
+016F AB83       860            mov     r3,dph
+0171 ACF0       861            mov     r4,b
+0173 FD         862            mov     r5,a
+0174 E581       863            mov     a,sp
+0176 24FC       864            add     a,#0xfc
+0178 F581       865            mov     sp,a
+017A 8A82       866            mov     dpl,r2
+017C 8B83       867            mov     dph,r3
+017E 8CF0       868            mov     b,r4
+0180 ED         869            mov     a,r5
+0181 22         870            ret
+0182            871   ;------------------------------------------------------------
+0182            872   ;Allocation info for local variables in function 'Timer2_ISR'
+0182            873   ;------------------------------------------------------------
+0182            874   ;------------------------------------------------------------
+0182            875   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:250: void Timer2_ISR (void) interrupt 5
+0182            876   ;        -----------------------------------------
+0182            877   ;         function Timer2_ISR
+0182            878   ;        -----------------------------------------
+0182            879   _Timer2_ISR:
+0182 C0E0       880            push    acc
+0184 C0D0       881            push    psw
+0186 75D000     882            mov     psw,#0x00
+0189            883   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:252: TF2H = 0; // Clear Timer2 interrupt flag
+0189 C2CF       884            clr     _TF2H
+018B            885   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:254: pwm_count++;
+018B 05E0       886            inc     _pwm_count
+018D            887   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:255: if(pwm_count>100) pwm_count=0;
+018D E5E0       888            mov     a,_pwm_count
+018F 249B       889            add     a,#0xff - 0x64
+0191 5001       890            jnc     L011002?
+0193 75E000     891            mov     _pwm_count,#0x00
+0196            892   L011002?:
+0196            893   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:257: BLU0=pwm_count>pwm_BLU0?0:1;
+0196 C3         894            clr     c
+0197 E560       895            mov     a,_pwm_BLU0
+0199 95E0       896            subb    a,_pwm_count
+019B 9270       897            mov  _Timer2_ISR_sloc0_1_0,c
+019D B3         898            cpl     c
+019E 92A2       899            mov     _P2_2,c
+01A0            900   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:258: BLU1=pwm_count>pwm_BLU1?0:1;
+01A0 C3         901            clr     c
+01A1 E520       902            mov     a,_pwm_BLU1
+01A3 95E0       903            subb    a,_pwm_count
+01A5 9270       904            mov  _Timer2_ISR_sloc0_1_0,c
+01A7 B3         905            cpl     c
+01A8 92A5       906            mov     _P2_5,c
+01AA            907   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:260: RED0=pwm_count>pwm_RED0?0:1;
+01AA C3         908            clr     c
+01AB E5E0       909            mov     a,_pwm_RED0
+01AD 95E0       910            subb    a,_pwm_count
+01AF 9270       911            mov  _Timer2_ISR_sloc0_1_0,c
+01B1 B3         912            cpl     c
+01B2 92A4       913            mov     _P2_4,c
+01B4            914   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:261: RED1=pwm_count>pwm_RED1?0:1;
+01B4 C3         915            clr     c
+01B5 E5A0       916            mov     a,_pwm_RED1
+01B7 95E0       917            subb    a,_pwm_count
+01B9 9270       918            mov  _Timer2_ISR_sloc0_1_0,c
+01BB B3         919            cpl     c
+01BC 92A3       920            mov     _P2_3,c
+01BE D0D0       921            pop     psw
+01C0 D0E0       922            pop     acc
+01C2 32         923            reti
+01C3            924   ;        eliminated unneeded push/pop dpl
+01C3            925   ;        eliminated unneeded push/pop dph
+01C3            926   ;        eliminated unneeded push/pop b
+01C3            927   ;------------------------------------------------------------
+01C3            928   ;Allocation info for local variables in function 'ReadFrequency'
+01C3            929   ;------------------------------------------------------------
+01C3            930   ;------------------------------------------------------------
+01C3            931   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:268: void ReadFrequency (void)
+01C3            932   ;        -----------------------------------------
+01C3            933   ;         function ReadFrequency
+01C3            934   ;        -----------------------------------------
+01C3            935   _ReadFrequency:
+01C3            936   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:272: TL0=0;
+01C3 758A00     937            mov     _TL0,#0x00
+01C6            938   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:273: TH0=0;
+01C6 758C00     939            mov     _TH0,#0x00
+01C9            940   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:274: TF0=0;
+01C9 C28D       941            clr     _TF0
+01CB            942   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:275: overflow_count=0;
+01CB 752000     943            mov     _overflow_count,#0x00
+01CE            944   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:277: while(FRQIN!=0); // Wait for the signal to be zero
+01CE            945   L012001?:
+01CE 209670     946            jb      _P1_6,L012001?
+01D1            947   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:278: while(FRQIN!=1); // Wait for the signal to be one
+01D1            948   L012004?:
+01D1 3096B0     949            jnb     _P1_6,L012004?
+01D4            950   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:279: TR0=1; // Start the timer
+01D4 D28C       951            setb    _TR0
+01D6            952   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:280: while(FRQIN!=0) // Wait for the signal to be zero
+01D6            953   L012009?:
+01D6 309630     954            jnb     _P1_6,L012014?
+01D9            955   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:282: if(TF0==1) // Did the 16-bit timer overflow?
+01D9            956   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:284: TF0=0;
+01D9 108D70     957            jbc     _TF0,L012031?
+01DC 8001       958            sjmp    L012009?
+01DE            959   L012031?:
+01DE            960   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:285: overflow_count++;
+01DE 0520       961            inc     _overflow_count
+01E0            962   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:288: while(FRQIN!=1) // Wait for the signal to be one
+01E0 8001       963            sjmp    L012009?
+01E2            964   L012014?:
+01E2 2096B0     965            jb      _P1_6,L012016?
+01E5            966   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:290: if(TF0==1) // Did the 16-bit timer overflow?
+01E5            967   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:292: TF0=0;
+01E5 108DF0     968            jbc     _TF0,L012033?
+01E8 8001       969            sjmp    L012014?
+01EA            970   L012033?:
+01EA            971   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:293: overflow_count++;
+01EA 0520       972            inc     _overflow_count
+01EC 8001       973            sjmp    L012014?
+01EE            974   L012016?:
+01EE            975   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:297: TR0=0; // Stop timer 0, the 24-bit number [overflow_count-TH0-TL0] has the period. Then convert it to frequency
+01EE C28C       976            clr     _TR0
+01F0            977   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:299: frequency=1.0/((overflow_count*65536.0+TH0*256.0+TL0)*(12.0/SYSCLK)); // Compute frequency
+01F0 852082     978            mov     dpl,_overflow_count
+01F3 120100     979            lcall   ___uchar2fs
+01F6 AA82       980            mov     r2,dpl
+01F8 AB83       981            mov     r3,dph
+01FA ACF0       982            mov     r4,b
+01FC FD         983            mov     r5,a
+01FD C002       984            push    ar2
+01FF C003       985            push    ar3
+0201 C004       986            push    ar4
+0203 C005       987            push    ar5
+0205 900000     988            mov     dptr,#0x0000
+0208 75F080     989            mov     b,#0x80
+020B 7447       990            mov     a,#0x47
+020D 120100     991            lcall   ___fsmul
+0210 AA82       992            mov     r2,dpl
+0212 AB83       993            mov     r3,dph
+0214 ACF0       994            mov     r4,b
+0216 FD         995            mov     r5,a
+0217 E581       996            mov     a,sp
+0219 24FC       997            add     a,#0xfc
+021B F581       998            mov     sp,a
+021D 858C82     999            mov     dpl,_TH0
+0220 C002      1000            push    ar2
+0222 C003      1001            push    ar3
+0224 C004      1002            push    ar4
+0226 C005      1003            push    ar5
+0228 120100    1004            lcall   ___uchar2fs
+022B AE82      1005            mov     r6,dpl
+022D AF83      1006            mov     r7,dph
+022F A8F0      1007            mov     r0,b
+0231 F9        1008            mov     r1,a
+0232 C006      1009            push    ar6
+0234 C007      1010            push    ar7
+0236 C000      1011            push    ar0
+0238 C001      1012            push    ar1
+023A 900000    1013            mov     dptr,#0x0000
+023D 75F080    1014            mov     b,#0x80
+0240 7443      1015            mov     a,#0x43
+0242 120100    1016            lcall   ___fsmul
+0245 AE82      1017            mov     r6,dpl
+0247 AF83      1018            mov     r7,dph
+0249 A8F0      1019            mov     r0,b
+024B F9        1020            mov     r1,a
+024C E581      1021            mov     a,sp
+024E 24FC      1022            add     a,#0xfc
+0250 F581      1023            mov     sp,a
+0252 D005      1024            pop     ar5
+0254 D004      1025            pop     ar4
+0256 D003      1026            pop     ar3
+0258 D002      1027            pop     ar2
+025A C006      1028            push    ar6
+025C C007      1029            push    ar7
+025E C000      1030            push    ar0
+0260 C001      1031            push    ar1
+0262 8A82      1032            mov     dpl,r2
+0264 8B83      1033            mov     dph,r3
+0266 8CF0      1034            mov     b,r4
+0268 ED        1035            mov     a,r5
+0269 120100    1036            lcall   ___fsadd
+026C AA82      1037            mov     r2,dpl
+026E AB83      1038            mov     r3,dph
+0270 ACF0      1039            mov     r4,b
+0272 FD        1040            mov     r5,a
+0273 E581      1041            mov     a,sp
+0275 24FC      1042            add     a,#0xfc
+0277 F581      1043            mov     sp,a
+0279 AE8A      1044            mov     r6,_TL0
+027B 7F00      1045            mov     r7,#0x00
+027D 8E82      1046            mov     dpl,r6
+027F 8F83      1047            mov     dph,r7
+0281 C002      1048            push    ar2
+0283 C003      1049            push    ar3
+0285 C004      1050            push    ar4
+0287 C005      1051            push    ar5
+0289 120100    1052            lcall   ___sint2fs
+028C AE82      1053            mov     r6,dpl
+028E AF83      1054            mov     r7,dph
+0290 A8F0      1055            mov     r0,b
+0292 F9        1056            mov     r1,a
+0293 D005      1057            pop     ar5
+0295 D004      1058            pop     ar4
+0297 D003      1059            pop     ar3
+0299 D002      1060            pop     ar2
+029B C006      1061            push    ar6
+029D C007      1062            push    ar7
+029F C000      1063            push    ar0
+02A1 C001      1064            push    ar1
+02A3 8A82      1065            mov     dpl,r2
+02A5 8B83      1066            mov     dph,r3
+02A7 8CF0      1067            mov     b,r4
+02A9 ED        1068            mov     a,r5
+02AA 120100    1069            lcall   ___fsadd
+02AD AA82      1070            mov     r2,dpl
+02AF AB83      1071            mov     r3,dph
+02B1 ACF0      1072            mov     r4,b
+02B3 FD        1073            mov     r5,a
+02B4 E581      1074            mov     a,sp
+02B6 24FC      1075            add     a,#0xfc
+02B8 F581      1076            mov     sp,a
+02BA C002      1077            push    ar2
+02BC C003      1078            push    ar3
+02BE C004      1079            push    ar4
+02C0 C005      1080            push    ar5
+02C2 9037BD    1081            mov     dptr,#0x37BD
+02C5 75F086    1082            mov     b,#0x86
+02C8 7434      1083            mov     a,#0x34
+02CA 120100    1084            lcall   ___fsmul
+02CD AA82      1085            mov     r2,dpl
+02CF AB83      1086            mov     r3,dph
+02D1 ACF0      1087            mov     r4,b
+02D3 FD        1088            mov     r5,a
+02D4 E581      1089            mov     a,sp
+02D6 24FC      1090            add     a,#0xfc
+02D8 F581      1091            mov     sp,a
+02DA C002      1092            push    ar2
+02DC C003      1093            push    ar3
+02DE C004      1094            push    ar4
+02E0 C005      1095            push    ar5
+02E2 900000    1096            mov     dptr,#0x0000
+02E5 75F080    1097            mov     b,#0x80
+02E8 743F      1098            mov     a,#0x3F
+02EA 120100    1099            lcall   ___fsdiv
+02ED 8582A0    1100            mov     _frequency,dpl
+02F0 8583A1    1101            mov     (_frequency + 1),dph
+02F3 85F0A2    1102            mov     (_frequency + 2),b
+02F6 F5A3      1103            mov     (_frequency + 3),a
+02F8 E581      1104            mov     a,sp
+02FA 24FC      1105            add     a,#0xfc
+02FC F581      1106            mov     sp,a
+02FE 22        1107            ret
+02FF           1108   ;------------------------------------------------------------
+02FF           1109   ;Allocation info for local variables in function 'DetermineMode'
+02FF           1110   ;------------------------------------------------------------
+02FF           1111   ;------------------------------------------------------------
+02FF           1112   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:305: void DetermineMode (void) {
+02FF           1113   ;        -----------------------------------------
+02FF           1114   ;         function DetermineMode
+02FF           1115   ;        -----------------------------------------
+02FF           1116   _DetermineMode:
+02FF           1117   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:306: ReadFrequency();
+02FF 020100    1118            ljmp    _ReadFrequency
+0302           1119   ;------------------------------------------------------------
+0302           1120   ;Allocation info for local variables in function 'MotorControl'
+0302           1121   ;------------------------------------------------------------
+0302           1122   ;IndVolts                  Allocated with name '_MotorControl_IndVolts_1_73'
+0302           1123   ;sloc0                     Allocated with name '_MotorControl_sloc0_1_0'
+0302           1124   ;sloc1                     Allocated with name '_MotorControl_sloc1_1_0'
+0302           1125   ;------------------------------------------------------------
+0302           1126   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:329: void MotorControl (volatile float IndVolts[])
+0302           1127   ;        -----------------------------------------
+0302           1128   ;         function MotorControl
+0302           1129   ;        -----------------------------------------
+0302           1130   _MotorControl:
+0302 858290    1131            mov     _MotorControl_IndVolts_1_73,dpl
+0305 858391    1132            mov     (_MotorControl_IndVolts_1_73 + 1),dph
+0308 85F092    1133            mov     (_MotorControl_IndVolts_1_73 + 2),b
+030B           1134   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:332: switch (mode){
+030B E4        1135            clr     a
+030C B560F0    1136            cjne    a,_mode,L014021?
+030F 020100    1137            ljmp    L014010?
+0312           1138   L014021?:
+0312 7403      1139            mov     a,#0x03
+0314 B56070    1140            cjne    a,_mode,L014022?
+0317 8001      1141            sjmp    L014023?
+0319           1142   L014022?:
+0319 22        1143            ret
+031A           1144   L014023?:
+031A           1145   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:334: if(IndVolts[0] > Vblue_thresh + 0.1 && IndVolts[0]/IndVolts[1] > 1){
+031A 8590E0    1146            mov     _MotorControl_sloc0_1_0,_MotorControl_IndVolts_1_73
+031D 8591E1    1147            mov     (_MotorControl_sloc0_1_0 + 1),(_MotorControl_IndVolts_1_73 + 1)
+0320 8592E2    1148            mov     (_MotorControl_sloc0_1_0 + 2),(_MotorControl_IndVolts_1_73 + 2)
+0323 85E082    1149            mov     dpl,_MotorControl_sloc0_1_0
+0326 85E183    1150            mov     dph,(_MotorControl_sloc0_1_0 + 1)
+0329 85E2F0    1151            mov     b,(_MotorControl_sloc0_1_0 + 2)
+032C 120100    1152            lcall   __gptrget
+032F FD        1153            mov     r5,a
+0330 A3        1154            inc     dptr
+0331 120100    1155            lcall   __gptrget
+0334 FE        1156            mov     r6,a
+0335 A3        1157            inc     dptr
+0336 120100    1158            lcall   __gptrget
+0339 FF        1159            mov     r7,a
+033A A3        1160            inc     dptr
+033B 120100    1161            lcall   __gptrget
+033E F8        1162            mov     r0,a
+033F C005      1163            push    ar5
+0341 C006      1164            push    ar6
+0343 C007      1165            push    ar7
+0345 C000      1166            push    ar0
+0347 E4        1167            clr     a
+0348 C0E0      1168            push    acc
+034A C0E0      1169            push    acc
+034C C0E0      1170            push    acc
+034E 743F      1171            mov     a,#0x3F
+0350 C0E0      1172            push    acc
+0352 8D82      1173            mov     dpl,r5
+0354 8E83      1174            mov     dph,r6
+0356 8FF0      1175            mov     b,r7
+0358 E8        1176            mov     a,r0
+0359 120100    1177            lcall   ___fsgt
+035C A982      1178            mov     r1,dpl
+035E E581      1179            mov     a,sp
+0360 24FC      1180            add     a,#0xfc
+0362 F581      1181            mov     sp,a
+0364 D000      1182            pop     ar0
+0366 D007      1183            pop     ar7
+0368 D006      1184            pop     ar6
+036A D005      1185            pop     ar5
+036C E9        1186            mov     a,r1
+036D 7001      1187            jnz     L014024?
+036F 020100    1188            ljmp    L014007?
+0372           1189   L014024?:
+0372 7404      1190            mov     a,#0x04
+0374 25E0      1191            add     a,_MotorControl_sloc0_1_0
+0376 F9        1192            mov     r1,a
+0377 E4        1193            clr     a
+0378 35E1      1194            addc    a,(_MotorControl_sloc0_1_0 + 1)
+037A FA        1195            mov     r2,a
+037B ABE2      1196            mov     r3,(_MotorControl_sloc0_1_0 + 2)
+037D 8982      1197            mov     dpl,r1
+037F 8A83      1198            mov     dph,r2
+0381 8BF0      1199            mov     b,r3
+0383 120100    1200            lcall   __gptrget
+0386 F9        1201            mov     r1,a
+0387 A3        1202            inc     dptr
+0388 120100    1203            lcall   __gptrget
+038B FA        1204            mov     r2,a
+038C A3        1205            inc     dptr
+038D 120100    1206            lcall   __gptrget
+0390 FB        1207            mov     r3,a
+0391 A3        1208            inc     dptr
+0392 120100    1209            lcall   __gptrget
+0395 FC        1210            mov     r4,a
+0396 C005      1211            push    ar5
+0398 C006      1212            push    ar6
+039A C007      1213            push    ar7
+039C C000      1214            push    ar0
+039E C001      1215            push    ar1
+03A0 C002      1216            push    ar2
+03A2 C003      1217            push    ar3
+03A4 C004      1218            push    ar4
+03A6 8D82      1219            mov     dpl,r5
+03A8 8E83      1220            mov     dph,r6
+03AA 8FF0      1221            mov     b,r7
+03AC E8        1222            mov     a,r0
+03AD 120100    1223            lcall   ___fsdiv
+03B0 AA82      1224            mov     r2,dpl
+03B2 AB83      1225            mov     r3,dph
+03B4 ACF0      1226            mov     r4,b
+03B6 F9        1227            mov     r1,a
+03B7 E581      1228            mov     a,sp
+03B9 24FC      1229            add     a,#0xfc
+03BB F581      1230            mov     sp,a
+03BD E4        1231            clr     a
+03BE C0E0      1232            push    acc
+03C0 C0E0      1233            push    acc
+03C2 7480      1234            mov     a,#0x80
+03C4 C0E0      1235            push    acc
+03C6 743F      1236            mov     a,#0x3F
+03C8 C0E0      1237            push    acc
+03CA 8A82      1238            mov     dpl,r2
+03CC 8B83      1239            mov     dph,r3
+03CE 8CF0      1240            mov     b,r4
+03D0 E9        1241            mov     a,r1
+03D1 120100    1242            lcall   ___fsgt
+03D4 AA82      1243            mov     r2,dpl
+03D6 E581      1244            mov     a,sp
+03D8 24FC      1245            add     a,#0xfc
+03DA F581      1246            mov     sp,a
+03DC D000      1247            pop     ar0
+03DE D007      1248            pop     ar7
+03E0 D006      1249            pop     ar6
+03E2 D005      1250            pop     ar5
+03E4 EA        1251            mov     a,r2
+03E5 6001      1252            jz      L014007?
+03E7           1253   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:335: pwm_BLU1= power + 15;
+03E7 740F      1254            mov     a,#0x0F
+03E9 25A0      1255            add     a,_power
+03EB F520      1256            mov     _pwm_BLU1,a
+03ED           1257   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:336: pwm_BLU0 = 0;
+03ED 756000    1258            mov     _pwm_BLU0,#0x00
+03F0           1259   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:337: pwm_RED1 = power - 20;
+03F0 E5A0      1260            mov     a,_power
+03F2 24EC      1261            add     a,#0xec
+03F4 F5A0      1262            mov     _pwm_RED1,a
+03F6           1263   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:338: pwm_RED0 = 0;   
+03F6 75E000    1264            mov     _pwm_RED0,#0x00
+03F9 22        1265            ret
+03FA           1266   L014007?:
+03FA           1267   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:341: else if(IndVolts[1] > Vred_thresh + 0.1 && IndVolts[1]/IndVolts[0] > 1){
+03FA 7404      1268            mov     a,#0x04
+03FC 25E0      1269            add     a,_MotorControl_sloc0_1_0
+03FE FA        1270            mov     r2,a
+03FF E4        1271            clr     a
+0400 35E1      1272            addc    a,(_MotorControl_sloc0_1_0 + 1)
+0402 FB        1273            mov     r3,a
+0403 ACE2      1274            mov     r4,(_MotorControl_sloc0_1_0 + 2)
+0405 8A82      1275            mov     dpl,r2
+0407 8B83      1276            mov     dph,r3
+0409 8CF0      1277            mov     b,r4
+040B 120100    1278            lcall   __gptrget
+040E F530      1279            mov     _MotorControl_sloc1_1_0,a
+0410 A3        1280            inc     dptr
+0411 120100    1281            lcall   __gptrget
+0414 F531      1282            mov     (_MotorControl_sloc1_1_0 + 1),a
+0416 A3        1283            inc     dptr
+0417 120100    1284            lcall   __gptrget
+041A F532      1285            mov     (_MotorControl_sloc1_1_0 + 2),a
+041C A3        1286            inc     dptr
+041D 120100    1287            lcall   __gptrget
+0420 F533      1288            mov     (_MotorControl_sloc1_1_0 + 3),a
+0422 C005      1289            push    ar5
+0424 C006      1290            push    ar6
+0426 C007      1291            push    ar7
+0428 C000      1292            push    ar0
+042A 749A      1293            mov     a,#0x9A
+042C C0E0      1294            push    acc
+042E 7499      1295            mov     a,#0x99
+0430 C0E0      1296            push    acc
+0432 7419      1297            mov     a,#0x19
+0434 C0E0      1298            push    acc
+0436 743F      1299            mov     a,#0x3F
+0438 C0E0      1300            push    acc
+043A 853082    1301            mov     dpl,_MotorControl_sloc1_1_0
+043D 853183    1302            mov     dph,(_MotorControl_sloc1_1_0 + 1)
+0440 8532F0    1303            mov     b,(_MotorControl_sloc1_1_0 + 2)
+0443 E533      1304            mov     a,(_MotorControl_sloc1_1_0 + 3)
+0445 120100    1305            lcall   ___fsgt
+0448 AA82      1306            mov     r2,dpl
+044A E581      1307            mov     a,sp
+044C 24FC      1308            add     a,#0xfc
+044E F581      1309            mov     sp,a
+0450 D000      1310            pop     ar0
+0452 D007      1311            pop     ar7
+0454 D006      1312            pop     ar6
+0456 D005      1313            pop     ar5
+0458 EA        1314            mov     a,r2
+0459 6001      1315            jz      L014003?
+045B C005      1316            push    ar5
+045D C006      1317            push    ar6
+045F C007      1318            push    ar7
+0461 C000      1319            push    ar0
+0463 853082    1320            mov     dpl,_MotorControl_sloc1_1_0
+0466 853183    1321            mov     dph,(_MotorControl_sloc1_1_0 + 1)
+0469 8532F0    1322            mov     b,(_MotorControl_sloc1_1_0 + 2)
+046C E533      1323            mov     a,(_MotorControl_sloc1_1_0 + 3)
+046E 120100    1324            lcall   ___fsdiv
+0471 AA82      1325            mov     r2,dpl
+0473 AB83      1326            mov     r3,dph
+0475 ACF0      1327            mov     r4,b
+0477 FD        1328            mov     r5,a
+0478 E581      1329            mov     a,sp
+047A 24FC      1330            add     a,#0xfc
+047C F581      1331            mov     sp,a
+047E E4        1332            clr     a
+047F C0E0      1333            push    acc
+0481 C0E0      1334            push    acc
+0483 7480      1335            mov     a,#0x80
+0485 C0E0      1336            push    acc
+0487 743F      1337            mov     a,#0x3F
+0489 C0E0      1338            push    acc
+048B 8A82      1339            mov     dpl,r2
+048D 8B83      1340            mov     dph,r3
+048F 8CF0      1341            mov     b,r4
+0491 ED        1342            mov     a,r5
+0492 120100    1343            lcall   ___fsgt
+0495 AA82      1344            mov     r2,dpl
+0497 E581      1345            mov     a,sp
+0499 24FC      1346            add     a,#0xfc
+049B F581      1347            mov     sp,a
+049D EA        1348            mov     a,r2
+049E 6001      1349            jz      L014003?
+04A0           1350   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:342: pwm_BLU1=power - 20;
+04A0 E5A0      1351            mov     a,_power
+04A2 24EC      1352            add     a,#0xec
+04A4 F520      1353            mov     _pwm_BLU1,a
+04A6           1354   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:343: pwm_BLU0=0;
+04A6 756000    1355            mov     _pwm_BLU0,#0x00
+04A9           1356   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:344: pwm_RED1=power + 15;
+04A9 740F      1357            mov     a,#0x0F
+04AB 25A0      1358            add     a,_power
+04AD F5A0      1359            mov     _pwm_RED1,a
+04AF           1360   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:345: pwm_RED0=0;
+04AF 75E000    1361            mov     _pwm_RED0,#0x00
+04B2 22        1362            ret
+04B3           1363   L014003?:
+04B3           1364   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:348: pwm_BLU1 = power;
+04B3 85A020    1365            mov     _pwm_BLU1,_power
+04B6           1366   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:349: pwm_BLU0 = 0;
+04B6 756000    1367            mov     _pwm_BLU0,#0x00
+04B9           1368   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:350: pwm_RED1 = power;
+04B9 85A0A0    1369            mov     _pwm_RED1,_power
+04BC           1370   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:351: pwm_RED0 = 0;
+04BC 75E000    1371            mov     _pwm_RED0,#0x00
+04BF           1372   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:353: break;
+04BF           1373   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:355: case STOP:
+04BF 22        1374            ret
+04C0           1375   L014010?:
+04C0           1376   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:356: pwm_BLU1 = 0;
+04C0 752000    1377            mov     _pwm_BLU1,#0x00
+04C3           1378   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:357: pwm_BLU0 = 0;
+04C3 756000    1379            mov     _pwm_BLU0,#0x00
+04C6           1380   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:358: pwm_RED1 = 0;
+04C6 75A000    1381            mov     _pwm_RED1,#0x00
+04C9           1382   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:359: pwm_RED0 = 0;
+04C9 75E000    1383            mov     _pwm_RED0,#0x00
+04CC           1384   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:365: }
+04CC 22        1385            ret
+04CD           1386   ;------------------------------------------------------------
+04CD           1387   ;Allocation info for local variables in function 'DebuggingFctn'
+04CD           1388   ;------------------------------------------------------------
+04CD           1389   ;IndVolts                  Allocated with name '_DebuggingFctn_IndVolts_1_79'
+04CD           1390   ;sloc0                     Allocated with name '_DebuggingFctn_sloc0_1_0'
+04CD           1391   ;------------------------------------------------------------
+04CD           1392   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:372: void DebuggingFctn (volatile float IndVolts[])
+04CD           1393   ;        -----------------------------------------
+04CD           1394   ;         function DebuggingFctn
+04CD           1395   ;        -----------------------------------------
+04CD           1396   _DebuggingFctn:
+04CD 858280    1397            mov     _DebuggingFctn_IndVolts_1_79,dpl
+04D0 858381    1398            mov     (_DebuggingFctn_IndVolts_1_79 + 1),dph
+04D3 85F082    1399            mov     (_DebuggingFctn_IndVolts_1_79 + 2),b
+04D6           1400   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:374: printf("Freq = %5.3f HZ, Blue = %5.3f V, Red = %5.3f V, Front = %5.3f V\r", frequency, IndVolts[0], IndVolts[1], IndVolts[2]);
+04D6 7408      1401            mov     a,#0x08
+04D8 2580      1402            add     a,_DebuggingFctn_IndVolts_1_79
+04DA FA        1403            mov     r2,a
+04DB E4        1404            clr     a
+04DC 3581      1405            addc    a,(_DebuggingFctn_IndVolts_1_79 + 1)
+04DE FB        1406            mov     r3,a
+04DF AC82      1407            mov     r4,(_DebuggingFctn_IndVolts_1_79 + 2)
+04E1 8A82      1408            mov     dpl,r2
+04E3 8B83      1409            mov     dph,r3
+04E5 8CF0      1410            mov     b,r4
+04E7 120100    1411            lcall   __gptrget
+04EA FA        1412            mov     r2,a
+04EB A3        1413            inc     dptr
+04EC 120100    1414            lcall   __gptrget
+04EF FB        1415            mov     r3,a
+04F0 A3        1416            inc     dptr
+04F1 120100    1417            lcall   __gptrget
+04F4 FC        1418            mov     r4,a
+04F5 A3        1419            inc     dptr
+04F6 120100    1420            lcall   __gptrget
+04F9 FD        1421            mov     r5,a
+04FA 7404      1422            mov     a,#0x04
+04FC 2580      1423            add     a,_DebuggingFctn_IndVolts_1_79
+04FE FE        1424            mov     r6,a
+04FF E4        1425            clr     a
+0500 3581      1426            addc    a,(_DebuggingFctn_IndVolts_1_79 + 1)
+0502 FF        1427            mov     r7,a
+0503 A882      1428            mov     r0,(_DebuggingFctn_IndVolts_1_79 + 2)
+0505 8E82      1429            mov     dpl,r6
+0507 8F83      1430            mov     dph,r7
+0509 88F0      1431            mov     b,r0
+050B 120100    1432            lcall   __gptrget
+050E F5D0      1433            mov     _DebuggingFctn_sloc0_1_0,a
+0510 A3        1434            inc     dptr
+0511 120100    1435            lcall   __gptrget
+0514 F5D1      1436            mov     (_DebuggingFctn_sloc0_1_0 + 1),a
+0516 A3        1437            inc     dptr
+0517 120100    1438            lcall   __gptrget
+051A F5D2      1439            mov     (_DebuggingFctn_sloc0_1_0 + 2),a
+051C A3        1440            inc     dptr
+051D 120100    1441            lcall   __gptrget
+0520 F5D3      1442            mov     (_DebuggingFctn_sloc0_1_0 + 3),a
+0522 AE80      1443            mov     r6,_DebuggingFctn_IndVolts_1_79
+0524 AF81      1444            mov     r7,(_DebuggingFctn_IndVolts_1_79 + 1)
+0526 A882      1445            mov     r0,(_DebuggingFctn_IndVolts_1_79 + 2)
+0528 8E82      1446            mov     dpl,r6
+052A 8F83      1447            mov     dph,r7
+052C 88F0      1448            mov     b,r0
+052E 120100    1449            lcall   __gptrget
+0531 FE        1450            mov     r6,a
+0532 A3        1451            inc     dptr
+0533 120100    1452            lcall   __gptrget
+0536 FF        1453            mov     r7,a
+0537 A3        1454            inc     dptr
+0538 120100    1455            lcall   __gptrget
+053B F8        1456            mov     r0,a
+053C A3        1457            inc     dptr
+053D 120100    1458            lcall   __gptrget
+0540 F9        1459            mov     r1,a
+0541 C002      1460            push    ar2
+0543 C003      1461            push    ar3
+0545 C004      1462            push    ar4
+0547 C005      1463            push    ar5
+0549 C0D0      1464            push    _DebuggingFctn_sloc0_1_0
+054B C0D1      1465            push    (_DebuggingFctn_sloc0_1_0 + 1)
+054D C0D2      1466            push    (_DebuggingFctn_sloc0_1_0 + 2)
+054F C0D3      1467            push    (_DebuggingFctn_sloc0_1_0 + 3)
+0551 C006      1468            push    ar6
+0553 C007      1469            push    ar7
+0555 C000      1470            push    ar0
+0557 C001      1471            push    ar1
+0559 C0A0      1472            push    _frequency
+055B C0A1      1473            push    (_frequency + 1)
+055D C0A2      1474            push    (_frequency + 2)
+055F C0A3      1475            push    (_frequency + 3)
+0561 7430      1476            mov     a,#__str_0
+0563 C0E0      1477            push    acc
+0565 74A6      1478            mov     a,#(__str_0 >> 8)
+0567 C0E0      1479            push    acc
+0569 7480      1480            mov     a,#0x80
+056B C0E0      1481            push    acc
+056D 120100    1482            lcall   _printf
+0570 E581      1483            mov     a,sp
+0572 24ED      1484            add     a,#0xed
+0574 F581      1485            mov     sp,a
+0576 22        1486            ret
+0577           1487   ;------------------------------------------------------------
+0577           1488   ;Allocation info for local variables in function 'main'
+0577           1489   ;------------------------------------------------------------
+0577           1490   ;IndVolts                  Allocated with name '_main_IndVolts_1_82'
+0577           1491   ;------------------------------------------------------------
+0577           1492   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:384: void main (void)
+0577           1493   ;        -----------------------------------------
+0577           1494   ;         function main
+0577           1495   ;        -----------------------------------------
+0577           1496   _main:
+0577           1497   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:389: TIMER0_Init(); // Initialize timer 0 to read the frequency of the fm signal
+0577 120100    1498            lcall   _TIMER0_Init
+057A           1499   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:390: TIMER2_Init(); // Initialize timer 2 for periodic interrupts used for motor control
+057A 120100    1500            lcall   _TIMER2_Init
+057D           1501   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:391: EA=1; // Enable interrupts
+057D D2AF      1502            setb    _EA
+057F           1503   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:393: InitPinADC(1, 7); // Configure P1.7 as analog input
+057F 755007    1504            mov     _InitPinADC_PARM_2,#0x07
+0582 758201    1505            mov     dpl,#0x01
+0585 120100    1506            lcall   _InitPinADC
+0588           1507   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:394: InitPinADC(2, 0); // Configure P2.0 as analog input
+0588 755000    1508            mov     _InitPinADC_PARM_2,#0x00
+058B 758202    1509            mov     dpl,#0x02
+058E 120100    1510            lcall   _InitPinADC
+0591           1511   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:395: InitPinADC(2, 7); // Configure P2.7 as analog input
+0591 755007    1512            mov     _InitPinADC_PARM_2,#0x07
+0594 758202    1513            mov     dpl,#0x02
+0597 120100    1514            lcall   _InitPinADC
+059A           1515   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:396: InitADC();
+059A 120100    1516            lcall   _InitADC
+059D           1517   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:397: printf("\x1b[2J"); // Clear screen using ANSI escape sequence.
+059D 74B0      1518            mov     a,#__str_1
+059F C0E0      1519            push    acc
+05A1 74A6      1520            mov     a,#(__str_1 >> 8)
+05A3 C0E0      1521            push    acc
+05A5 7480      1522            mov     a,#0x80
+05A7 C0E0      1523            push    acc
+05A9 120100    1524            lcall   _printf
+05AC 1581      1525            dec     sp
+05AE 1581      1526            dec     sp
+05B0 1581      1527            dec     sp
+05B2           1528   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:404: while(1)
+05B2           1529   L016002?:
+05B2           1530   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:407: DetermineMode();
+05B2 120100    1531            lcall   _DetermineMode
+05B5           1532   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:411: IndVolts[0] = Volts_at_Pin(LQFP32_MUX_P2_7);
+05B5 75820F    1533            mov     dpl,#0x0F
+05B8 120100    1534            lcall   _Volts_at_Pin
+05BB AA82      1535            mov     r2,dpl
+05BD AB83      1536            mov     r3,dph
+05BF ACF0      1537            mov     r4,b
+05C1 FD        1538            mov     r5,a
+05C2 8A20      1539            mov     _main_IndVolts_1_82,r2
+05C4 8B21      1540            mov     (_main_IndVolts_1_82 + 1),r3
+05C6 8C22      1541            mov     (_main_IndVolts_1_82 + 2),r4
+05C8 8D23      1542            mov     (_main_IndVolts_1_82 + 3),r5
+05CA           1543   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:412: IndVolts[1] = Volts_at_Pin(LQFP32_MUX_P1_7);
+05CA 758207    1544            mov     dpl,#0x07
+05CD 120100    1545            lcall   _Volts_at_Pin
+05D0 AA82      1546            mov     r2,dpl
+05D2 AB83      1547            mov     r3,dph
+05D4 ACF0      1548            mov     r4,b
+05D6 FD        1549            mov     r5,a
+05D7 8A24      1550            mov     (_main_IndVolts_1_82 + 0x0004),r2
+05D9 8B25      1551            mov     ((_main_IndVolts_1_82 + 0x0004) + 1),r3
+05DB 8C26      1552            mov     ((_main_IndVolts_1_82 + 0x0004) + 2),r4
+05DD 8D27      1553            mov     ((_main_IndVolts_1_82 + 0x0004) + 3),r5
+05DF           1554   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:413: IndVolts[2] = Volts_at_Pin(LQFP32_MUX_P2_0);
+05DF 758208    1555            mov     dpl,#0x08
+05E2 120100    1556            lcall   _Volts_at_Pin
+05E5 AA82      1557            mov     r2,dpl
+05E7 AB83      1558            mov     r3,dph
+05E9 ACF0      1559            mov     r4,b
+05EB FD        1560            mov     r5,a
+05EC 8A28      1561            mov     (_main_IndVolts_1_82 + 0x0008),r2
+05EE 8B29      1562            mov     ((_main_IndVolts_1_82 + 0x0008) + 1),r3
+05F0 8C2A      1563            mov     ((_main_IndVolts_1_82 + 0x0008) + 2),r4
+05F2 8D2B      1564            mov     ((_main_IndVolts_1_82 + 0x0008) + 3),r5
+05F4           1565   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:417: MotorControl(IndVolts);
+05F4 909A20    1566            mov     dptr,#_main_IndVolts_1_82
+05F7 75F040    1567            mov     b,#0x40
+05FA 120100    1568            lcall   _MotorControl
+05FD           1569   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:420: DebuggingFctn(IndVolts);
+05FD 909A20    1570            mov     dptr,#_main_IndVolts_1_82
+0600 75F040    1571            mov     b,#0x40
+0603 120100    1572            lcall   _DebuggingFctn
+0606           1573   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:424: waitms(100);
+0606 900064    1574            mov     dptr,#0x0064
+0609 120100    1575            lcall   _waitms
+060C 8001      1576            sjmp    L016002?
+060E           1577            rseg R_CSEG
+060E           1578   
+0000           1579            rseg R_XINIT
+0000           1580   
+0000           1581            rseg R_CONST
+0000           1582   __str_0:
+0000 46726571  1583            db 'Freq = %5.3f HZ, Blue = %5.3f V, Red = %5.3f V, Front = %5.3'
+     203D2025
+     352E3366
+     20485A2C
+     20426C75
+     65203D20
+     25352E33
+     6620562C
+     20526564
+     203D2025
+     352E3366
+     20562C20
+     46726F6E
+     74203D20
+     25352E33
+003C 662056    1584            db 'f V'
+003F 0D        1585            db 0x0D
+0040 00        1586            db 0x00
+0041           1587   __str_1:
+0041 1B        1588            db 0x1B
+0042 5B324A    1589            db '[2J'
+0045 00        1590            db 0x00
+0046           1591   
+002E           1592            CSEG
+002E           1593   
+002E           1594   end

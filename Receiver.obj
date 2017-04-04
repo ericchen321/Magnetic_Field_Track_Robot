@@ -25,30 +25,31 @@ R_IXSEG,xdata,0000,NO
 R_ISEG,idata,0000,NO
 R_HOME,code,0000,NO
 R_XINIT,code,0000,NO
-R_CSEG,code,0A2F,NO
+R_CSEG,code,0A85,NO
 </SEGMENTS>
 
 <LOCALS>
-L021018?,R_CSEG,0796,0000
-L021017?,R_CSEG,0779,0000
-L021016?,R_CSEG,075D,0000
-L021015?,R_CSEG,0750,0000
-L021013?,R_CSEG,06CA,0000
+L021018?,R_CSEG,07EC,0000
+L021017?,R_CSEG,07CF,0000
+L021016?,R_CSEG,07B3,0000
+L021015?,R_CSEG,07A6,0000
+L021013?,R_CSEG,0720,0000
 _main_sloc0_1_0,R_DSEG,002B,0004
-L021010?,R_CSEG,0743,0000
-L021029?,R_CSEG,052A,0000
-L021028?,R_CSEG,0520,0000
+L021010?,R_CSEG,0799,0000
+L021029?,R_CSEG,0580,0000
+L021028?,R_CSEG,0576,0000
 L003007?,R_CSEG,005E,0000
 L003004?,R_CSEG,004E,0000
 L003001?,R_CSEG,0053,0000
 L019016?,R_CSEG,0325,0000
 L019014?,R_CSEG,0319,0000
-_MotorControl_IndVolts_1_90,R_DSEG,001C,0003
+_MotorControl_IndVolts_1_91,R_DSEG,001C,0003
 L004001?,R_CSEG,0066,0000
-L023012?,R_CSEG,085A,0000
+L023012?,R_CSEG,08B0,0000
 L019033?,R_CSEG,0321,0000
-L023010?,R_CSEG,0A0F,0000
+L023010?,R_CSEG,0A65,0000
 L019031?,R_CSEG,0315,0000
+L020008?,R_CSEG,050B,0000
 L020005?,R_CSEG,04B9,0000
 L017007?,R_CSEG,02BD,0000
 L017006?,R_CSEG,02B6,0000
@@ -56,22 +57,22 @@ L008014?,R_CSEG,00DB,0000
 L020002?,R_CSEG,0467,0000
 L008012?,R_CSEG,00CB,0000
 L017003?,R_CSEG,0282,0000
-L023026?,R_CSEG,0A2C,0000
+L023026?,R_CSEG,0A82,0000
 L008010?,R_CSEG,00C9,0000
-L023025?,R_CSEG,091D,0000
-L023023?,R_CSEG,08DA,0000
-L023022?,R_CSEG,08B0,0000
-L021008?,R_CSEG,0646,0000
-L021006?,R_CSEG,05C0,0000
-L021003?,R_CSEG,0639,0000
-L021001?,R_CSEG,053C,0000
+L023025?,R_CSEG,0973,0000
+L023023?,R_CSEG,0930,0000
+L023022?,R_CSEG,0906,0000
+L021008?,R_CSEG,069C,0000
+L021006?,R_CSEG,0616,0000
+L021003?,R_CSEG,068F,0000
+L021001?,R_CSEG,0592,0000
 _Timer2_ISR_sloc0_1_0,R_BSEG,0000,0001
 L019009?,R_CSEG,030D,0000
 L019004?,R_CSEG,0308,0000
 L019001?,R_CSEG,0305,0000
-L023009?,R_CSEG,0A03,0000
-L023005?,R_CSEG,0921,0000
-L023003?,R_CSEG,08DC,0000
+L023009?,R_CSEG,0A59,0000
+L023005?,R_CSEG,0977,0000
+L023003?,R_CSEG,0932,0000
 __str_0,R_CONST,0000,0000
 __str_1,R_CONST,0011,0000
 __str_2,R_CONST,0019,0000
@@ -82,13 +83,13 @@ L008004?,R_CSEG,00FF,0000
 L008003?,R_CSEG,00F7,0000
 L008002?,R_CSEG,00EF,0000
 L008001?,R_CSEG,00E7,0000
-_main_IndVolts_1_102,R_DSEG,001F,000C
+_main_IndVolts_1_103,R_DSEG,001F,000C
 L009004?,R_CSEG,0115,0000
 L009001?,R_CSEG,0110,0000
 L004011?,R_CSEG,0092,0000
 L004010?,R_CSEG,006D,0000
+L020013?,R_CSEG,0561,0000
 L017014?,R_CSEG,0267,0000
-L020010?,R_CSEG,050B,0000
 L017013?,R_CSEG,0265,0000
 L017011?,R_CSEG,02DD,0000
 </LOCALS>
@@ -99,8 +100,8 @@ _WriteData,R_CSEG,0204,0000
 _InitPinADC,R_CSEG,00BE,0000
 _TIMER0_Init,R_CSEG,0094,0000
 _Volts_at_Pin,R_CSEG,0129,0000
-_DebuggingFctn,R_CSEG,07B2,0000
-_main,R_CSEG,081C,0000
+_DebuggingFctn,R_CSEG,0808,0000
+_main,R_CSEG,0872,0000
 _pwm_RED0,R_DSEG,0004,0001
 _pwm_RED1,R_DSEG,0005,0001
 _LCD_pulse,R_CSEG,01C3,0000
@@ -108,7 +109,7 @@ _WriteCommand,R_CSEG,0213,0000
 _ReadPeriod,R_CSEG,02FA,0000
 _LCD_4BIT,R_CSEG,0222,0000
 __c51_external_startup,R_CSEG,0000,0000
-_MotorControl,R_CSEG,050C,0000
+_MotorControl,R_CSEG,0562,0000
 _debugstring,R_DSEG,0011,000A
 _InitPinADC_PARM_2,R_OSEG,0000,0001
 _millisecond,R_DSEG,000B,0002
@@ -790,7 +791,7 @@ E5 81
 24 FC
 F5 81
 EA
-60 rel2(L020010?;)
+60 rel2(L020008?;)
 E4
 C0 E0
 C0 E0
@@ -808,14 +809,55 @@ E5 81
 24 FC
 F5 81
 EA
-60 rel2(L020010?;)
+60 rel2(L020008?;)
 75 data8(_mode;) 05
 E4
 F5 data8(_mode;0x0001;+;)
+E4
+C0 E0
+74 80
+C0 E0
+74 09
+C0 E0
+74 44
+C0 E0
+85 data8(_period;) 82
+85 data8(_period;0x0001;+;) 83
+85 data8(_period;0x0002;+;) F0
+E5 data8(_period;0x0003;+;)
+12 addr16(___fsgt;)  
+AA 82
+E5 81
+24 FC
+F5 81
+EA
+60 rel2(L020013?;)
+E4
+C0 E0
+74 80
+C0 E0
+74 22
+C0 E0
+74 44
+C0 E0
+85 data8(_period;) 82
+85 data8(_period;0x0001;+;) 83
+85 data8(_period;0x0002;+;) F0
+E5 data8(_period;0x0003;+;)
+12 addr16(___fslt;)  
+AA 82
+E5 81
+24 FC
+F5 81
+EA
+60 rel2(L020013?;)
+75 data8(_mode;) 04
+E4
+F5 data8(_mode;0x0001;+;)
 22
-85 82 data8(_MotorControl_IndVolts_1_90;)
-85 83 data8(_MotorControl_IndVolts_1_90;0x0001;+;)
-85 F0 data8(_MotorControl_IndVolts_1_90;0x0002;+;)
+85 82 data8(_MotorControl_IndVolts_1_91;)
+85 83 data8(_MotorControl_IndVolts_1_91;0x0001;+;)
+85 F0 data8(_MotorControl_IndVolts_1_91;0x0002;+;)
 C3
 74 05
 95 data8(_mode;)
@@ -834,9 +876,9 @@ E5 data8(_mode;)
 02 addr16(L021001?;)  
 02 addr16(L021008?;)  
 02 addr16(L021018?;)  
-AA data8(_MotorControl_IndVolts_1_90;)
-AB data8(_MotorControl_IndVolts_1_90;0x0001;+;)
-AC data8(_MotorControl_IndVolts_1_90;0x0002;+;)
+AA data8(_MotorControl_IndVolts_1_91;)
+AB data8(_MotorControl_IndVolts_1_91;0x0001;+;)
+AC data8(_MotorControl_IndVolts_1_91;0x0002;+;)
 8A 82
 8B 83
 8C F0
@@ -970,9 +1012,9 @@ EA
 85 data8(_power;) data8(_pwm_RED1;)
 75 data8(_pwm_RED0;) 00
 22
-AA data8(_MotorControl_IndVolts_1_90;)
-AB data8(_MotorControl_IndVolts_1_90;0x0001;+;)
-AC data8(_MotorControl_IndVolts_1_90;0x0002;+;)
+AA data8(_MotorControl_IndVolts_1_91;)
+AB data8(_MotorControl_IndVolts_1_91;0x0001;+;)
+AC data8(_MotorControl_IndVolts_1_91;0x0002;+;)
 8A 82
 8B 83
 8C F0
@@ -1228,30 +1270,30 @@ AA 82
 AB 83
 AC F0
 FD
-8A data8(_main_IndVolts_1_102;)
-8B data8(_main_IndVolts_1_102;0x0001;+;)
-8C data8(_main_IndVolts_1_102;0x0002;+;)
-8D data8(_main_IndVolts_1_102;0x0003;+;)
+8A data8(_main_IndVolts_1_103;)
+8B data8(_main_IndVolts_1_103;0x0001;+;)
+8C data8(_main_IndVolts_1_103;0x0002;+;)
+8D data8(_main_IndVolts_1_103;0x0003;+;)
 75 82 04
 12 addr16(_Volts_at_Pin;)  
 AA 82
 AB 83
 AC F0
 FD
-8A data8(_main_IndVolts_1_102;0x0004;+;)
-8B data8(_main_IndVolts_1_102;0x0004;+;0x0001;+;)
-8C data8(_main_IndVolts_1_102;0x0004;+;0x0002;+;)
-8D data8(_main_IndVolts_1_102;0x0004;+;0x0003;+;)
+8A data8(_main_IndVolts_1_103;0x0004;+;)
+8B data8(_main_IndVolts_1_103;0x0004;+;0x0001;+;)
+8C data8(_main_IndVolts_1_103;0x0004;+;0x0002;+;)
+8D data8(_main_IndVolts_1_103;0x0004;+;0x0003;+;)
 75 82 08
 12 addr16(_Volts_at_Pin;)  
 AA 82
 AB 83
 AC F0
 FD
-8A data8(_main_IndVolts_1_102;0x0008;+;)
-8B data8(_main_IndVolts_1_102;0x0008;+;0x0001;+;)
-8C data8(_main_IndVolts_1_102;0x0008;+;0x0002;+;)
-8D data8(_main_IndVolts_1_102;0x0008;+;0x0003;+;)
+8A data8(_main_IndVolts_1_103;0x0008;+;)
+8B data8(_main_IndVolts_1_103;0x0008;+;0x0001;+;)
+8C data8(_main_IndVolts_1_103;0x0008;+;0x0002;+;)
+8D data8(_main_IndVolts_1_103;0x0008;+;0x0003;+;)
 75 8A 00
 75 8C 00
 C2 8D
@@ -1268,10 +1310,10 @@ C0 E0
 C0 E0
 74 3D
 C0 E0
-85 data8(_main_IndVolts_1_102;) 82
-85 data8(_main_IndVolts_1_102;0x0001;+;) 83
-85 data8(_main_IndVolts_1_102;0x0002;+;) F0
-E5 data8(_main_IndVolts_1_102;0x0003;+;)
+85 data8(_main_IndVolts_1_103;) 82
+85 data8(_main_IndVolts_1_103;0x0001;+;) 83
+85 data8(_main_IndVolts_1_103;0x0002;+;) F0
+E5 data8(_main_IndVolts_1_103;0x0003;+;)
 12 addr16(___fslt;)  
 AA 82
 E5 81
@@ -1288,10 +1330,10 @@ C0 E0
 C0 E0
 74 3D
 C0 E0
-85 data8(_main_IndVolts_1_102;) 82
-85 data8(_main_IndVolts_1_102;0x0001;+;) 83
-85 data8(_main_IndVolts_1_102;0x0002;+;) F0
-E5 data8(_main_IndVolts_1_102;0x0003;+;)
+85 data8(_main_IndVolts_1_103;) 82
+85 data8(_main_IndVolts_1_103;0x0001;+;) 83
+85 data8(_main_IndVolts_1_103;0x0002;+;) F0
+E5 data8(_main_IndVolts_1_103;0x0003;+;)
 12 addr16(___fslt;)  
 AA 82
 E5 81
@@ -1305,10 +1347,10 @@ AA 82
 AB 83
 AC F0
 FD
-8A data8(_main_IndVolts_1_102;)
-8B data8(_main_IndVolts_1_102;0x0001;+;)
-8C data8(_main_IndVolts_1_102;0x0002;+;)
-8D data8(_main_IndVolts_1_102;0x0003;+;)
+8A data8(_main_IndVolts_1_103;)
+8B data8(_main_IndVolts_1_103;0x0001;+;)
+8C data8(_main_IndVolts_1_103;0x0002;+;)
+8D data8(_main_IndVolts_1_103;0x0003;+;)
 10 8D rel3(L023025?;)
 80 rel2(L023003?;)
 05 data8(_overflow_count;)
@@ -1418,7 +1460,7 @@ F5 81
 75 data8(_period;0x0002;+;) 96
 75 data8(_period;0x0003;+;) 43
 12 addr16(_DetermineMode;)  
-90 data16(_main_IndVolts_1_102;)  
+90 data16(_main_IndVolts_1_103;)  
 75 F0 40
 12 addr16(_MotorControl;)  
 12 addr16(_DebuggingFctn;)  

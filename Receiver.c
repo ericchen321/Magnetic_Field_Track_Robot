@@ -404,6 +404,10 @@ void DetermineMode (void) {
   	mode = ROTATE;
   }
   
+  if(period>550.0 && period<650.0){
+  	mode = BACKWARD;
+  }
+  
 }
 
 
@@ -590,7 +594,7 @@ void main (void)
   	}
   	}
   	else{
-  		period = 300.0; // Set period in the STOP band to set Mode = STOP
+  		period = 300.0; // Set period in the STOP band to set Mode = STOP after Mode == ROTATE
   	}
   	
 	

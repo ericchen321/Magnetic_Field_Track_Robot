@@ -1,7 +1,7 @@
 0000              1   ;--------------------------------------------------------
 0000              2   ; File Created by C51
 0000              3   ; Version 1.0.0 #1069 (Apr 23 2015) (MSVC)
-0000              4   ; This file was generated Tue Apr 04 06:56:22 2017
+0000              4   ; This file was generated Tue Apr 04 08:26:17 2017
 0000              5   ;--------------------------------------------------------
                   5   $name Receiver
                   6   $optc51 --model-small
@@ -421,9 +421,9 @@
 0011            421            ds 10
 001B            422   _LCDprint_PARM_2:
 001B            423            ds 1
-001C            424   _MotorControl_IndVolts_1_90:
+001C            424   _MotorControl_IndVolts_1_91:
 001C            425            ds 3
-001F            426   _main_IndVolts_1_102:
+001F            426   _main_IndVolts_1_103:
 001F            427            ds 12
 002B            428   _main_sloc0_1_0:
 002B            429            ds 4
@@ -1471,7 +1471,7 @@
 04D8 24FC      1471            add     a,#0xfc
 04DA F581      1472            mov     sp,a
 04DC EA        1473            mov     a,r2
-04DD 6001      1474            jz      L020010?
+04DD 6001      1474            jz      L020008?
 04DF E4        1475            clr     a
 04E0 C0E0      1476            push    acc
 04E2 C0E0      1477            push    acc
@@ -1489,802 +1489,846 @@
 04FE 24FC      1489            add     a,#0xfc
 0500 F581      1490            mov     sp,a
 0502 EA        1491            mov     a,r2
-0503 6001      1492            jz      L020010?
+0503 6001      1492            jz      L020008?
 0505           1493   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:404: mode = ROTATE;
 0505 75C005    1494            mov     _mode,#0x05
 0508 E4        1495            clr     a
 0509 F5C1      1496            mov     (_mode + 1),a
-050B           1497   L020010?:
-050B 22        1498            ret
-050C           1499   ;------------------------------------------------------------
-050C           1500   ;Allocation info for local variables in function 'MotorControl'
-050C           1501   ;------------------------------------------------------------
-050C           1502   ;IndVolts                  Allocated with name '_MotorControl_IndVolts_1_90'
-050C           1503   ;------------------------------------------------------------
-050C           1504   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:414: void MotorControl (volatile float IndVolts[])
-050C           1505   ;        -----------------------------------------
-050C           1506   ;         function MotorControl
-050C           1507   ;        -----------------------------------------
-050C           1508   _MotorControl:
-050C 8582F8    1509            mov     _MotorControl_IndVolts_1_90,dpl
-050F 8583F9    1510            mov     (_MotorControl_IndVolts_1_90 + 1),dph
-0512 85F0FA    1511            mov     (_MotorControl_IndVolts_1_90 + 2),b
-0515           1512   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:417: switch (mode){
-0515 C3        1513            clr     c
-0516 7405      1514            mov     a,#0x05
-0518 95C0      1515            subb    a,_mode
-051A E4        1516            clr     a
-051B 95C1      1517            subb    a,(_mode + 1)
-051D 5001      1518            jnc     L021028?
-051F 22        1519            ret
-0520           1520   L021028?:
-0520 E5C0      1521            mov     a,_mode
-0522 25C0      1522            add     a,_mode
-0524 25C0      1523            add     a,_mode
-0526 90A9D8    1524            mov     dptr,#L021029?
-0529 73        1525            jmp     @a+dptr
-052A           1526   L021029?:
-052A 020100    1527            ljmp    L021015?
-052D 020100    1528            ljmp    L021016?
-0530 020100    1529            ljmp    L021017?
-0533 020100    1530            ljmp    L021001?
-0536 020100    1531            ljmp    L021008?
-0539 020100    1532            ljmp    L021018?
-053C           1533   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:419: case FORWARD:
-053C           1534   L021001?:
-053C           1535   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:420: if((IndVolts[0] - Vblue_middle) > Vblue_thresh){
-053C AAF8      1536            mov     r2,_MotorControl_IndVolts_1_90
-053E ABF9      1537            mov     r3,(_MotorControl_IndVolts_1_90 + 1)
-0540 ACFA      1538            mov     r4,(_MotorControl_IndVolts_1_90 + 2)
-0542 8A82      1539            mov     dpl,r2
-0544 8B83      1540            mov     dph,r3
-0546 8CF0      1541            mov     b,r4
-0548 120100    1542            lcall   __gptrget
-054B FD        1543            mov     r5,a
-054C A3        1544            inc     dptr
-054D 120100    1545            lcall   __gptrget
-0550 FE        1546            mov     r6,a
-0551 A3        1547            inc     dptr
-0552 120100    1548            lcall   __gptrget
-0555 FF        1549            mov     r7,a
-0556 A3        1550            inc     dptr
-0557 120100    1551            lcall   __gptrget
-055A F8        1552            mov     r0,a
-055B C002      1553            push    ar2
-055D C003      1554            push    ar3
-055F C004      1555            push    ar4
-0561 7462      1556            mov     a,#0x62
-0563 C0E0      1557            push    acc
-0565 7410      1558            mov     a,#0x10
-0567 C0E0      1559            push    acc
-0569 74F8      1560            mov     a,#0xF8
-056B C0E0      1561            push    acc
-056D 743E      1562            mov     a,#0x3E
-056F C0E0      1563            push    acc
-0571 8D82      1564            mov     dpl,r5
-0573 8E83      1565            mov     dph,r6
-0575 8FF0      1566            mov     b,r7
-0577 E8        1567            mov     a,r0
-0578 120100    1568            lcall   ___fssub
-057B AD82      1569            mov     r5,dpl
-057D AE83      1570            mov     r6,dph
-057F AFF0      1571            mov     r7,b
-0581 F8        1572            mov     r0,a
-0582 E581      1573            mov     a,sp
-0584 24FC      1574            add     a,#0xfc
-0586 F581      1575            mov     sp,a
-0588 74AC      1576            mov     a,#0xAC
-058A C0E0      1577            push    acc
-058C 741C      1578            mov     a,#0x1C
-058E C0E0      1579            push    acc
-0590 74DA      1580            mov     a,#0xDA
-0592 C0E0      1581            push    acc
-0594 743D      1582            mov     a,#0x3D
-0596 C0E0      1583            push    acc
-0598 8D82      1584            mov     dpl,r5
-059A 8E83      1585            mov     dph,r6
-059C 8FF0      1586            mov     b,r7
-059E E8        1587            mov     a,r0
-059F 120100    1588            lcall   ___fsgt
-05A2 AD82      1589            mov     r5,dpl
-05A4 E581      1590            mov     a,sp
-05A6 24FC      1591            add     a,#0xfc
-05A8 F581      1592            mov     sp,a
-05AA D004      1593            pop     ar4
-05AC D003      1594            pop     ar3
-05AE D002      1595            pop     ar2
-05B0 ED        1596            mov     a,r5
-05B1 6001      1597            jz      L021006?
-05B3           1598   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:421: pwm_BLU1= 0;
-05B3 756800    1599            mov     _pwm_BLU1,#0x00
-05B6           1600   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:422: pwm_BLU0 = 0;
-05B6 75A800    1601            mov     _pwm_BLU0,#0x00
-05B9           1602   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:423: pwm_RED1 = power;
-05B9 85E8E8    1603            mov     _pwm_RED1,_power
-05BC           1604   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:424: pwm_RED0 = 0; 
-05BC 752800    1605            mov     _pwm_RED0,#0x00
-05BF 22        1606            ret
-05C0           1607   L021006?:
-05C0           1608   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:427: else if( (IndVolts[1] - Vred_middle) > Vred_thresh ){
-05C0 7404      1609            mov     a,#0x04
-05C2 2A        1610            add     a,r2
-05C3 FA        1611            mov     r2,a
-05C4 E4        1612            clr     a
-05C5 3B        1613            addc    a,r3
-05C6 FB        1614            mov     r3,a
-05C7 8A82      1615            mov     dpl,r2
-05C9 8B83      1616            mov     dph,r3
-05CB 8CF0      1617            mov     b,r4
-05CD 120100    1618            lcall   __gptrget
-05D0 FA        1619            mov     r2,a
-05D1 A3        1620            inc     dptr
-05D2 120100    1621            lcall   __gptrget
-05D5 FB        1622            mov     r3,a
-05D6 A3        1623            inc     dptr
-05D7 120100    1624            lcall   __gptrget
-05DA FC        1625            mov     r4,a
-05DB A3        1626            inc     dptr
-05DC 120100    1627            lcall   __gptrget
-05DF FD        1628            mov     r5,a
-05E0 741B      1629            mov     a,#0x1B
-05E2 C0E0      1630            push    acc
-05E4 742F      1631            mov     a,#0x2F
-05E6 C0E0      1632            push    acc
-05E8 74CD      1633            mov     a,#0xCD
-05EA C0E0      1634            push    acc
-05EC 743E      1635            mov     a,#0x3E
-05EE C0E0      1636            push    acc
-05F0 8A82      1637            mov     dpl,r2
-05F2 8B83      1638            mov     dph,r3
-05F4 8CF0      1639            mov     b,r4
-05F6 ED        1640            mov     a,r5
-05F7 120100    1641            lcall   ___fssub
-05FA AA82      1642            mov     r2,dpl
-05FC AB83      1643            mov     r3,dph
-05FE ACF0      1644            mov     r4,b
-0600 FD        1645            mov     r5,a
-0601 E581      1646            mov     a,sp
-0603 24FC      1647            add     a,#0xfc
-0605 F581      1648            mov     sp,a
-0607 74AC      1649            mov     a,#0xAC
-0609 C0E0      1650            push    acc
-060B 741C      1651            mov     a,#0x1C
-060D C0E0      1652            push    acc
-060F 745A      1653            mov     a,#0x5A
-0611 C0E0      1654            push    acc
-0613 743D      1655            mov     a,#0x3D
-0615 C0E0      1656            push    acc
-0617 8A82      1657            mov     dpl,r2
-0619 8B83      1658            mov     dph,r3
-061B 8CF0      1659            mov     b,r4
-061D ED        1660            mov     a,r5
-061E 120100    1661            lcall   ___fsgt
-0621 AA82      1662            mov     r2,dpl
-0623 E581      1663            mov     a,sp
-0625 24FC      1664            add     a,#0xfc
-0627 F581      1665            mov     sp,a
-0629 EA        1666            mov     a,r2
-062A 6001      1667            jz      L021003?
-062C           1668   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:428: pwm_BLU1=power;
-062C 85E868    1669            mov     _pwm_BLU1,_power
-062F           1670   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:429: pwm_BLU0=0;
-062F 75A800    1671            mov     _pwm_BLU0,#0x00
-0632           1672   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:430: pwm_RED1=0;
-0632 75E800    1673            mov     _pwm_RED1,#0x00
-0635           1674   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:431: pwm_RED0=0;
-0635 752800    1675            mov     _pwm_RED0,#0x00
-0638 22        1676            ret
-0639           1677   L021003?:
-0639           1678   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:434: pwm_BLU1 = power;
-0639 85E868    1679            mov     _pwm_BLU1,_power
-063C           1680   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:435: pwm_BLU0 = 0;
-063C 75A800    1681            mov     _pwm_BLU0,#0x00
-063F           1682   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:436: pwm_RED1 = power;
-063F 85E8E8    1683            mov     _pwm_RED1,_power
-0642           1684   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:437: pwm_RED0 = 0;
-0642 752800    1685            mov     _pwm_RED0,#0x00
-0645           1686   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:439: break;
-0645 22        1687            ret
-0646           1688   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:442: case BACKWARD:
-0646           1689   L021008?:
-0646           1690   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:443: if((IndVolts[0] - Vblue_middle) > Vblue_thresh){
-0646 AAF8      1691            mov     r2,_MotorControl_IndVolts_1_90
-0648 ABF9      1692            mov     r3,(_MotorControl_IndVolts_1_90 + 1)
-064A ACFA      1693            mov     r4,(_MotorControl_IndVolts_1_90 + 2)
-064C 8A82      1694            mov     dpl,r2
-064E 8B83      1695            mov     dph,r3
-0650 8CF0      1696            mov     b,r4
-0652 120100    1697            lcall   __gptrget
-0655 FD        1698            mov     r5,a
-0656 A3        1699            inc     dptr
-0657 120100    1700            lcall   __gptrget
-065A FE        1701            mov     r6,a
-065B A3        1702            inc     dptr
-065C 120100    1703            lcall   __gptrget
-065F FF        1704            mov     r7,a
-0660 A3        1705            inc     dptr
-0661 120100    1706            lcall   __gptrget
-0664 F8        1707            mov     r0,a
-0665 C002      1708            push    ar2
-0667 C003      1709            push    ar3
-0669 C004      1710            push    ar4
-066B 7462      1711            mov     a,#0x62
-066D C0E0      1712            push    acc
-066F 7410      1713            mov     a,#0x10
-0671 C0E0      1714            push    acc
-0673 74F8      1715            mov     a,#0xF8
-0675 C0E0      1716            push    acc
-0677 743E      1717            mov     a,#0x3E
-0679 C0E0      1718            push    acc
-067B 8D82      1719            mov     dpl,r5
-067D 8E83      1720            mov     dph,r6
-067F 8FF0      1721            mov     b,r7
-0681 E8        1722            mov     a,r0
-0682 120100    1723            lcall   ___fssub
-0685 AD82      1724            mov     r5,dpl
-0687 AE83      1725            mov     r6,dph
-0689 AFF0      1726            mov     r7,b
-068B F8        1727            mov     r0,a
-068C E581      1728            mov     a,sp
-068E 24FC      1729            add     a,#0xfc
-0690 F581      1730            mov     sp,a
-0692 74AC      1731            mov     a,#0xAC
-0694 C0E0      1732            push    acc
-0696 741C      1733            mov     a,#0x1C
-0698 C0E0      1734            push    acc
-069A 74DA      1735            mov     a,#0xDA
-069C C0E0      1736            push    acc
-069E 743D      1737            mov     a,#0x3D
-06A0 C0E0      1738            push    acc
-06A2 8D82      1739            mov     dpl,r5
-06A4 8E83      1740            mov     dph,r6
-06A6 8FF0      1741            mov     b,r7
-06A8 E8        1742            mov     a,r0
-06A9 120100    1743            lcall   ___fsgt
-06AC AD82      1744            mov     r5,dpl
-06AE E581      1745            mov     a,sp
-06B0 24FC      1746            add     a,#0xfc
-06B2 F581      1747            mov     sp,a
-06B4 D004      1748            pop     ar4
-06B6 D003      1749            pop     ar3
-06B8 D002      1750            pop     ar2
-06BA ED        1751            mov     a,r5
-06BB 6001      1752            jz      L021013?
-06BD           1753   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:444: pwm_BLU1= 0;
-06BD 756800    1754            mov     _pwm_BLU1,#0x00
-06C0           1755   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:445: pwm_BLU0 = 0;
-06C0 75A800    1756            mov     _pwm_BLU0,#0x00
-06C3           1757   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:446: pwm_RED1 = 0;
-06C3 75E800    1758            mov     _pwm_RED1,#0x00
-06C6           1759   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:447: pwm_RED0 = power; 
-06C6 85E828    1760            mov     _pwm_RED0,_power
-06C9 22        1761            ret
-06CA           1762   L021013?:
-06CA           1763   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:450: else if( (IndVolts[1] - Vred_middle) > Vred_thresh ){
-06CA 7404      1764            mov     a,#0x04
-06CC 2A        1765            add     a,r2
-06CD FA        1766            mov     r2,a
-06CE E4        1767            clr     a
-06CF 3B        1768            addc    a,r3
-06D0 FB        1769            mov     r3,a
-06D1 8A82      1770            mov     dpl,r2
-06D3 8B83      1771            mov     dph,r3
-06D5 8CF0      1772            mov     b,r4
-06D7 120100    1773            lcall   __gptrget
-06DA FA        1774            mov     r2,a
-06DB A3        1775            inc     dptr
-06DC 120100    1776            lcall   __gptrget
-06DF FB        1777            mov     r3,a
-06E0 A3        1778            inc     dptr
-06E1 120100    1779            lcall   __gptrget
-06E4 FC        1780            mov     r4,a
-06E5 A3        1781            inc     dptr
-06E6 120100    1782            lcall   __gptrget
-06E9 FD        1783            mov     r5,a
-06EA 741B      1784            mov     a,#0x1B
-06EC C0E0      1785            push    acc
-06EE 742F      1786            mov     a,#0x2F
-06F0 C0E0      1787            push    acc
-06F2 74CD      1788            mov     a,#0xCD
-06F4 C0E0      1789            push    acc
-06F6 743E      1790            mov     a,#0x3E
-06F8 C0E0      1791            push    acc
-06FA 8A82      1792            mov     dpl,r2
-06FC 8B83      1793            mov     dph,r3
-06FE 8CF0      1794            mov     b,r4
-0700 ED        1795            mov     a,r5
-0701 120100    1796            lcall   ___fssub
-0704 AA82      1797            mov     r2,dpl
-0706 AB83      1798            mov     r3,dph
-0708 ACF0      1799            mov     r4,b
-070A FD        1800            mov     r5,a
-070B E581      1801            mov     a,sp
-070D 24FC      1802            add     a,#0xfc
-070F F581      1803            mov     sp,a
-0711 74AC      1804            mov     a,#0xAC
-0713 C0E0      1805            push    acc
-0715 741C      1806            mov     a,#0x1C
-0717 C0E0      1807            push    acc
-0719 745A      1808            mov     a,#0x5A
-071B C0E0      1809            push    acc
-071D 743D      1810            mov     a,#0x3D
-071F C0E0      1811            push    acc
-0721 8A82      1812            mov     dpl,r2
-0723 8B83      1813            mov     dph,r3
-0725 8CF0      1814            mov     b,r4
-0727 ED        1815            mov     a,r5
-0728 120100    1816            lcall   ___fsgt
-072B AA82      1817            mov     r2,dpl
-072D E581      1818            mov     a,sp
-072F 24FC      1819            add     a,#0xfc
-0731 F581      1820            mov     sp,a
-0733 EA        1821            mov     a,r2
-0734 6001      1822            jz      L021010?
-0736           1823   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:451: pwm_BLU1=0;
-0736 756800    1824            mov     _pwm_BLU1,#0x00
-0739           1825   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:452: pwm_BLU0=power;
-0739 85E8A8    1826            mov     _pwm_BLU0,_power
-073C           1827   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:453: pwm_RED1=0;
-073C 75E800    1828            mov     _pwm_RED1,#0x00
-073F           1829   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:454: pwm_RED0=0;
-073F 752800    1830            mov     _pwm_RED0,#0x00
-0742 22        1831            ret
-0743           1832   L021010?:
-0743           1833   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:457: pwm_BLU1 = power;
-0743 85E868    1834            mov     _pwm_BLU1,_power
-0746           1835   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:458: pwm_BLU0 = 0;
-0746 75A800    1836            mov     _pwm_BLU0,#0x00
-0749           1837   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:459: pwm_RED1 = power;
-0749 85E8E8    1838            mov     _pwm_RED1,_power
-074C           1839   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:460: pwm_RED0 = 0;
-074C 752800    1840            mov     _pwm_RED0,#0x00
-074F           1841   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:462: break;
-074F           1842   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:466: case STOP:
-074F 22        1843            ret
-0750           1844   L021015?:
-0750           1845   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:467: pwm_BLU1 = 0;
-0750 756800    1846            mov     _pwm_BLU1,#0x00
-0753           1847   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:468: pwm_BLU0 = 0;
-0753 75A800    1848            mov     _pwm_BLU0,#0x00
-0756           1849   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:469: pwm_RED1 = 0;
-0756 75E800    1850            mov     _pwm_RED1,#0x00
-0759           1851   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:470: pwm_RED0 = 0;
-0759 752800    1852            mov     _pwm_RED0,#0x00
-075C           1853   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:471: break;
-075C           1854   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:475: case NITL:
-075C 22        1855            ret
-075D           1856   L021016?:
-075D           1857   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:476: pwm_BLU1 = 0;
-075D           1858   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:477: pwm_BLU0 = 0;
-075D           1859   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:478: pwm_RED1 = 3*power;
-075D E4        1860            clr     a
-075E F568      1861            mov     _pwm_BLU1,a
-0760 F5A8      1862            mov     _pwm_BLU0,a
-0762 E5E8      1863            mov     a,_power
-0764 75F003    1864            mov     b,#0x03
-0767 A4        1865            mul     ab
-0768 F5E8      1866            mov     _pwm_RED1,a
-076A           1867   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:479: pwm_RED0 = 0;
-076A 752800    1868            mov     _pwm_RED0,#0x00
-076D           1869   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:480: waitms(1000);
-076D 9003E8    1870            mov     dptr,#0x03E8
-0770 120100    1871            lcall   _waitms
-0773           1872   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:481: mode=STOP;
-0773 E4        1873            clr     a
-0774 F5C0      1874            mov     _mode,a
-0776 F5C1      1875            mov     (_mode + 1),a
-0778           1876   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:482: break;
-0778           1877   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:486: case NITR:
-0778 22        1878            ret
-0779           1879   L021017?:
-0779           1880   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:487: pwm_BLU1 = 3*power;
-0779 E5E8      1881            mov     a,_power
-077B 75F003    1882            mov     b,#0x03
-077E A4        1883            mul     ab
-077F F568      1884            mov     _pwm_BLU1,a
-0781           1885   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:488: pwm_BLU0 = 0;
-0781 75A800    1886            mov     _pwm_BLU0,#0x00
-0784           1887   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:489: pwm_RED1 = 0;
-0784 75E800    1888            mov     _pwm_RED1,#0x00
-0787           1889   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:490: pwm_RED0 = 0;
-0787 752800    1890            mov     _pwm_RED0,#0x00
-078A           1891   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:491: waitms(1000);
-078A 9003E8    1892            mov     dptr,#0x03E8
-078D 120100    1893            lcall   _waitms
-0790           1894   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:492: mode = STOP;
-0790 E4        1895            clr     a
-0791 F5C0      1896            mov     _mode,a
-0793 F5C1      1897            mov     (_mode + 1),a
-0795           1898   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:493: break;
-0795           1899   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:497: case ROTATE:
-0795 22        1900            ret
-0796           1901   L021018?:
-0796           1902   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:498: pwm_BLU1 = 0;
-0796 756800    1903            mov     _pwm_BLU1,#0x00
-0799           1904   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:499: pwm_BLU0 = 3*power;
-0799 E5E8      1905            mov     a,_power
-079B 75F003    1906            mov     b,#0x03
-079E A4        1907            mul     ab
-079F F5A8      1908            mov     _pwm_BLU0,a
-07A1           1909   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:500: pwm_RED1 = 3*power;
-07A1 E5E8      1910            mov     a,_power
-07A3 75F003    1911            mov     b,#0x03
-07A6 A4        1912            mul     ab
-07A7 F5E8      1913            mov     _pwm_RED1,a
-07A9           1914   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:501: pwm_RED0 = 0;
-07A9 752800    1915            mov     _pwm_RED0,#0x00
-07AC           1916   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:502: waitms(1200);
-07AC 9004B0    1917            mov     dptr,#0x04B0
-07AF           1918   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:508: }
-07AF 020100    1919            ljmp    _waitms
-07B2           1920   ;------------------------------------------------------------
-07B2           1921   ;Allocation info for local variables in function 'DebuggingFctn'
-07B2           1922   ;------------------------------------------------------------
-07B2           1923   ;------------------------------------------------------------
-07B2           1924   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:519: void DebuggingFctn (void)
-07B2           1925   ;        -----------------------------------------
-07B2           1926   ;         function DebuggingFctn
-07B2           1927   ;        -----------------------------------------
-07B2           1928   _DebuggingFctn:
-07B2           1929   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:521: sprintf(debugstring, "%4.3fms", period);
-07B2 C000      1930            push    _period
-07B4 C001      1931            push    (_period + 1)
-07B6 C002      1932            push    (_period + 2)
-07B8 C003      1933            push    (_period + 3)
-07BA 74D8      1934            mov     a,#__str_1
-07BC C0E0      1935            push    acc
-07BE 74AC      1936            mov     a,#(__str_1 >> 8)
-07C0 C0E0      1937            push    acc
-07C2 7480      1938            mov     a,#0x80
-07C4 C0E0      1939            push    acc
-07C6 74C0      1940            mov     a,#_debugstring
-07C8 C0E0      1941            push    acc
-07CA 7417      1942            mov     a,#(_debugstring >> 8)
-07CC C0E0      1943            push    acc
-07CE 7440      1944            mov     a,#0x40
-07D0 C0E0      1945            push    acc
-07D2 120100    1946            lcall   _sprintf
-07D5 E581      1947            mov     a,sp
-07D7 24F6      1948            add     a,#0xf6
-07D9 F581      1949            mov     sp,a
-07DB           1950   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:522: LCDprint(debugstring, 1,1);
-07DB 758001    1951            mov     _LCDprint_PARM_2,#0x01
-07DE D230      1952            setb    _LCDprint_PARM_3
-07E0 9017C0    1953            mov     dptr,#_debugstring
-07E3 75F040    1954            mov     b,#0x40
-07E6 120100    1955            lcall   _LCDprint
-07E9           1956   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:523: sprintf(debugstring, "%d", mode);
-07E9 C0C0      1957            push    _mode
-07EB C0C1      1958            push    (_mode + 1)
-07ED 7458      1959            mov     a,#__str_2
-07EF C0E0      1960            push    acc
-07F1 74AD      1961            mov     a,#(__str_2 >> 8)
-07F3 C0E0      1962            push    acc
-07F5 7480      1963            mov     a,#0x80
-07F7 C0E0      1964            push    acc
-07F9 74C0      1965            mov     a,#_debugstring
-07FB C0E0      1966            push    acc
-07FD 7417      1967            mov     a,#(_debugstring >> 8)
-07FF C0E0      1968            push    acc
-0801 7440      1969            mov     a,#0x40
-0803 C0E0      1970            push    acc
-0805 120100    1971            lcall   _sprintf
-0808 E581      1972            mov     a,sp
-080A 24F8      1973            add     a,#0xf8
-080C F581      1974            mov     sp,a
-080E           1975   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:524: LCDprint(debugstring, 2,1);
-080E 758002    1976            mov     _LCDprint_PARM_2,#0x02
-0811 D230      1977            setb    _LCDprint_PARM_3
-0813 9017C0    1978            mov     dptr,#_debugstring
-0816 75F040    1979            mov     b,#0x40
-0819 020100    1980            ljmp    _LCDprint
-081C           1981   ;------------------------------------------------------------
-081C           1982   ;Allocation info for local variables in function 'main'
-081C           1983   ;------------------------------------------------------------
-081C           1984   ;IndVolts                  Allocated with name '_main_IndVolts_1_102'
-081C           1985   ;sloc0                     Allocated with name '_main_sloc0_1_0'
-081C           1986   ;------------------------------------------------------------
-081C           1987   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:532: void main (void)
-081C           1988   ;        -----------------------------------------
-081C           1989   ;         function main
-081C           1990   ;        -----------------------------------------
-081C           1991   _main:
-081C           1992   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:539: TIMER0_Init(); // Initialize timer 0 to read the frequency of the fm signal
-081C 120100    1993            lcall   _TIMER0_Init
-081F           1994   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:540: TIMER2_Init(); // Initialize timer 2 for periodic interrupts used for motor control
-081F 120100    1995            lcall   _TIMER2_Init
-0822           1996   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:541: LCD_4BIT(); // Initialize the LCD
-0822 120100    1997            lcall   _LCD_4BIT
-0825           1998   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:542: EA=1; // Enable interrupts
-0825 D2AF      1999            setb    _EA
-0827           2000   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:544: InitPinADC(1, 4); // Configure P1.4 as analog input
-0827 755004    2001            mov     _InitPinADC_PARM_2,#0x04
-082A 758201    2002            mov     dpl,#0x01
-082D 120100    2003            lcall   _InitPinADC
-0830           2004   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:545: InitPinADC(2, 0); // Configure P2.0 as analog input
-0830 755000    2005            mov     _InitPinADC_PARM_2,#0x00
-0833 758202    2006            mov     dpl,#0x02
-0836 120100    2007            lcall   _InitPinADC
-0839           2008   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:546: InitPinADC(2, 7); // Configure P2.7 as analog input
-0839 755007    2009            mov     _InitPinADC_PARM_2,#0x07
-083C 758202    2010            mov     dpl,#0x02
-083F 120100    2011            lcall   _InitPinADC
-0842           2012   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:547: InitADC();
-0842 120100    2013            lcall   _InitADC
-0845           2014   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:548: printf("\x1b[2J"); // Clear screen using ANSI escape sequence.
-0845 7498      2015            mov     a,#__str_3
-0847 C0E0      2016            push    acc
-0849 74AD      2017            mov     a,#(__str_3 >> 8)
-084B C0E0      2018            push    acc
-084D 7480      2019            mov     a,#0x80
-084F C0E0      2020            push    acc
-0851 120100    2021            lcall   _printf
-0854 1581      2022            dec     sp
-0856 1581      2023            dec     sp
-0858 1581      2024            dec     sp
-085A           2025   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:556: while(1)
-085A           2026   L023012?:
-085A           2027   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:560: IndVolts[0] = Volts_at_Pin(LQFP32_MUX_P2_7);
-085A 75820F    2028            mov     dpl,#0x0F
-085D 120100    2029            lcall   _Volts_at_Pin
-0860 AA82      2030            mov     r2,dpl
-0862 AB83      2031            mov     r3,dph
-0864 ACF0      2032            mov     r4,b
-0866 FD        2033            mov     r5,a
-0867 8A48      2034            mov     _main_IndVolts_1_102,r2
-0869 8B49      2035            mov     (_main_IndVolts_1_102 + 1),r3
-086B 8C4A      2036            mov     (_main_IndVolts_1_102 + 2),r4
-086D 8D4B      2037            mov     (_main_IndVolts_1_102 + 3),r5
-086F           2038   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:561: IndVolts[1] = Volts_at_Pin(LQFP32_MUX_P1_4);
-086F 758204    2039            mov     dpl,#0x04
-0872 120100    2040            lcall   _Volts_at_Pin
-0875 AA82      2041            mov     r2,dpl
-0877 AB83      2042            mov     r3,dph
-0879 ACF0      2043            mov     r4,b
-087B FD        2044            mov     r5,a
-087C 8A4C      2045            mov     (_main_IndVolts_1_102 + 0x0004),r2
-087E 8B4D      2046            mov     ((_main_IndVolts_1_102 + 0x0004) + 1),r3
-0880 8C4E      2047            mov     ((_main_IndVolts_1_102 + 0x0004) + 2),r4
-0882 8D4F      2048            mov     ((_main_IndVolts_1_102 + 0x0004) + 3),r5
-0884           2049   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:562: IndVolts[2] = Volts_at_Pin(LQFP32_MUX_P2_0);
-0884 758208    2050            mov     dpl,#0x08
-0887 120100    2051            lcall   _Volts_at_Pin
-088A AA82      2052            mov     r2,dpl
-088C AB83      2053            mov     r3,dph
-088E ACF0      2054            mov     r4,b
-0890 FD        2055            mov     r5,a
-0891 8A50      2056            mov     (_main_IndVolts_1_102 + 0x0008),r2
-0893 8B51      2057            mov     ((_main_IndVolts_1_102 + 0x0008) + 1),r3
-0895 8C52      2058            mov     ((_main_IndVolts_1_102 + 0x0008) + 2),r4
-0897 8D53      2059            mov     ((_main_IndVolts_1_102 + 0x0008) + 3),r5
-0899           2060   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:566: TL0=0;
-0899 758A00    2061            mov     _TL0,#0x00
-089C           2062   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:567: TH0=0;
-089C 758C00    2063            mov     _TH0,#0x00
-089F           2064   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:568: TF0=0;
-089F C28D      2065            clr     _TF0
-08A1           2066   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:569: overflow_count=0;
-08A1 758000    2067            mov     _overflow_count,#0x00
-08A4           2068   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:572: if (mode != ROTATE){
-08A4 7405      2069            mov     a,#0x05
-08A6 B5C058    2070            cjne    a,_mode,L023022?
-08A9 E4        2071            clr     a
-08AA B5C158    2072            cjne    a,(_mode + 1),L023022?
-08AD 020100    2073            ljmp    L023009?
-08B0           2074   L023022?:
-08B0           2075   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:573: if (IndVolts[0]<0.10){
-08B0 74CD      2076            mov     a,#0xCD
-08B2 C0E0      2077            push    acc
-08B4 74CC      2078            mov     a,#0xCC
-08B6 C0E0      2079            push    acc
-08B8 C0E0      2080            push    acc
-08BA 743D      2081            mov     a,#0x3D
-08BC C0E0      2082            push    acc
-08BE 854882    2083            mov     dpl,_main_IndVolts_1_102
-08C1 854983    2084            mov     dph,(_main_IndVolts_1_102 + 1)
-08C4 854AF0    2085            mov     b,(_main_IndVolts_1_102 + 2)
-08C7 E54B      2086            mov     a,(_main_IndVolts_1_102 + 3)
-08C9 120100    2087            lcall   ___fslt
-08CC AA82      2088            mov     r2,dpl
-08CE E581      2089            mov     a,sp
-08D0 24FC      2090            add     a,#0xfc
-08D2 F581      2091            mov     sp,a
-08D4 EA        2092            mov     a,r2
-08D5 7001      2093            jnz     L023023?
-08D7 020100    2094            ljmp    L023010?
-08DA           2095   L023023?:
-08DA           2096   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:575: TR0=1; // logic zero signal detected! detect time interval btw two falling edges. Start the timer
-08DA D28C      2097            setb    _TR0
-08DC           2098   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:576: while(IndVolts[0]<0.10) // Wait for the signal to be logic one
-08DC           2099   L023003?:
-08DC 74CD      2100            mov     a,#0xCD
-08DE C0E0      2101            push    acc
-08E0 74CC      2102            mov     a,#0xCC
-08E2 C0E0      2103            push    acc
-08E4 C0E0      2104            push    acc
-08E6 743D      2105            mov     a,#0x3D
-08E8 C0E0      2106            push    acc
-08EA 854882    2107            mov     dpl,_main_IndVolts_1_102
-08ED 854983    2108            mov     dph,(_main_IndVolts_1_102 + 1)
-08F0 854AF0    2109            mov     b,(_main_IndVolts_1_102 + 2)
-08F3 E54B      2110            mov     a,(_main_IndVolts_1_102 + 3)
-08F5 120100    2111            lcall   ___fslt
-08F8 AA82      2112            mov     r2,dpl
-08FA E581      2113            mov     a,sp
-08FC 24FC      2114            add     a,#0xfc
-08FE F581      2115            mov     sp,a
-0900 EA        2116            mov     a,r2
-0901 6001      2117            jz      L023005?
-0903           2118   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:578: IndVolts[0] = Volts_at_Pin(LQFP32_MUX_P2_7);
-0903 75820F    2119            mov     dpl,#0x0F
-0906 120100    2120            lcall   _Volts_at_Pin
-0909 AA82      2121            mov     r2,dpl
-090B AB83      2122            mov     r3,dph
-090D ACF0      2123            mov     r4,b
-090F FD        2124            mov     r5,a
-0910 8A48      2125            mov     _main_IndVolts_1_102,r2
-0912 8B49      2126            mov     (_main_IndVolts_1_102 + 1),r3
-0914 8C4A      2127            mov     (_main_IndVolts_1_102 + 2),r4
-0916 8D4B      2128            mov     (_main_IndVolts_1_102 + 3),r5
-0918           2129   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:579: if(TF0==1) // Did the 16-bit timer overflow?
-0918           2130   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:581: TF0=0;
-0918 108DD8    2131            jbc     _TF0,L023025?
-091B 8001      2132            sjmp    L023003?
-091D           2133   L023025?:
-091D           2134   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:582: overflow_count++;
-091D 0580      2135            inc     _overflow_count
-091F 8001      2136            sjmp    L023003?
-0921           2137   L023005?:
-0921           2138   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:587: TR0=0; // Stop timer 0, the 24-bit number [overflow_count-TH0-TL0] has the period. Then convert it to frequency
-0921 C28C      2139            clr     _TR0
-0923           2140   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:589: period=1000.0*(overflow_count*65536.0+TH0*256.0+TL0)*(12.0/SYSCLK); // Compute period. Unit in ms
-0923 858082    2141            mov     dpl,_overflow_count
-0926 120100    2142            lcall   ___uchar2fs
-0929 AA82      2143            mov     r2,dpl
-092B AB83      2144            mov     r3,dph
-092D ACF0      2145            mov     r4,b
-092F FD        2146            mov     r5,a
-0930 C002      2147            push    ar2
-0932 C003      2148            push    ar3
-0934 C004      2149            push    ar4
-0936 C005      2150            push    ar5
-0938 900000    2151            mov     dptr,#0x0000
-093B 75F080    2152            mov     b,#0x80
-093E 7447      2153            mov     a,#0x47
-0940 120100    2154            lcall   ___fsmul
-0943 858288    2155            mov     _main_sloc0_1_0,dpl
-0946 858389    2156            mov     (_main_sloc0_1_0 + 1),dph
-0949 85F08A    2157            mov     (_main_sloc0_1_0 + 2),b
-094C F58B      2158            mov     (_main_sloc0_1_0 + 3),a
-094E E581      2159            mov     a,sp
-0950 24FC      2160            add     a,#0xfc
-0952 F581      2161            mov     sp,a
-0954 858C82    2162            mov     dpl,_TH0
-0957 120100    2163            lcall   ___uchar2fs
-095A AE82      2164            mov     r6,dpl
-095C AF83      2165            mov     r7,dph
-095E AAF0      2166            mov     r2,b
-0960 FB        2167            mov     r3,a
-0961 C006      2168            push    ar6
-0963 C007      2169            push    ar7
-0965 C002      2170            push    ar2
-0967 C003      2171            push    ar3
-0969 900000    2172            mov     dptr,#0x0000
-096C 75F080    2173            mov     b,#0x80
-096F 7443      2174            mov     a,#0x43
-0971 120100    2175            lcall   ___fsmul
-0974 AA82      2176            mov     r2,dpl
-0976 AB83      2177            mov     r3,dph
-0978 ACF0      2178            mov     r4,b
-097A FD        2179            mov     r5,a
-097B E581      2180            mov     a,sp
-097D 24FC      2181            add     a,#0xfc
-097F F581      2182            mov     sp,a
-0981 C002      2183            push    ar2
-0983 C003      2184            push    ar3
-0985 C004      2185            push    ar4
-0987 C005      2186            push    ar5
-0989 858882    2187            mov     dpl,_main_sloc0_1_0
-098C 858983    2188            mov     dph,(_main_sloc0_1_0 + 1)
-098F 858AF0    2189            mov     b,(_main_sloc0_1_0 + 2)
-0992 E58B      2190            mov     a,(_main_sloc0_1_0 + 3)
-0994 120100    2191            lcall   ___fsadd
-0997 858288    2192            mov     _main_sloc0_1_0,dpl
-099A 858389    2193            mov     (_main_sloc0_1_0 + 1),dph
-099D 85F08A    2194            mov     (_main_sloc0_1_0 + 2),b
-09A0 F58B      2195            mov     (_main_sloc0_1_0 + 3),a
-09A2 E581      2196            mov     a,sp
-09A4 24FC      2197            add     a,#0xfc
-09A6 F581      2198            mov     sp,a
-09A8 AE8A      2199            mov     r6,_TL0
-09AA 7F00      2200            mov     r7,#0x00
-09AC 8E82      2201            mov     dpl,r6
-09AE 8F83      2202            mov     dph,r7
-09B0 120100    2203            lcall   ___sint2fs
-09B3 AE82      2204            mov     r6,dpl
-09B5 AF83      2205            mov     r7,dph
-09B7 AAF0      2206            mov     r2,b
-09B9 FB        2207            mov     r3,a
-09BA C006      2208            push    ar6
-09BC C007      2209            push    ar7
-09BE C002      2210            push    ar2
-09C0 C003      2211            push    ar3
-09C2 858882    2212            mov     dpl,_main_sloc0_1_0
-09C5 858983    2213            mov     dph,(_main_sloc0_1_0 + 1)
-09C8 858AF0    2214            mov     b,(_main_sloc0_1_0 + 2)
-09CB E58B      2215            mov     a,(_main_sloc0_1_0 + 3)
-09CD 120100    2216            lcall   ___fsadd
-09D0 AA82      2217            mov     r2,dpl
-09D2 AB83      2218            mov     r3,dph
-09D4 ACF0      2219            mov     r4,b
-09D6 FD        2220            mov     r5,a
-09D7 E581      2221            mov     a,sp
-09D9 24FC      2222            add     a,#0xfc
-09DB F581      2223            mov     sp,a
-09DD C002      2224            push    ar2
-09DF C003      2225            push    ar3
-09E1 C004      2226            push    ar4
-09E3 C005      2227            push    ar5
-09E5 90126F    2228            mov     dptr,#0x126F
-09E8 75F083    2229            mov     b,#0x83
-09EB 7439      2230            mov     a,#0x39
-09ED 120100    2231            lcall   ___fsmul
-09F0 858200    2232            mov     _period,dpl
-09F3 858301    2233            mov     (_period + 1),dph
-09F6 85F002    2234            mov     (_period + 2),b
-09F9 F503      2235            mov     (_period + 3),a
-09FB E581      2236            mov     a,sp
-09FD 24FC      2237            add     a,#0xfc
-09FF F581      2238            mov     sp,a
-0A01 8001      2239            sjmp    L023010?
-0A03           2240   L023009?:
-0A03           2241   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:593: period = 300.0; // Set period in the STOP band to set Mode = STOP
-0A03 750000    2242            mov     _period,#0x00
-0A06 750100    2243            mov     (_period + 1),#0x00
-0A09 750296    2244            mov     (_period + 2),#0x96
-0A0C 750343    2245            mov     (_period + 3),#0x43
-0A0F           2246   L023010?:
-0A0F           2247   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:599: DetermineMode();
-0A0F 120100    2248            lcall   _DetermineMode
-0A12           2249   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:603: MotorControl(IndVolts);
-0A12 909C48    2250            mov     dptr,#_main_IndVolts_1_102
-0A15 75F040    2251            mov     b,#0x40
-0A18 120100    2252            lcall   _MotorControl
-0A1B           2253   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:607: DebuggingFctn(); 
-0A1B 120100    2254            lcall   _DebuggingFctn
-0A1E           2255   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:612: waitms(1);
-0A1E 900001    2256            mov     dptr,#0x0001
-0A21 120100    2257            lcall   _waitms
-0A24           2258   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:613: millisecond = millisecond + 1;
-0A24 0540      2259            inc     _millisecond
-0A26 E4        2260            clr     a
-0A27 B54018    2261            cjne    a,_millisecond,L023026?
-0A2A 0541      2262            inc     (_millisecond + 1)
-0A2C           2263   L023026?:
-0A2C 020100    2264            ljmp    L023012?
-0A2F           2265            rseg R_CSEG
-0A2F           2266   
-0000           2267            rseg R_XINIT
-0000           2268   
-0000           2269            rseg R_CONST
-0000           2270   __str_0:
-0000 20202020  2271            db '                '
+050B           1497   L020008?:
+050B           1498   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:407: if(period>550.0 && period<650.0){
+050B E4        1499            clr     a
+050C C0E0      1500            push    acc
+050E 7480      1501            mov     a,#0x80
+0510 C0E0      1502            push    acc
+0512 7409      1503            mov     a,#0x09
+0514 C0E0      1504            push    acc
+0516 7444      1505            mov     a,#0x44
+0518 C0E0      1506            push    acc
+051A 850082    1507            mov     dpl,_period
+051D 850183    1508            mov     dph,(_period + 1)
+0520 8502F0    1509            mov     b,(_period + 2)
+0523 E503      1510            mov     a,(_period + 3)
+0525 120100    1511            lcall   ___fsgt
+0528 AA82      1512            mov     r2,dpl
+052A E581      1513            mov     a,sp
+052C 24FC      1514            add     a,#0xfc
+052E F581      1515            mov     sp,a
+0530 EA        1516            mov     a,r2
+0531 6001      1517            jz      L020013?
+0533 E4        1518            clr     a
+0534 C0E0      1519            push    acc
+0536 7480      1520            mov     a,#0x80
+0538 C0E0      1521            push    acc
+053A 7422      1522            mov     a,#0x22
+053C C0E0      1523            push    acc
+053E 7444      1524            mov     a,#0x44
+0540 C0E0      1525            push    acc
+0542 850082    1526            mov     dpl,_period
+0545 850183    1527            mov     dph,(_period + 1)
+0548 8502F0    1528            mov     b,(_period + 2)
+054B E503      1529            mov     a,(_period + 3)
+054D 120100    1530            lcall   ___fslt
+0550 AA82      1531            mov     r2,dpl
+0552 E581      1532            mov     a,sp
+0554 24FC      1533            add     a,#0xfc
+0556 F581      1534            mov     sp,a
+0558 EA        1535            mov     a,r2
+0559 6001      1536            jz      L020013?
+055B           1537   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:408: mode = BACKWARD;
+055B 75C004    1538            mov     _mode,#0x04
+055E E4        1539            clr     a
+055F F5C1      1540            mov     (_mode + 1),a
+0561           1541   L020013?:
+0561 22        1542            ret
+0562           1543   ;------------------------------------------------------------
+0562           1544   ;Allocation info for local variables in function 'MotorControl'
+0562           1545   ;------------------------------------------------------------
+0562           1546   ;IndVolts                  Allocated with name '_MotorControl_IndVolts_1_91'
+0562           1547   ;------------------------------------------------------------
+0562           1548   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:418: void MotorControl (volatile float IndVolts[])
+0562           1549   ;        -----------------------------------------
+0562           1550   ;         function MotorControl
+0562           1551   ;        -----------------------------------------
+0562           1552   _MotorControl:
+0562 8582F8    1553            mov     _MotorControl_IndVolts_1_91,dpl
+0565 8583F9    1554            mov     (_MotorControl_IndVolts_1_91 + 1),dph
+0568 85F0FA    1555            mov     (_MotorControl_IndVolts_1_91 + 2),b
+056B           1556   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:421: switch (mode){
+056B C3        1557            clr     c
+056C 7405      1558            mov     a,#0x05
+056E 95C0      1559            subb    a,_mode
+0570 E4        1560            clr     a
+0571 95C1      1561            subb    a,(_mode + 1)
+0573 5001      1562            jnc     L021028?
+0575 22        1563            ret
+0576           1564   L021028?:
+0576 E5C0      1565            mov     a,_mode
+0578 25C0      1566            add     a,_mode
+057A 25C0      1567            add     a,_mode
+057C 90AA18    1568            mov     dptr,#L021029?
+057F 73        1569            jmp     @a+dptr
+0580           1570   L021029?:
+0580 020100    1571            ljmp    L021015?
+0583 020100    1572            ljmp    L021016?
+0586 020100    1573            ljmp    L021017?
+0589 020100    1574            ljmp    L021001?
+058C 020100    1575            ljmp    L021008?
+058F 020100    1576            ljmp    L021018?
+0592           1577   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:423: case FORWARD:
+0592           1578   L021001?:
+0592           1579   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:424: if((IndVolts[0] - Vblue_middle) > Vblue_thresh){
+0592 AAF8      1580            mov     r2,_MotorControl_IndVolts_1_91
+0594 ABF9      1581            mov     r3,(_MotorControl_IndVolts_1_91 + 1)
+0596 ACFA      1582            mov     r4,(_MotorControl_IndVolts_1_91 + 2)
+0598 8A82      1583            mov     dpl,r2
+059A 8B83      1584            mov     dph,r3
+059C 8CF0      1585            mov     b,r4
+059E 120100    1586            lcall   __gptrget
+05A1 FD        1587            mov     r5,a
+05A2 A3        1588            inc     dptr
+05A3 120100    1589            lcall   __gptrget
+05A6 FE        1590            mov     r6,a
+05A7 A3        1591            inc     dptr
+05A8 120100    1592            lcall   __gptrget
+05AB FF        1593            mov     r7,a
+05AC A3        1594            inc     dptr
+05AD 120100    1595            lcall   __gptrget
+05B0 F8        1596            mov     r0,a
+05B1 C002      1597            push    ar2
+05B3 C003      1598            push    ar3
+05B5 C004      1599            push    ar4
+05B7 7462      1600            mov     a,#0x62
+05B9 C0E0      1601            push    acc
+05BB 7410      1602            mov     a,#0x10
+05BD C0E0      1603            push    acc
+05BF 74F8      1604            mov     a,#0xF8
+05C1 C0E0      1605            push    acc
+05C3 743E      1606            mov     a,#0x3E
+05C5 C0E0      1607            push    acc
+05C7 8D82      1608            mov     dpl,r5
+05C9 8E83      1609            mov     dph,r6
+05CB 8FF0      1610            mov     b,r7
+05CD E8        1611            mov     a,r0
+05CE 120100    1612            lcall   ___fssub
+05D1 AD82      1613            mov     r5,dpl
+05D3 AE83      1614            mov     r6,dph
+05D5 AFF0      1615            mov     r7,b
+05D7 F8        1616            mov     r0,a
+05D8 E581      1617            mov     a,sp
+05DA 24FC      1618            add     a,#0xfc
+05DC F581      1619            mov     sp,a
+05DE 74AC      1620            mov     a,#0xAC
+05E0 C0E0      1621            push    acc
+05E2 741C      1622            mov     a,#0x1C
+05E4 C0E0      1623            push    acc
+05E6 74DA      1624            mov     a,#0xDA
+05E8 C0E0      1625            push    acc
+05EA 743D      1626            mov     a,#0x3D
+05EC C0E0      1627            push    acc
+05EE 8D82      1628            mov     dpl,r5
+05F0 8E83      1629            mov     dph,r6
+05F2 8FF0      1630            mov     b,r7
+05F4 E8        1631            mov     a,r0
+05F5 120100    1632            lcall   ___fsgt
+05F8 AD82      1633            mov     r5,dpl
+05FA E581      1634            mov     a,sp
+05FC 24FC      1635            add     a,#0xfc
+05FE F581      1636            mov     sp,a
+0600 D004      1637            pop     ar4
+0602 D003      1638            pop     ar3
+0604 D002      1639            pop     ar2
+0606 ED        1640            mov     a,r5
+0607 6001      1641            jz      L021006?
+0609           1642   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:425: pwm_BLU1= 0;
+0609 756800    1643            mov     _pwm_BLU1,#0x00
+060C           1644   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:426: pwm_BLU0 = 0;
+060C 75A800    1645            mov     _pwm_BLU0,#0x00
+060F           1646   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:427: pwm_RED1 = power;
+060F 85E8E8    1647            mov     _pwm_RED1,_power
+0612           1648   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:428: pwm_RED0 = 0; 
+0612 752800    1649            mov     _pwm_RED0,#0x00
+0615 22        1650            ret
+0616           1651   L021006?:
+0616           1652   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:431: else if( (IndVolts[1] - Vred_middle) > Vred_thresh ){
+0616 7404      1653            mov     a,#0x04
+0618 2A        1654            add     a,r2
+0619 FA        1655            mov     r2,a
+061A E4        1656            clr     a
+061B 3B        1657            addc    a,r3
+061C FB        1658            mov     r3,a
+061D 8A82      1659            mov     dpl,r2
+061F 8B83      1660            mov     dph,r3
+0621 8CF0      1661            mov     b,r4
+0623 120100    1662            lcall   __gptrget
+0626 FA        1663            mov     r2,a
+0627 A3        1664            inc     dptr
+0628 120100    1665            lcall   __gptrget
+062B FB        1666            mov     r3,a
+062C A3        1667            inc     dptr
+062D 120100    1668            lcall   __gptrget
+0630 FC        1669            mov     r4,a
+0631 A3        1670            inc     dptr
+0632 120100    1671            lcall   __gptrget
+0635 FD        1672            mov     r5,a
+0636 741B      1673            mov     a,#0x1B
+0638 C0E0      1674            push    acc
+063A 742F      1675            mov     a,#0x2F
+063C C0E0      1676            push    acc
+063E 74CD      1677            mov     a,#0xCD
+0640 C0E0      1678            push    acc
+0642 743E      1679            mov     a,#0x3E
+0644 C0E0      1680            push    acc
+0646 8A82      1681            mov     dpl,r2
+0648 8B83      1682            mov     dph,r3
+064A 8CF0      1683            mov     b,r4
+064C ED        1684            mov     a,r5
+064D 120100    1685            lcall   ___fssub
+0650 AA82      1686            mov     r2,dpl
+0652 AB83      1687            mov     r3,dph
+0654 ACF0      1688            mov     r4,b
+0656 FD        1689            mov     r5,a
+0657 E581      1690            mov     a,sp
+0659 24FC      1691            add     a,#0xfc
+065B F581      1692            mov     sp,a
+065D 74AC      1693            mov     a,#0xAC
+065F C0E0      1694            push    acc
+0661 741C      1695            mov     a,#0x1C
+0663 C0E0      1696            push    acc
+0665 745A      1697            mov     a,#0x5A
+0667 C0E0      1698            push    acc
+0669 743D      1699            mov     a,#0x3D
+066B C0E0      1700            push    acc
+066D 8A82      1701            mov     dpl,r2
+066F 8B83      1702            mov     dph,r3
+0671 8CF0      1703            mov     b,r4
+0673 ED        1704            mov     a,r5
+0674 120100    1705            lcall   ___fsgt
+0677 AA82      1706            mov     r2,dpl
+0679 E581      1707            mov     a,sp
+067B 24FC      1708            add     a,#0xfc
+067D F581      1709            mov     sp,a
+067F EA        1710            mov     a,r2
+0680 6001      1711            jz      L021003?
+0682           1712   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:432: pwm_BLU1=power;
+0682 85E868    1713            mov     _pwm_BLU1,_power
+0685           1714   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:433: pwm_BLU0=0;
+0685 75A800    1715            mov     _pwm_BLU0,#0x00
+0688           1716   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:434: pwm_RED1=0;
+0688 75E800    1717            mov     _pwm_RED1,#0x00
+068B           1718   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:435: pwm_RED0=0;
+068B 752800    1719            mov     _pwm_RED0,#0x00
+068E 22        1720            ret
+068F           1721   L021003?:
+068F           1722   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:438: pwm_BLU1 = power;
+068F 85E868    1723            mov     _pwm_BLU1,_power
+0692           1724   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:439: pwm_BLU0 = 0;
+0692 75A800    1725            mov     _pwm_BLU0,#0x00
+0695           1726   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:440: pwm_RED1 = power;
+0695 85E8E8    1727            mov     _pwm_RED1,_power
+0698           1728   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:441: pwm_RED0 = 0;
+0698 752800    1729            mov     _pwm_RED0,#0x00
+069B           1730   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:443: break;
+069B 22        1731            ret
+069C           1732   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:446: case BACKWARD:
+069C           1733   L021008?:
+069C           1734   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:447: if((IndVolts[0] - Vblue_middle) > Vblue_thresh){
+069C AAF8      1735            mov     r2,_MotorControl_IndVolts_1_91
+069E ABF9      1736            mov     r3,(_MotorControl_IndVolts_1_91 + 1)
+06A0 ACFA      1737            mov     r4,(_MotorControl_IndVolts_1_91 + 2)
+06A2 8A82      1738            mov     dpl,r2
+06A4 8B83      1739            mov     dph,r3
+06A6 8CF0      1740            mov     b,r4
+06A8 120100    1741            lcall   __gptrget
+06AB FD        1742            mov     r5,a
+06AC A3        1743            inc     dptr
+06AD 120100    1744            lcall   __gptrget
+06B0 FE        1745            mov     r6,a
+06B1 A3        1746            inc     dptr
+06B2 120100    1747            lcall   __gptrget
+06B5 FF        1748            mov     r7,a
+06B6 A3        1749            inc     dptr
+06B7 120100    1750            lcall   __gptrget
+06BA F8        1751            mov     r0,a
+06BB C002      1752            push    ar2
+06BD C003      1753            push    ar3
+06BF C004      1754            push    ar4
+06C1 7462      1755            mov     a,#0x62
+06C3 C0E0      1756            push    acc
+06C5 7410      1757            mov     a,#0x10
+06C7 C0E0      1758            push    acc
+06C9 74F8      1759            mov     a,#0xF8
+06CB C0E0      1760            push    acc
+06CD 743E      1761            mov     a,#0x3E
+06CF C0E0      1762            push    acc
+06D1 8D82      1763            mov     dpl,r5
+06D3 8E83      1764            mov     dph,r6
+06D5 8FF0      1765            mov     b,r7
+06D7 E8        1766            mov     a,r0
+06D8 120100    1767            lcall   ___fssub
+06DB AD82      1768            mov     r5,dpl
+06DD AE83      1769            mov     r6,dph
+06DF AFF0      1770            mov     r7,b
+06E1 F8        1771            mov     r0,a
+06E2 E581      1772            mov     a,sp
+06E4 24FC      1773            add     a,#0xfc
+06E6 F581      1774            mov     sp,a
+06E8 74AC      1775            mov     a,#0xAC
+06EA C0E0      1776            push    acc
+06EC 741C      1777            mov     a,#0x1C
+06EE C0E0      1778            push    acc
+06F0 74DA      1779            mov     a,#0xDA
+06F2 C0E0      1780            push    acc
+06F4 743D      1781            mov     a,#0x3D
+06F6 C0E0      1782            push    acc
+06F8 8D82      1783            mov     dpl,r5
+06FA 8E83      1784            mov     dph,r6
+06FC 8FF0      1785            mov     b,r7
+06FE E8        1786            mov     a,r0
+06FF 120100    1787            lcall   ___fsgt
+0702 AD82      1788            mov     r5,dpl
+0704 E581      1789            mov     a,sp
+0706 24FC      1790            add     a,#0xfc
+0708 F581      1791            mov     sp,a
+070A D004      1792            pop     ar4
+070C D003      1793            pop     ar3
+070E D002      1794            pop     ar2
+0710 ED        1795            mov     a,r5
+0711 6001      1796            jz      L021013?
+0713           1797   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:448: pwm_BLU1= 0;
+0713 756800    1798            mov     _pwm_BLU1,#0x00
+0716           1799   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:449: pwm_BLU0 = 0;
+0716 75A800    1800            mov     _pwm_BLU0,#0x00
+0719           1801   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:450: pwm_RED1 = 0;
+0719 75E800    1802            mov     _pwm_RED1,#0x00
+071C           1803   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:451: pwm_RED0 = power; 
+071C 85E828    1804            mov     _pwm_RED0,_power
+071F 22        1805            ret
+0720           1806   L021013?:
+0720           1807   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:454: else if( (IndVolts[1] - Vred_middle) > Vred_thresh ){
+0720 7404      1808            mov     a,#0x04
+0722 2A        1809            add     a,r2
+0723 FA        1810            mov     r2,a
+0724 E4        1811            clr     a
+0725 3B        1812            addc    a,r3
+0726 FB        1813            mov     r3,a
+0727 8A82      1814            mov     dpl,r2
+0729 8B83      1815            mov     dph,r3
+072B 8CF0      1816            mov     b,r4
+072D 120100    1817            lcall   __gptrget
+0730 FA        1818            mov     r2,a
+0731 A3        1819            inc     dptr
+0732 120100    1820            lcall   __gptrget
+0735 FB        1821            mov     r3,a
+0736 A3        1822            inc     dptr
+0737 120100    1823            lcall   __gptrget
+073A FC        1824            mov     r4,a
+073B A3        1825            inc     dptr
+073C 120100    1826            lcall   __gptrget
+073F FD        1827            mov     r5,a
+0740 741B      1828            mov     a,#0x1B
+0742 C0E0      1829            push    acc
+0744 742F      1830            mov     a,#0x2F
+0746 C0E0      1831            push    acc
+0748 74CD      1832            mov     a,#0xCD
+074A C0E0      1833            push    acc
+074C 743E      1834            mov     a,#0x3E
+074E C0E0      1835            push    acc
+0750 8A82      1836            mov     dpl,r2
+0752 8B83      1837            mov     dph,r3
+0754 8CF0      1838            mov     b,r4
+0756 ED        1839            mov     a,r5
+0757 120100    1840            lcall   ___fssub
+075A AA82      1841            mov     r2,dpl
+075C AB83      1842            mov     r3,dph
+075E ACF0      1843            mov     r4,b
+0760 FD        1844            mov     r5,a
+0761 E581      1845            mov     a,sp
+0763 24FC      1846            add     a,#0xfc
+0765 F581      1847            mov     sp,a
+0767 74AC      1848            mov     a,#0xAC
+0769 C0E0      1849            push    acc
+076B 741C      1850            mov     a,#0x1C
+076D C0E0      1851            push    acc
+076F 745A      1852            mov     a,#0x5A
+0771 C0E0      1853            push    acc
+0773 743D      1854            mov     a,#0x3D
+0775 C0E0      1855            push    acc
+0777 8A82      1856            mov     dpl,r2
+0779 8B83      1857            mov     dph,r3
+077B 8CF0      1858            mov     b,r4
+077D ED        1859            mov     a,r5
+077E 120100    1860            lcall   ___fsgt
+0781 AA82      1861            mov     r2,dpl
+0783 E581      1862            mov     a,sp
+0785 24FC      1863            add     a,#0xfc
+0787 F581      1864            mov     sp,a
+0789 EA        1865            mov     a,r2
+078A 6001      1866            jz      L021010?
+078C           1867   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:455: pwm_BLU1=0;
+078C 756800    1868            mov     _pwm_BLU1,#0x00
+078F           1869   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:456: pwm_BLU0=power;
+078F 85E8A8    1870            mov     _pwm_BLU0,_power
+0792           1871   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:457: pwm_RED1=0;
+0792 75E800    1872            mov     _pwm_RED1,#0x00
+0795           1873   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:458: pwm_RED0=0;
+0795 752800    1874            mov     _pwm_RED0,#0x00
+0798 22        1875            ret
+0799           1876   L021010?:
+0799           1877   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:461: pwm_BLU1 = power;
+0799 85E868    1878            mov     _pwm_BLU1,_power
+079C           1879   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:462: pwm_BLU0 = 0;
+079C 75A800    1880            mov     _pwm_BLU0,#0x00
+079F           1881   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:463: pwm_RED1 = power;
+079F 85E8E8    1882            mov     _pwm_RED1,_power
+07A2           1883   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:464: pwm_RED0 = 0;
+07A2 752800    1884            mov     _pwm_RED0,#0x00
+07A5           1885   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:466: break;
+07A5           1886   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:470: case STOP:
+07A5 22        1887            ret
+07A6           1888   L021015?:
+07A6           1889   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:471: pwm_BLU1 = 0;
+07A6 756800    1890            mov     _pwm_BLU1,#0x00
+07A9           1891   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:472: pwm_BLU0 = 0;
+07A9 75A800    1892            mov     _pwm_BLU0,#0x00
+07AC           1893   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:473: pwm_RED1 = 0;
+07AC 75E800    1894            mov     _pwm_RED1,#0x00
+07AF           1895   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:474: pwm_RED0 = 0;
+07AF 752800    1896            mov     _pwm_RED0,#0x00
+07B2           1897   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:475: break;
+07B2           1898   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:479: case NITL:
+07B2 22        1899            ret
+07B3           1900   L021016?:
+07B3           1901   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:480: pwm_BLU1 = 0;
+07B3           1902   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:481: pwm_BLU0 = 0;
+07B3           1903   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:482: pwm_RED1 = 3*power;
+07B3 E4        1904            clr     a
+07B4 F568      1905            mov     _pwm_BLU1,a
+07B6 F5A8      1906            mov     _pwm_BLU0,a
+07B8 E5E8      1907            mov     a,_power
+07BA 75F003    1908            mov     b,#0x03
+07BD A4        1909            mul     ab
+07BE F5E8      1910            mov     _pwm_RED1,a
+07C0           1911   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:483: pwm_RED0 = 0;
+07C0 752800    1912            mov     _pwm_RED0,#0x00
+07C3           1913   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:484: waitms(1000);
+07C3 9003E8    1914            mov     dptr,#0x03E8
+07C6 120100    1915            lcall   _waitms
+07C9           1916   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:485: mode=STOP;
+07C9 E4        1917            clr     a
+07CA F5C0      1918            mov     _mode,a
+07CC F5C1      1919            mov     (_mode + 1),a
+07CE           1920   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:486: break;
+07CE           1921   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:490: case NITR:
+07CE 22        1922            ret
+07CF           1923   L021017?:
+07CF           1924   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:491: pwm_BLU1 = 3*power;
+07CF E5E8      1925            mov     a,_power
+07D1 75F003    1926            mov     b,#0x03
+07D4 A4        1927            mul     ab
+07D5 F568      1928            mov     _pwm_BLU1,a
+07D7           1929   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:492: pwm_BLU0 = 0;
+07D7 75A800    1930            mov     _pwm_BLU0,#0x00
+07DA           1931   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:493: pwm_RED1 = 0;
+07DA 75E800    1932            mov     _pwm_RED1,#0x00
+07DD           1933   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:494: pwm_RED0 = 0;
+07DD 752800    1934            mov     _pwm_RED0,#0x00
+07E0           1935   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:495: waitms(1000);
+07E0 9003E8    1936            mov     dptr,#0x03E8
+07E3 120100    1937            lcall   _waitms
+07E6           1938   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:496: mode = STOP;
+07E6 E4        1939            clr     a
+07E7 F5C0      1940            mov     _mode,a
+07E9 F5C1      1941            mov     (_mode + 1),a
+07EB           1942   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:497: break;
+07EB           1943   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:501: case ROTATE:
+07EB 22        1944            ret
+07EC           1945   L021018?:
+07EC           1946   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:502: pwm_BLU1 = 0;
+07EC 756800    1947            mov     _pwm_BLU1,#0x00
+07EF           1948   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:503: pwm_BLU0 = 3*power;
+07EF E5E8      1949            mov     a,_power
+07F1 75F003    1950            mov     b,#0x03
+07F4 A4        1951            mul     ab
+07F5 F5A8      1952            mov     _pwm_BLU0,a
+07F7           1953   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:504: pwm_RED1 = 3*power;
+07F7 E5E8      1954            mov     a,_power
+07F9 75F003    1955            mov     b,#0x03
+07FC A4        1956            mul     ab
+07FD F5E8      1957            mov     _pwm_RED1,a
+07FF           1958   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:505: pwm_RED0 = 0;
+07FF 752800    1959            mov     _pwm_RED0,#0x00
+0802           1960   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:506: waitms(1200);
+0802 9004B0    1961            mov     dptr,#0x04B0
+0805           1962   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:512: }
+0805 020100    1963            ljmp    _waitms
+0808           1964   ;------------------------------------------------------------
+0808           1965   ;Allocation info for local variables in function 'DebuggingFctn'
+0808           1966   ;------------------------------------------------------------
+0808           1967   ;------------------------------------------------------------
+0808           1968   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:523: void DebuggingFctn (void)
+0808           1969   ;        -----------------------------------------
+0808           1970   ;         function DebuggingFctn
+0808           1971   ;        -----------------------------------------
+0808           1972   _DebuggingFctn:
+0808           1973   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:525: sprintf(debugstring, "%4.3fms", period);
+0808 C000      1974            push    _period
+080A C001      1975            push    (_period + 1)
+080C C002      1976            push    (_period + 2)
+080E C003      1977            push    (_period + 3)
+0810 7418      1978            mov     a,#__str_1
+0812 C0E0      1979            push    acc
+0814 74AD      1980            mov     a,#(__str_1 >> 8)
+0816 C0E0      1981            push    acc
+0818 7480      1982            mov     a,#0x80
+081A C0E0      1983            push    acc
+081C 74C0      1984            mov     a,#_debugstring
+081E C0E0      1985            push    acc
+0820 7417      1986            mov     a,#(_debugstring >> 8)
+0822 C0E0      1987            push    acc
+0824 7440      1988            mov     a,#0x40
+0826 C0E0      1989            push    acc
+0828 120100    1990            lcall   _sprintf
+082B E581      1991            mov     a,sp
+082D 24F6      1992            add     a,#0xf6
+082F F581      1993            mov     sp,a
+0831           1994   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:526: LCDprint(debugstring, 1,1);
+0831 758001    1995            mov     _LCDprint_PARM_2,#0x01
+0834 D230      1996            setb    _LCDprint_PARM_3
+0836 9017C0    1997            mov     dptr,#_debugstring
+0839 75F040    1998            mov     b,#0x40
+083C 120100    1999            lcall   _LCDprint
+083F           2000   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:527: sprintf(debugstring, "%d", mode);
+083F C0C0      2001            push    _mode
+0841 C0C1      2002            push    (_mode + 1)
+0843 7498      2003            mov     a,#__str_2
+0845 C0E0      2004            push    acc
+0847 74AD      2005            mov     a,#(__str_2 >> 8)
+0849 C0E0      2006            push    acc
+084B 7480      2007            mov     a,#0x80
+084D C0E0      2008            push    acc
+084F 74C0      2009            mov     a,#_debugstring
+0851 C0E0      2010            push    acc
+0853 7417      2011            mov     a,#(_debugstring >> 8)
+0855 C0E0      2012            push    acc
+0857 7440      2013            mov     a,#0x40
+0859 C0E0      2014            push    acc
+085B 120100    2015            lcall   _sprintf
+085E E581      2016            mov     a,sp
+0860 24F8      2017            add     a,#0xf8
+0862 F581      2018            mov     sp,a
+0864           2019   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:528: LCDprint(debugstring, 2,1);
+0864 758002    2020            mov     _LCDprint_PARM_2,#0x02
+0867 D230      2021            setb    _LCDprint_PARM_3
+0869 9017C0    2022            mov     dptr,#_debugstring
+086C 75F040    2023            mov     b,#0x40
+086F 020100    2024            ljmp    _LCDprint
+0872           2025   ;------------------------------------------------------------
+0872           2026   ;Allocation info for local variables in function 'main'
+0872           2027   ;------------------------------------------------------------
+0872           2028   ;IndVolts                  Allocated with name '_main_IndVolts_1_103'
+0872           2029   ;sloc0                     Allocated with name '_main_sloc0_1_0'
+0872           2030   ;------------------------------------------------------------
+0872           2031   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:536: void main (void)
+0872           2032   ;        -----------------------------------------
+0872           2033   ;         function main
+0872           2034   ;        -----------------------------------------
+0872           2035   _main:
+0872           2036   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:543: TIMER0_Init(); // Initialize timer 0 to read the frequency of the fm signal
+0872 120100    2037            lcall   _TIMER0_Init
+0875           2038   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:544: TIMER2_Init(); // Initialize timer 2 for periodic interrupts used for motor control
+0875 120100    2039            lcall   _TIMER2_Init
+0878           2040   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:545: LCD_4BIT(); // Initialize the LCD
+0878 120100    2041            lcall   _LCD_4BIT
+087B           2042   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:546: EA=1; // Enable interrupts
+087B D2AF      2043            setb    _EA
+087D           2044   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:548: InitPinADC(1, 4); // Configure P1.4 as analog input
+087D 755004    2045            mov     _InitPinADC_PARM_2,#0x04
+0880 758201    2046            mov     dpl,#0x01
+0883 120100    2047            lcall   _InitPinADC
+0886           2048   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:549: InitPinADC(2, 0); // Configure P2.0 as analog input
+0886 755000    2049            mov     _InitPinADC_PARM_2,#0x00
+0889 758202    2050            mov     dpl,#0x02
+088C 120100    2051            lcall   _InitPinADC
+088F           2052   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:550: InitPinADC(2, 7); // Configure P2.7 as analog input
+088F 755007    2053            mov     _InitPinADC_PARM_2,#0x07
+0892 758202    2054            mov     dpl,#0x02
+0895 120100    2055            lcall   _InitPinADC
+0898           2056   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:551: InitADC();
+0898 120100    2057            lcall   _InitADC
+089B           2058   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:552: printf("\x1b[2J"); // Clear screen using ANSI escape sequence.
+089B 74D8      2059            mov     a,#__str_3
+089D C0E0      2060            push    acc
+089F 74AD      2061            mov     a,#(__str_3 >> 8)
+08A1 C0E0      2062            push    acc
+08A3 7480      2063            mov     a,#0x80
+08A5 C0E0      2064            push    acc
+08A7 120100    2065            lcall   _printf
+08AA 1581      2066            dec     sp
+08AC 1581      2067            dec     sp
+08AE 1581      2068            dec     sp
+08B0           2069   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:560: while(1)
+08B0           2070   L023012?:
+08B0           2071   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:564: IndVolts[0] = Volts_at_Pin(LQFP32_MUX_P2_7);
+08B0 75820F    2072            mov     dpl,#0x0F
+08B3 120100    2073            lcall   _Volts_at_Pin
+08B6 AA82      2074            mov     r2,dpl
+08B8 AB83      2075            mov     r3,dph
+08BA ACF0      2076            mov     r4,b
+08BC FD        2077            mov     r5,a
+08BD 8A48      2078            mov     _main_IndVolts_1_103,r2
+08BF 8B49      2079            mov     (_main_IndVolts_1_103 + 1),r3
+08C1 8C4A      2080            mov     (_main_IndVolts_1_103 + 2),r4
+08C3 8D4B      2081            mov     (_main_IndVolts_1_103 + 3),r5
+08C5           2082   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:565: IndVolts[1] = Volts_at_Pin(LQFP32_MUX_P1_4);
+08C5 758204    2083            mov     dpl,#0x04
+08C8 120100    2084            lcall   _Volts_at_Pin
+08CB AA82      2085            mov     r2,dpl
+08CD AB83      2086            mov     r3,dph
+08CF ACF0      2087            mov     r4,b
+08D1 FD        2088            mov     r5,a
+08D2 8A4C      2089            mov     (_main_IndVolts_1_103 + 0x0004),r2
+08D4 8B4D      2090            mov     ((_main_IndVolts_1_103 + 0x0004) + 1),r3
+08D6 8C4E      2091            mov     ((_main_IndVolts_1_103 + 0x0004) + 2),r4
+08D8 8D4F      2092            mov     ((_main_IndVolts_1_103 + 0x0004) + 3),r5
+08DA           2093   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:566: IndVolts[2] = Volts_at_Pin(LQFP32_MUX_P2_0);
+08DA 758208    2094            mov     dpl,#0x08
+08DD 120100    2095            lcall   _Volts_at_Pin
+08E0 AA82      2096            mov     r2,dpl
+08E2 AB83      2097            mov     r3,dph
+08E4 ACF0      2098            mov     r4,b
+08E6 FD        2099            mov     r5,a
+08E7 8A50      2100            mov     (_main_IndVolts_1_103 + 0x0008),r2
+08E9 8B51      2101            mov     ((_main_IndVolts_1_103 + 0x0008) + 1),r3
+08EB 8C52      2102            mov     ((_main_IndVolts_1_103 + 0x0008) + 2),r4
+08ED 8D53      2103            mov     ((_main_IndVolts_1_103 + 0x0008) + 3),r5
+08EF           2104   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:570: TL0=0;
+08EF 758A00    2105            mov     _TL0,#0x00
+08F2           2106   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:571: TH0=0;
+08F2 758C00    2107            mov     _TH0,#0x00
+08F5           2108   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:572: TF0=0;
+08F5 C28D      2109            clr     _TF0
+08F7           2110   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:573: overflow_count=0;
+08F7 758000    2111            mov     _overflow_count,#0x00
+08FA           2112   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:576: if (mode != ROTATE){
+08FA 7405      2113            mov     a,#0x05
+08FC B5C098    2114            cjne    a,_mode,L023022?
+08FF E4        2115            clr     a
+0900 B5C198    2116            cjne    a,(_mode + 1),L023022?
+0903 020100    2117            ljmp    L023009?
+0906           2118   L023022?:
+0906           2119   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:577: if (IndVolts[0]<0.10){
+0906 74CD      2120            mov     a,#0xCD
+0908 C0E0      2121            push    acc
+090A 74CC      2122            mov     a,#0xCC
+090C C0E0      2123            push    acc
+090E C0E0      2124            push    acc
+0910 743D      2125            mov     a,#0x3D
+0912 C0E0      2126            push    acc
+0914 854882    2127            mov     dpl,_main_IndVolts_1_103
+0917 854983    2128            mov     dph,(_main_IndVolts_1_103 + 1)
+091A 854AF0    2129            mov     b,(_main_IndVolts_1_103 + 2)
+091D E54B      2130            mov     a,(_main_IndVolts_1_103 + 3)
+091F 120100    2131            lcall   ___fslt
+0922 AA82      2132            mov     r2,dpl
+0924 E581      2133            mov     a,sp
+0926 24FC      2134            add     a,#0xfc
+0928 F581      2135            mov     sp,a
+092A EA        2136            mov     a,r2
+092B 7001      2137            jnz     L023023?
+092D 020100    2138            ljmp    L023010?
+0930           2139   L023023?:
+0930           2140   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:579: TR0=1; // logic zero signal detected! detect time interval btw two falling edges. Start the timer
+0930 D28C      2141            setb    _TR0
+0932           2142   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:580: while(IndVolts[0]<0.10) // Wait for the signal to be logic one
+0932           2143   L023003?:
+0932 74CD      2144            mov     a,#0xCD
+0934 C0E0      2145            push    acc
+0936 74CC      2146            mov     a,#0xCC
+0938 C0E0      2147            push    acc
+093A C0E0      2148            push    acc
+093C 743D      2149            mov     a,#0x3D
+093E C0E0      2150            push    acc
+0940 854882    2151            mov     dpl,_main_IndVolts_1_103
+0943 854983    2152            mov     dph,(_main_IndVolts_1_103 + 1)
+0946 854AF0    2153            mov     b,(_main_IndVolts_1_103 + 2)
+0949 E54B      2154            mov     a,(_main_IndVolts_1_103 + 3)
+094B 120100    2155            lcall   ___fslt
+094E AA82      2156            mov     r2,dpl
+0950 E581      2157            mov     a,sp
+0952 24FC      2158            add     a,#0xfc
+0954 F581      2159            mov     sp,a
+0956 EA        2160            mov     a,r2
+0957 6001      2161            jz      L023005?
+0959           2162   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:582: IndVolts[0] = Volts_at_Pin(LQFP32_MUX_P2_7);
+0959 75820F    2163            mov     dpl,#0x0F
+095C 120100    2164            lcall   _Volts_at_Pin
+095F AA82      2165            mov     r2,dpl
+0961 AB83      2166            mov     r3,dph
+0963 ACF0      2167            mov     r4,b
+0965 FD        2168            mov     r5,a
+0966 8A48      2169            mov     _main_IndVolts_1_103,r2
+0968 8B49      2170            mov     (_main_IndVolts_1_103 + 1),r3
+096A 8C4A      2171            mov     (_main_IndVolts_1_103 + 2),r4
+096C 8D4B      2172            mov     (_main_IndVolts_1_103 + 3),r5
+096E           2173   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:583: if(TF0==1) // Did the 16-bit timer overflow?
+096E           2174   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:585: TF0=0;
+096E 108D18    2175            jbc     _TF0,L023025?
+0971 8001      2176            sjmp    L023003?
+0973           2177   L023025?:
+0973           2178   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:586: overflow_count++;
+0973 0580      2179            inc     _overflow_count
+0975 8001      2180            sjmp    L023003?
+0977           2181   L023005?:
+0977           2182   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:591: TR0=0; // Stop timer 0, the 24-bit number [overflow_count-TH0-TL0] has the period. Then convert it to frequency
+0977 C28C      2183            clr     _TR0
+0979           2184   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:593: period=1000.0*(overflow_count*65536.0+TH0*256.0+TL0)*(12.0/SYSCLK); // Compute period. Unit in ms
+0979 858082    2185            mov     dpl,_overflow_count
+097C 120100    2186            lcall   ___uchar2fs
+097F AA82      2187            mov     r2,dpl
+0981 AB83      2188            mov     r3,dph
+0983 ACF0      2189            mov     r4,b
+0985 FD        2190            mov     r5,a
+0986 C002      2191            push    ar2
+0988 C003      2192            push    ar3
+098A C004      2193            push    ar4
+098C C005      2194            push    ar5
+098E 900000    2195            mov     dptr,#0x0000
+0991 75F080    2196            mov     b,#0x80
+0994 7447      2197            mov     a,#0x47
+0996 120100    2198            lcall   ___fsmul
+0999 858288    2199            mov     _main_sloc0_1_0,dpl
+099C 858389    2200            mov     (_main_sloc0_1_0 + 1),dph
+099F 85F08A    2201            mov     (_main_sloc0_1_0 + 2),b
+09A2 F58B      2202            mov     (_main_sloc0_1_0 + 3),a
+09A4 E581      2203            mov     a,sp
+09A6 24FC      2204            add     a,#0xfc
+09A8 F581      2205            mov     sp,a
+09AA 858C82    2206            mov     dpl,_TH0
+09AD 120100    2207            lcall   ___uchar2fs
+09B0 AE82      2208            mov     r6,dpl
+09B2 AF83      2209            mov     r7,dph
+09B4 AAF0      2210            mov     r2,b
+09B6 FB        2211            mov     r3,a
+09B7 C006      2212            push    ar6
+09B9 C007      2213            push    ar7
+09BB C002      2214            push    ar2
+09BD C003      2215            push    ar3
+09BF 900000    2216            mov     dptr,#0x0000
+09C2 75F080    2217            mov     b,#0x80
+09C5 7443      2218            mov     a,#0x43
+09C7 120100    2219            lcall   ___fsmul
+09CA AA82      2220            mov     r2,dpl
+09CC AB83      2221            mov     r3,dph
+09CE ACF0      2222            mov     r4,b
+09D0 FD        2223            mov     r5,a
+09D1 E581      2224            mov     a,sp
+09D3 24FC      2225            add     a,#0xfc
+09D5 F581      2226            mov     sp,a
+09D7 C002      2227            push    ar2
+09D9 C003      2228            push    ar3
+09DB C004      2229            push    ar4
+09DD C005      2230            push    ar5
+09DF 858882    2231            mov     dpl,_main_sloc0_1_0
+09E2 858983    2232            mov     dph,(_main_sloc0_1_0 + 1)
+09E5 858AF0    2233            mov     b,(_main_sloc0_1_0 + 2)
+09E8 E58B      2234            mov     a,(_main_sloc0_1_0 + 3)
+09EA 120100    2235            lcall   ___fsadd
+09ED 858288    2236            mov     _main_sloc0_1_0,dpl
+09F0 858389    2237            mov     (_main_sloc0_1_0 + 1),dph
+09F3 85F08A    2238            mov     (_main_sloc0_1_0 + 2),b
+09F6 F58B      2239            mov     (_main_sloc0_1_0 + 3),a
+09F8 E581      2240            mov     a,sp
+09FA 24FC      2241            add     a,#0xfc
+09FC F581      2242            mov     sp,a
+09FE AE8A      2243            mov     r6,_TL0
+0A00 7F00      2244            mov     r7,#0x00
+0A02 8E82      2245            mov     dpl,r6
+0A04 8F83      2246            mov     dph,r7
+0A06 120100    2247            lcall   ___sint2fs
+0A09 AE82      2248            mov     r6,dpl
+0A0B AF83      2249            mov     r7,dph
+0A0D AAF0      2250            mov     r2,b
+0A0F FB        2251            mov     r3,a
+0A10 C006      2252            push    ar6
+0A12 C007      2253            push    ar7
+0A14 C002      2254            push    ar2
+0A16 C003      2255            push    ar3
+0A18 858882    2256            mov     dpl,_main_sloc0_1_0
+0A1B 858983    2257            mov     dph,(_main_sloc0_1_0 + 1)
+0A1E 858AF0    2258            mov     b,(_main_sloc0_1_0 + 2)
+0A21 E58B      2259            mov     a,(_main_sloc0_1_0 + 3)
+0A23 120100    2260            lcall   ___fsadd
+0A26 AA82      2261            mov     r2,dpl
+0A28 AB83      2262            mov     r3,dph
+0A2A ACF0      2263            mov     r4,b
+0A2C FD        2264            mov     r5,a
+0A2D E581      2265            mov     a,sp
+0A2F 24FC      2266            add     a,#0xfc
+0A31 F581      2267            mov     sp,a
+0A33 C002      2268            push    ar2
+0A35 C003      2269            push    ar3
+0A37 C004      2270            push    ar4
+0A39 C005      2271            push    ar5
+0A3B 90126F    2272            mov     dptr,#0x126F
+0A3E 75F083    2273            mov     b,#0x83
+0A41 7439      2274            mov     a,#0x39
+0A43 120100    2275            lcall   ___fsmul
+0A46 858200    2276            mov     _period,dpl
+0A49 858301    2277            mov     (_period + 1),dph
+0A4C 85F002    2278            mov     (_period + 2),b
+0A4F F503      2279            mov     (_period + 3),a
+0A51 E581      2280            mov     a,sp
+0A53 24FC      2281            add     a,#0xfc
+0A55 F581      2282            mov     sp,a
+0A57 8001      2283            sjmp    L023010?
+0A59           2284   L023009?:
+0A59           2285   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:597: period = 300.0; // Set period in the STOP band to set Mode = STOP after Mode == ROTATE
+0A59 750000    2286            mov     _period,#0x00
+0A5C 750100    2287            mov     (_period + 1),#0x00
+0A5F 750296    2288            mov     (_period + 2),#0x96
+0A62 750343    2289            mov     (_period + 3),#0x43
+0A65           2290   L023010?:
+0A65           2291   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:603: DetermineMode();
+0A65 120100    2292            lcall   _DetermineMode
+0A68           2293   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:607: MotorControl(IndVolts);
+0A68 909C48    2294            mov     dptr,#_main_IndVolts_1_103
+0A6B 75F040    2295            mov     b,#0x40
+0A6E 120100    2296            lcall   _MotorControl
+0A71           2297   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:611: DebuggingFctn(); 
+0A71 120100    2298            lcall   _DebuggingFctn
+0A74           2299   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:616: waitms(1);
+0A74 900001    2300            mov     dptr,#0x0001
+0A77 120100    2301            lcall   _waitms
+0A7A           2302   ;        D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:617: millisecond = millisecond + 1;
+0A7A 0540      2303            inc     _millisecond
+0A7C E4        2304            clr     a
+0A7D B54058    2305            cjne    a,_millisecond,L023026?
+0A80 0541      2306            inc     (_millisecond + 1)
+0A82           2307   L023026?:
+0A82 020100    2308            ljmp    L023012?
+0A85           2309            rseg R_CSEG
+0A85           2310   
+0000           2311            rseg R_XINIT
+0000           2312   
+0000           2313            rseg R_CONST
+0000           2314   __str_0:
+0000 20202020  2315            db '                '
      20202020
      20202020
      20202020
-0010 00        2272            db 0x00
-0011           2273   __str_1:
-0011 25342E33  2274            db '%4.3fms'
+0010 00        2316            db 0x00
+0011           2317   __str_1:
+0011 25342E33  2318            db '%4.3fms'
      666D73
-0018 00        2275            db 0x00
-0019           2276   __str_2:
-0019 2564      2277            db '%d'
-001B 00        2278            db 0x00
-001C           2279   __str_3:
-001C 1B        2280            db 0x1B
-001D 5B324A    2281            db '[2J'
-0020 00        2282            db 0x00
-0021           2283   
-002E           2284            CSEG
-002E           2285   
-002E           2286   end
+0018 00        2319            db 0x00
+0019           2320   __str_2:
+0019 2564      2321            db '%d'
+001B 00        2322            db 0x00
+001C           2323   __str_3:
+001C 1B        2324            db 0x1B
+001D 5B324A    2325            db '[2J'
+0020 00        2326            db 0x00
+0021           2327   
+002E           2328            CSEG
+002E           2329   
+002E           2330   end

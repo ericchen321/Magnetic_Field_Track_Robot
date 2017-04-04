@@ -61,12 +61,11 @@ volatile unsigned char pwm_RED0=0;
 volatile unsigned char pwm_RED1=0;
 volatile unsigned char dirout=0;
 unsigned char overflow_count=0;
-volatile float frequency=0;
 unsigned int mode=FORWARD;
-volatile float FreqBuffer[4]={0,0,0,0};
 unsigned char WriteCount = 0;
 unsigned int millisecond=0;
-char freqstring[10];
+volatile float period=0;
+char debugstring[10];
 
 
 
@@ -349,7 +348,7 @@ void Clean_LCD(void){
 
 
 //-------------
-void ReadFrequency (void)
+void ReadPeriod (void)
 {  
   
 // Reset Timer 0
@@ -357,11 +356,13 @@ void ReadFrequency (void)
 		TH0=0;
 		TF0=0;
 		overflow_count=0;
-
-		while(FRQIN!=0); // Wait for the signal to be zero
+	
+		
+  	// detect time interval btw two falling edges
 		while(FRQIN!=1); // Wait for the signal to be one
+		while(FRQIN!=0); // Wait for the signal to be zero
 		TR0=1; // Start the timer
-		while(FRQIN!=0) // Wait for the signal to be zero
+		while(FRQIN!=1) // Wait for the signal to be one
 		{
 			if(TF0==1) // Did the 16-bit timer overflow?
 			{
@@ -369,7 +370,7 @@ void ReadFrequency (void)
 				overflow_count++;
 			}
 		}
-		while(FRQIN!=1) // Wait for the signal to be one
+		while(FRQIN!=0) // Wait for the signal to be zero
 		{
 			if(TF0==1) // Did the 16-bit timer overflow?
 			{
@@ -380,51 +381,29 @@ void ReadFrequency (void)
 		
   	TR0=0; // Stop timer 0, the 24-bit number [overflow_count-TH0-TL0] has the period. Then convert it to frequency
 		
-  	frequency=1.0/((overflow_count*65536.0+TH0*256.0+TL0)*(12.0/SYSCLK)); // Compute frequency
+  	period=1000.0*(overflow_count*65536.0+TH0*256.0+TL0)*(12.0/SYSCLK); // Compute period. Unit in ms
 }
 
 
 
 
+
+
 void DetermineMode (void) {
-  unsigned char ReadCount = 0;
-  unsigned char ForwardSigCount=0;
-  unsigned char StopSigCount=0;
-  
-  ReadFrequency();
-  
 
-  // Write one frequency to the frequency buffer
-  FreqBuffer[WriteCount]=frequency;
-  WriteCount++;
-  if (WriteCount==4){
-  	WriteCount=0;
+  if (period>220.0 && period<360.0){
+  	mode = STOP;
   }
   
   
-  // Read the frequency buffer
-  for (ReadCount=0; ReadCount<4; ReadCount++){
-	if (FreqBuffer[ReadCount]>(FRQFORWARD-1000) && FreqBuffer[ReadCount]<(FRQFORWARD+1000)){
-		ForwardSigCount++;
-	}
-	if (FreqBuffer[ReadCount]>(FRQSTOP-1000) && FreqBuffer[ReadCount]<(FRQSTOP+1000)){
-		StopSigCount++;	
-	}
+  if (period>360.0 && period<450.0){
+  	mode = FORWARD;
   }
   
-  
-  if (StopSigCount > 2){
-	  mode = STOP;
-	  return;
+  if(period>135.0 && period<220.0){
+  	mode = ROTATE;
   }
   
-  
-  if (ForwardSigCount > 2){
-	  mode = FORWARD;	  
-	  return;
-  }
-	
-
 }
 
 
@@ -538,10 +517,13 @@ void MotorControl (volatile float IndVolts[])
 
 
 //-------------
-void DebuggingFctn (void)
+void DebuggingFctn (volatile float IndVolts[])
 {
-	sprintf(freqstring, "FR=%5.0f M = %d", frequency, mode);
-  	LCDprint(freqstring, 1,1);
+	sprintf(debugstring, "%4.3fms", period);
+  	LCDprint(debugstring, 1,1);
+  	sprintf(debugstring, "%3.3fV", IndVolts[0]);
+  	LCDprint(debugstring, 2,1);
+  	  	
 }
 
 
@@ -574,31 +556,56 @@ void main (void)
   	// The forever loop
 	while(1)
 	{
-    // Read command from the frequency-modulated signal, and terminate the current mode of operation
-    // Determine mode if millisecond is a multiple of 400
-    
-    
-  	if (millisecond%100==0){
-    	DetermineMode();
-    	DebuggingFctn(); // (For debugging only) Show the user current command of the vehicle
-    }
-    
-    
-    
+     
     // Read the input voltages from the inductors 
 	IndVolts[0] = Volts_at_Pin(LQFP32_MUX_P2_7);
 	IndVolts[1] = Volts_at_Pin(LQFP32_MUX_P1_4);
 	IndVolts[2] = Volts_at_Pin(LQFP32_MUX_P2_0);
 	
+	
+	// Reset Timer 0
+	TL0=0;
+	TH0=0;
+	TF0=0;
+	overflow_count=0;
+  
+  	if (IndVolts[0]<0.10){
+  	
+		TR0=1; // logic zero signal detected! detect time interval btw two falling edges. Start the timer
+			while(IndVolts[0]<0.10) // Wait for the signal to be logic one
+			{
+				IndVolts[0] = Volts_at_Pin(LQFP32_MUX_P2_7);
+				if(TF0==1) // Did the 16-bit timer overflow?
+				{
+					TF0=0;
+					overflow_count++;
+				}
+			}
+		
+		
+  		TR0=0; // Stop timer 0, the 24-bit number [overflow_count-TH0-TL0] has the period. Then convert it to frequency
+		
+  		period=1000.0*(overflow_count*65536.0+TH0*256.0+TL0)*(12.0/SYSCLK); // Compute period. Unit in ms
+  	}
+  	
+	
+	
+	// Read command from the frequency-modulated signal, and terminate the current mode of operation
+    DetermineMode();
+	
     
     // Control the motors using (mode determined) pwm signal
     MotorControl(IndVolts);
+    
+    
+    // (For debugging only) Show the user current command of the vehicle
+    DebuggingFctn(IndVolts); 
         
     
     
     // pause and count time
-    	waitms(20);
-    	millisecond = millisecond + 20;
+    	waitms(1);
+    	millisecond = millisecond + 1;
 	}
 	
 }

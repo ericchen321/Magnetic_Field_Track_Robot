@@ -41,7 +41,16 @@
 #define FRQROTATE 0.0
 
 
+//LCD 
 
+#define LCD_RS P2_1
+#define LCD_RW P1_7 // Not used in this code
+#define LCD_E  P1_5
+#define LCD_D4 P1_3
+#define LCD_D5 P1_2
+#define LCD_D6 P1_1
+#define LCD_D7 P1_0
+#define CHARS_PER_LINE 16
 
 
 // global variables
@@ -54,11 +63,11 @@ volatile unsigned char pwm_RED1=0;
 volatile unsigned char dirout=0;
 volatile unsigned char overflow_count=0;
 volatile float frequency=0;
-unsigned int mode=STOP;
+unsigned int mode=FORWARD;
 volatile float FreqBuffer[4]={0,0,0,0};
 unsigned char WriteCount = 0;
 unsigned int millisecond=0;
-
+char freqstring[10];
 
 
 
@@ -265,6 +274,80 @@ void Timer2_ISR (void) interrupt 5
 }
 
 
+//LCD--------------------
+void LCD_pulse (void)
+{
+	LCD_E=1;
+	Timer3us(40);
+	LCD_E=0;
+}
+
+void LCD_byte (unsigned char x)
+{
+	// The accumulator in the C8051Fxxx is bit addressable!
+	ACC=x; //Send high nible
+	LCD_D7=ACC_7;
+	LCD_D6=ACC_6;
+	LCD_D5=ACC_5;
+	LCD_D4=ACC_4;
+	LCD_pulse();
+	Timer3us(40);
+	ACC=x; //Send low nible
+	LCD_D7=ACC_3;
+	LCD_D6=ACC_2;
+	LCD_D5=ACC_1;
+	LCD_D4=ACC_0;
+	LCD_pulse();
+}
+
+void WriteData (unsigned char x)
+{
+	LCD_RS=1;
+	LCD_byte(x);
+	waitms(2);
+}
+
+void WriteCommand (unsigned char x)
+{
+	LCD_RS=0;
+	LCD_byte(x);
+	waitms(5);
+}
+
+void LCD_4BIT (void)
+{
+	LCD_E=0; // Resting state of LCD's enable is zero
+	LCD_RW=0; // We are only writing to the LCD in this program
+	waitms(20);
+	// First make sure the LCD is in 8-bit mode and then change to 4-bit mode
+	WriteCommand(0x33);
+	WriteCommand(0x33);
+	WriteCommand(0x32); // Change to 4-bit mode
+
+	// Configure the LCD
+	WriteCommand(0x28);
+	WriteCommand(0x0c);
+	WriteCommand(0x01); // Clear screen command (takes some time)
+	waitms(20); // Wait for clear screen command to finsih.
+}
+
+void LCDprint(char * string, unsigned char line, bit clear)
+{
+	int j;
+
+	WriteCommand(line==2?0xc0:0x80);
+	waitms(5);
+	for(j=0; string[j]!=0; j++)	WriteData(string[j]);// Write the message
+	if(clear) for(; j<CHARS_PER_LINE; j++) WriteData(' '); // Clear the rest of the line
+}
+
+
+void Clean_LCD(void){
+	LCDprint("                ", 1, 1);
+	LCDprint("                ", 2, 1);
+}
+
+
 
 //-------------
 void ReadFrequency (void)
@@ -332,18 +415,18 @@ void DetermineMode (void) {
   
   if (StopSigCount > 2){
 	  mode = STOP;
-	  printf("Entered stop mode");
 	  return;
   }
   
   
   if (ForwardSigCount > 2){
 	  mode = FORWARD;
-	  printf("Entered forward mode");
+	  /*
 	  while (frequency< FRQLOW || frequency>FRQHIGH){
 		  power=0;
 		  ReadFrequency();		  
 	  }
+	  */
 	  
 	  power=30;
 	  return;
@@ -449,13 +532,12 @@ void MotorControl (volatile float IndVolts[])
 
 
 //-------------
-void DebuggingFctn (volatile float IndVolts[])
+void DebuggingFctn (void)
 {
-	printf("Freq = %5.3f HZ, Mode = %d\r", frequency, mode);
+	// printf("Freq = %5.3f HZ, Mode = %d\r", frequency, mode);
+	sprintf(freqstring, "FREQ=%5.3fHZ", frequency);
+  	LCDprint(freqstring, 1,1);
 }
-
-
-
 
 
 
@@ -470,6 +552,7 @@ void main (void)
 	volatile float IndVolts[3]; // Blue - IndVolts0, Red - IndVolts1, Front - IndVolts2
   	TIMER0_Init(); // Initialize timer 0 to read the frequency of the fm signal
   	TIMER2_Init(); // Initialize timer 2 for periodic interrupts used for motor control
+  	LCD_4BIT(); // Initialize the LCD
   	EA=1; // Enable interrupts
 	
   	InitPinADC(1, 4); // Configure P1.4 as analog input
@@ -502,7 +585,9 @@ void main (void)
     MotorControl(IndVolts);
     
     // (For debugging only) Show the user current command and status of the vehicle
-    DebuggingFctn(IndVolts);
+    if (millisecond%600==0){
+    	DebuggingFctn();
+    }
     
     // pause and count time
     	waitms(20);

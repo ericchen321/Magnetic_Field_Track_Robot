@@ -495,12 +495,11 @@ void MotorControl (volatile float IndVolts[])
   
   // Case ROTATE ------------------;
   case ROTATE:
-  	pwm_BLU1 = 3*power;
-  	pwm_BLU0 = 0;
-  	pwm_RED1 = 0;
-  	pwm_RED0 = 3*power;
+  	pwm_BLU1 = 0;
+  	pwm_BLU0 = 3*power;
+  	pwm_RED1 = 3*power;
+  	pwm_RED0 = 0;
   	waitms(1200);
-  	mode = STOP;
   break;
     
   default:
@@ -517,11 +516,11 @@ void MotorControl (volatile float IndVolts[])
 
 
 //-------------
-void DebuggingFctn (volatile float IndVolts[])
+void DebuggingFctn (void)
 {
 	sprintf(debugstring, "%4.3fms", period);
   	LCDprint(debugstring, 1,1);
-  	sprintf(debugstring, "%3.3fV", IndVolts[0]);
+  	sprintf(debugstring, "%d", mode);
   	LCDprint(debugstring, 2,1);
   	  	
 }
@@ -569,6 +568,8 @@ void main (void)
 	TF0=0;
 	overflow_count=0;
   
+	
+	if (mode != ROTATE){
   	if (IndVolts[0]<0.10){
   	
 		TR0=1; // logic zero signal detected! detect time interval btw two falling edges. Start the timer
@@ -587,6 +588,10 @@ void main (void)
 		
   		period=1000.0*(overflow_count*65536.0+TH0*256.0+TL0)*(12.0/SYSCLK); // Compute period. Unit in ms
   	}
+  	}
+  	else{
+  		period = 300.0; // Set period in the STOP band to set Mode = STOP
+  	}
   	
 	
 	
@@ -599,7 +604,7 @@ void main (void)
     
     
     // (For debugging only) Show the user current command of the vehicle
-    DebuggingFctn(IndVolts); 
+    DebuggingFctn(); 
         
     
     

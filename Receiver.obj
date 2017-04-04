@@ -15,17 +15,17 @@ R_GSINIT,code,0000,NO
 R_BSEG,bit,0002,NO
 R_XSEG,xdata,0000,NO
 BIT_BANK,data,0000,OV
-R_CONST,code,0025,NO
+R_CONST,code,0021,NO
 rbank0,data,0000,OV
 R_PSEG,xdata,0000,NO
 R_DINIT,code,0032,NO
-R_DSEG,data,0032,NO
+R_DSEG,data,002F,NO
 R_OSEG,data,0001,OV
 R_IXSEG,xdata,0000,NO
 R_ISEG,idata,0000,NO
 R_HOME,code,0000,NO
 R_XINIT,code,0000,NO
-R_CSEG,code,0A4C,NO
+R_CSEG,code,0A2F,NO
 </SEGMENTS>
 
 <LOCALS>
@@ -34,7 +34,7 @@ L021017?,R_CSEG,0779,0000
 L021016?,R_CSEG,075D,0000
 L021015?,R_CSEG,0750,0000
 L021013?,R_CSEG,06CA,0000
-_main_sloc0_1_0,R_DSEG,002E,0004
+_main_sloc0_1_0,R_DSEG,002B,0004
 L021010?,R_CSEG,0743,0000
 L021029?,R_CSEG,052A,0000
 L021028?,R_CSEG,0520,0000
@@ -45,8 +45,9 @@ L019016?,R_CSEG,0325,0000
 L019014?,R_CSEG,0319,0000
 _MotorControl_IndVolts_1_90,R_DSEG,001C,0003
 L004001?,R_CSEG,0066,0000
-L023018?,R_CSEG,08FF,0000
+L023012?,R_CSEG,085A,0000
 L019033?,R_CSEG,0321,0000
+L023010?,R_CSEG,0A0F,0000
 L019031?,R_CSEG,0315,0000
 L020005?,R_CSEG,04B9,0000
 L017007?,R_CSEG,02BD,0000
@@ -55,9 +56,11 @@ L008014?,R_CSEG,00DB,0000
 L020002?,R_CSEG,0467,0000
 L008012?,R_CSEG,00CB,0000
 L017003?,R_CSEG,0282,0000
+L023026?,R_CSEG,0A2C,0000
 L008010?,R_CSEG,00C9,0000
-L023021?,R_CSEG,0A49,0000
-L023020?,R_CSEG,0942,0000
+L023025?,R_CSEG,091D,0000
+L023023?,R_CSEG,08DA,0000
+L023022?,R_CSEG,08B0,0000
 L021008?,R_CSEG,0646,0000
 L021006?,R_CSEG,05C0,0000
 L021003?,R_CSEG,0639,0000
@@ -66,22 +69,20 @@ _Timer2_ISR_sloc0_1_0,R_BSEG,0000,0001
 L019009?,R_CSEG,030D,0000
 L019004?,R_CSEG,0308,0000
 L019001?,R_CSEG,0305,0000
-L023009?,R_CSEG,088B,0000
-L023007?,R_CSEG,0A26,0000
-L023005?,R_CSEG,0946,0000
-L023003?,R_CSEG,0901,0000
+L023009?,R_CSEG,0A03,0000
+L023005?,R_CSEG,0921,0000
+L023003?,R_CSEG,08DC,0000
 __str_0,R_CONST,0000,0000
 __str_1,R_CONST,0011,0000
 __str_2,R_CONST,0019,0000
-__str_3,R_CONST,0020,0000
+__str_3,R_CONST,001C,0000
 L008007?,R_CSEG,0107,0000
 L011002?,R_CSEG,0196,0000
 L008004?,R_CSEG,00FF,0000
 L008003?,R_CSEG,00F7,0000
 L008002?,R_CSEG,00EF,0000
 L008001?,R_CSEG,00E7,0000
-_main_IndVolts_1_102,R_DSEG,0022,000C
-_DebuggingFctn_IndVolts_1_99,R_DSEG,001F,0003
+_main_IndVolts_1_102,R_DSEG,001F,000C
 L009004?,R_CSEG,0115,0000
 L009001?,R_CSEG,0110,0000
 L004011?,R_CSEG,0092,0000
@@ -98,8 +99,8 @@ _WriteData,R_CSEG,0204,0000
 _InitPinADC,R_CSEG,00BE,0000
 _TIMER0_Init,R_CSEG,0094,0000
 _Volts_at_Pin,R_CSEG,0129,0000
-_DebuggingFctn,R_CSEG,07B7,0000
-_main,R_CSEG,084D,0000
+_DebuggingFctn,R_CSEG,07B2,0000
+_main,R_CSEG,081C,0000
 _pwm_RED0,R_DSEG,0004,0001
 _pwm_RED1,R_DSEG,0005,0001
 _LCD_pulse,R_CSEG,01C3,0000
@@ -1137,26 +1138,18 @@ E4
 F5 data8(_mode;)
 F5 data8(_mode;0x0001;+;)
 22
+75 data8(_pwm_BLU1;) 00
 E5 data8(_power;)
 75 F0 03
 A4
-F5 data8(_pwm_BLU1;)
-E4
 F5 data8(_pwm_BLU0;)
-F5 data8(_pwm_RED1;)
 E5 data8(_power;)
 75 F0 03
 A4
-F5 data8(_pwm_RED0;)
+F5 data8(_pwm_RED1;)
+75 data8(_pwm_RED0;) 00
 90 04 B0
-12 addr16(_waitms;)  
-E4
-F5 data8(_mode;)
-F5 data8(_mode;0x0001;+;)
-22
-85 82 data8(_DebuggingFctn_IndVolts_1_99;)
-85 83 data8(_DebuggingFctn_IndVolts_1_99;0x0001;+;)
-85 F0 data8(_DebuggingFctn_IndVolts_1_99;0x0002;+;)
+02 addr16(_waitms;)  
 C0 data8(_period;)
 C0 data8(_period;0x0001;+;)
 C0 data8(_period;0x0002;+;)
@@ -1182,27 +1175,8 @@ D2 bit(_LCDprint_PARM_3;)
 90 data16(_debugstring;)  
 75 F0 40
 12 addr16(_LCDprint;)  
-AA data8(_DebuggingFctn_IndVolts_1_99;)
-AB data8(_DebuggingFctn_IndVolts_1_99;0x0001;+;)
-AC data8(_DebuggingFctn_IndVolts_1_99;0x0002;+;)
-8A 82
-8B 83
-8C F0
-12 addr16(__gptrget;)  
-FA
-A3
-12 addr16(__gptrget;)  
-FB
-A3
-12 addr16(__gptrget;)  
-FC
-A3
-12 addr16(__gptrget;)  
-FD
-C0 02
-C0 03
-C0 04
-C0 05
+C0 data8(_mode;)
+C0 data8(_mode;0x0001;+;)
 74 data8(__str_2;)
 C0 E0
 74 data8(__str_2;0x0008;>>;)
@@ -1217,7 +1191,7 @@ C0 E0
 C0 E0
 12 addr16(_sprintf;)  
 E5 81
-24 F6
+24 F8
 F5 81
 75 data8(_LCDprint_PARM_2;) 02
 D2 bit(_LCDprint_PARM_3;)
@@ -1282,6 +1256,11 @@ FD
 75 8C 00
 C2 8D
 75 data8(_overflow_count;) 00
+74 05
+B5 data8(_mode;) rel3(L023022?;)
+E4
+B5 data8(_mode;0x0001;+;) rel3(L023022?;)
+02 addr16(L023009?;)  
 74 CD
 C0 E0
 74 CC
@@ -1299,8 +1278,8 @@ E5 81
 24 FC
 F5 81
 EA
-70 rel2(L023018?;)
-02 addr16(L023007?;)  
+70 rel2(L023023?;)
+02 addr16(L023010?;)  
 D2 8C
 74 CD
 C0 E0
@@ -1330,7 +1309,7 @@ FD
 8B data8(_main_IndVolts_1_102;0x0001;+;)
 8C data8(_main_IndVolts_1_102;0x0002;+;)
 8D data8(_main_IndVolts_1_102;0x0003;+;)
-10 8D rel3(L023020?;)
+10 8D rel3(L023025?;)
 80 rel2(L023003?;)
 05 data8(_overflow_count;)
 80 rel2(L023003?;)
@@ -1433,20 +1412,23 @@ F5 data8(_period;0x0003;+;)
 E5 81
 24 FC
 F5 81
+80 rel2(L023010?;)
+75 data8(_period;) 00
+75 data8(_period;0x0001;+;) 00
+75 data8(_period;0x0002;+;) 96
+75 data8(_period;0x0003;+;) 43
 12 addr16(_DetermineMode;)  
 90 data16(_main_IndVolts_1_102;)  
 75 F0 40
 12 addr16(_MotorControl;)  
-90 data16(_main_IndVolts_1_102;)  
-75 F0 40
 12 addr16(_DebuggingFctn;)  
 90 00 01
 12 addr16(_waitms;)  
 05 data8(_millisecond;)
 E4
-B5 data8(_millisecond;) rel3(L023021?;)
+B5 data8(_millisecond;) rel3(L023026?;)
 05 data8(_millisecond;0x0001;+;)
-02 addr16(L023009?;)  
+02 addr16(L023012?;)  
 </CODE>
 
 <CODE R_CSEG>
@@ -1460,7 +1442,7 @@ B5 data8(_millisecond;) rel3(L023021?;)
 00
 25 34 2E 33 66 6D 73 
 00
-25 33 2E 33 66 56 
+25 64 
 00
 1B
 5B 32 4A 

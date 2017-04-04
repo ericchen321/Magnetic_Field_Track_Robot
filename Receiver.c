@@ -31,12 +31,12 @@
 #define BACKWARD 4
 #define ROTATE 5
 
-#define FRQLOW 15840.0
-#define FRQHIGH 16160.0
-#define FRQSTOP 0.0
+#define FRQLOW 15800.0
+#define FRQHIGH 16300.0
+#define FRQSTOP 15100.0
 #define FRQNITL 0.0
 #define FRQNITR 0.0
-#define FRQFORWARD 0.0
+#define FRQFORWARD 16900.0
 #define FRQBACKWARD 0.0
 #define FRQROTATE 0.0
 
@@ -53,11 +53,11 @@ volatile unsigned char pwm_RED0=0;
 volatile unsigned char pwm_RED1=0;
 volatile unsigned char dirout=0;
 volatile unsigned char overflow_count=0;
-int i = 0;
-float frequency=0;
-unsigned char mode=FORWARD;
-
-
+volatile float frequency=0;
+unsigned int mode=STOP;
+volatile float FreqBuffer[4]={0,0,0,0};
+unsigned char WriteCount = 0;
+unsigned int millisecond=0;
 
 
 
@@ -303,27 +303,56 @@ void ReadFrequency (void)
 
 
 
-// --------------
+
 void DetermineMode (void) {
-	ReadFrequency();
+  unsigned char ReadCount = 0;
+  unsigned char ForwardSigCount=0;
+  unsigned char StopSigCount=0;
+  ReadFrequency();
   
-  //if( frequency > FRQHIGH || frequency < FRQLOW){
-  	//mode = STOP;
-  //}
+
+  // Write one frequency to the frequency buffer
+  FreqBuffer[WriteCount]=frequency;
+  WriteCount++;
+  if (WriteCount==4){
+  	WriteCount=0;
+  }
   
+  
+  // Read the frequency buffer
+  for (ReadCount=0; ReadCount<4; ReadCount++){
+	if (FreqBuffer[ReadCount]>0.99*FRQFORWARD && FreqBuffer[ReadCount]<1.01*FRQFORWARD){
+		ForwardSigCount++;
+	}
+	if (FreqBuffer[ReadCount]>0.98*FRQSTOP && FreqBuffer[ReadCount]<1.02*FRQSTOP){
+		StopSigCount++;	
+	}
+  }
+  
+  
+  if (StopSigCount > 2){
+	  mode = STOP;
+	  printf("Entered stop mode");
+	  return;
+  }
+  
+  
+  if (ForwardSigCount > 2){
+	  mode = FORWARD;
+	  printf("Entered forward mode");
+	  while (frequency< FRQLOW || frequency>FRQHIGH){
+		  power=0;
+		  ReadFrequency();		  
+	  }
+	  
+	  power=30;
+	  return;
+  }
+	
+
 }
 
 
-/*
-//-------------
-void ReadInductorStatus (void)
-{
-	IndVolts[0] = Volts_at_Pin(LQFP32_MUX_P2_7);
-	IndVolts[1] = Volts_at_Pin(LQFP32_MUX_P1_7);
-	IndVolts[2] = Volts_at_Pin(LQFP32_MUX_P2_0);
-  
-}
-*/
 
 
 
@@ -332,29 +361,72 @@ void MotorControl (volatile float IndVolts[])
 {
   
   switch (mode){
-  
+  // Case FORWARD:------------------------
   case FORWARD:
-    if((IndVolts[0] - Vblue_middle) > Vblue_thresh){
+  	if((IndVolts[0] - Vblue_middle) > Vblue_thresh){
       pwm_BLU1= 0;
       pwm_BLU0 = 0;
       pwm_RED1 = power;
       pwm_RED0 = 0; 
-  }
+  	}
   
-  else if( (IndVolts[1] - Vred_middle) > Vred_thresh ){
+  	else if( (IndVolts[1] - Vred_middle) > Vred_thresh ){
   	  pwm_BLU1=power;
       pwm_BLU0=0;
       pwm_RED1=0;
       pwm_RED0=0;
-  }
-  else{
+  	}
+  	else{
   	pwm_BLU1 = power;
     pwm_BLU0 = 0;
     pwm_RED1 = power;
     pwm_RED0 = 0;
+  	}
+  break;
+  
+  // Case BACKWARD ----------------;
+  case BACKWARD:
+    if(IndVolts[0] > Vblue_thresh + 0.1 || IndVolts[0]/IndVolts[1] > 1){
+    if (IndVolts[0]/IndVolts[1]>1.1){
+    	pwm_RED0=2*power;
+    	pwm_RED1=0;
+    	pwm_BLU0=0;
+    	pwm_BLU1=0;
+    	
+    }
+    else{
+      pwm_BLU0= power;
+      pwm_BLU1 = 0;
+      pwm_RED0 = 0;
+      pwm_RED1 = 0; 
+    }  
+  }
+  
+  else if(IndVolts[1] > Vred_thresh + 0.1 || IndVolts[0]/IndVolts[1] < 1){
+  	if (IndVolts[0]/IndVolts[1]<0.8){
+    	pwm_RED0=0;
+    	pwm_RED1=0;
+    	pwm_BLU0=2*power;
+    	pwm_BLU1=0;
+    	
+    }
+    else{
+  		pwm_BLU0=0;
+    	pwm_BLU1=0;
+    	pwm_RED0=power;
+    	pwm_RED1=0;
+    }
+  }
+  else{
+  	pwm_BLU0 = power;
+    pwm_BLU1 = 0;
+    pwm_RED0 = power;
+    pwm_RED1 = 0;
   }
   break;
-    
+  
+  
+  // Case STOP --------------------:  
   case STOP:
     pwm_BLU1 = 0;
     pwm_BLU0 = 0;
@@ -379,7 +451,7 @@ void MotorControl (volatile float IndVolts[])
 //-------------
 void DebuggingFctn (volatile float IndVolts[])
 {
-	printf("Freq = %5.3f HZ, Blue = %5.3f V, Red = %5.3f V, Ratio = %5.3f\r", frequency, IndVolts[0], IndVolts[1], IndVolts[0]/IndVolts[1]);
+	printf("Freq = %5.3f HZ, Mode = %d\r", frequency, mode);
 }
 
 
@@ -393,6 +465,8 @@ void main (void)
 {
 	
 	// initialize (some, not all) variables, pins, etc.
+	
+	
 	volatile float IndVolts[3]; // Blue - IndVolts0, Red - IndVolts1, Front - IndVolts2
   	TIMER0_Init(); // Initialize timer 0 to read the frequency of the fm signal
   	TIMER2_Init(); // Initialize timer 2 for periodic interrupts used for motor control
@@ -404,6 +478,7 @@ void main (void)
   	InitADC();
   	printf("\x1b[2J"); // Clear screen using ANSI escape sequence.
   	
+	
   	
 		
 	
@@ -412,13 +487,15 @@ void main (void)
 	while(1)
 	{
     // Read command from the frequency-modulated signal, and determine the current mode of operation
-    //DetermineMode();
+    // Determine mode if millisecond is a multiple of 600
+  	if (millisecond%600==0){
+    	DetermineMode();
+    }
     
     // Read the input voltages from the inductors 
-    //ReadInductorStatus();
-	  IndVolts[0] = Volts_at_Pin(LQFP32_MUX_P2_7);
-	  IndVolts[1] = Volts_at_Pin(LQFP32_MUX_P1_4);
-	  IndVolts[2] = Volts_at_Pin(LQFP32_MUX_P2_0);
+	IndVolts[0] = Volts_at_Pin(LQFP32_MUX_P2_7);
+	IndVolts[1] = Volts_at_Pin(LQFP32_MUX_P1_4);
+	IndVolts[2] = Volts_at_Pin(LQFP32_MUX_P2_0);
 	
     
     // Control the motors using (mode determined) pwm signal
@@ -427,10 +504,9 @@ void main (void)
     // (For debugging only) Show the user current command and status of the vehicle
     DebuggingFctn(IndVolts);
     
-    
-    // pause
+    // pause and count time
     	waitms(20);
-    
+    	millisecond = millisecond + 20;
 	}
 	
 }

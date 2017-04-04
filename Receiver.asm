@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by C51
 ; Version 1.0.0 #1069 (Apr 23 2015) (MSVC)
-; This file was generated Mon Apr 03 16:23:21 2017
+; This file was generated Mon Apr 03 18:46:16 2017
 ;--------------------------------------------------------
 $name Receiver
 $optc51 --model-small
@@ -40,9 +40,11 @@ $printf_float
 	public _waitms
 	public _Timer3us
 	public __c51_external_startup
+	public _millisecond
+	public _WriteCount
+	public _FreqBuffer
 	public _mode
 	public _frequency
-	public _i
 	public _overflow_count
 	public _dirout
 	public _pwm_RED1
@@ -398,19 +400,29 @@ _dirout:
 	ds 1
 _overflow_count:
 	ds 1
-_i:
-	ds 2
 _frequency:
 	ds 4
 _mode:
+	ds 2
+_FreqBuffer:
+	ds 16
+_WriteCount:
 	ds 1
-_MotorControl_IndVolts_1_73:
+_millisecond:
+	ds 2
+_DetermineMode_ForwardSigCount_1_72:
+	ds 1
+_DetermineMode_StopSigCount_1_72:
+	ds 1
+_MotorControl_IndVolts_1_80:
 	ds 3
-_DebuggingFctn_IndVolts_1_79:
+_MotorControl_sloc0_1_0:
 	ds 3
-_DebuggingFctn_sloc0_1_0:
+_MotorControl_sloc1_1_0:
 	ds 4
-_main_IndVolts_1_82:
+_MotorControl_sloc2_1_0:
+	ds 4
+_main_IndVolts_1_96:
 	ds 12
 ;--------------------------------------------------------
 ; overlayable items in internal ram 
@@ -486,17 +498,38 @@ _Timer2_ISR_sloc0_1_0:
 	mov	_dirout,#0x00
 ;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:55: volatile unsigned char overflow_count=0;
 	mov	_overflow_count,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:56: int i = 0;
-	clr	a
-	mov	_i,a
-	mov	(_i + 1),a
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:57: float frequency=0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:56: volatile float frequency=0;
 	mov	_frequency,#0x00
 	mov	(_frequency + 1),#0x00
 	mov	(_frequency + 2),#0x00
 	mov	(_frequency + 3),#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:58: unsigned char mode=FORWARD;
-	mov	_mode,#0x03
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:57: unsigned int mode=STOP;
+	clr	a
+	mov	_mode,a
+	mov	(_mode + 1),a
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:58: volatile float FreqBuffer[4]={0,0,0,0};
+	mov	_FreqBuffer,#0x00
+	mov	(_FreqBuffer + 1),#0x00
+	mov	(_FreqBuffer + 2),#0x00
+	mov	(_FreqBuffer + 3),#0x00
+	mov	(_FreqBuffer + 0x0004),#0x00
+	mov	((_FreqBuffer + 0x0004) + 1),#0x00
+	mov	((_FreqBuffer + 0x0004) + 2),#0x00
+	mov	((_FreqBuffer + 0x0004) + 3),#0x00
+	mov	(_FreqBuffer + 0x0008),#0x00
+	mov	((_FreqBuffer + 0x0008) + 1),#0x00
+	mov	((_FreqBuffer + 0x0008) + 2),#0x00
+	mov	((_FreqBuffer + 0x0008) + 3),#0x00
+	mov	(_FreqBuffer + 0x000c),#0x00
+	mov	((_FreqBuffer + 0x000c) + 1),#0x00
+	mov	((_FreqBuffer + 0x000c) + 2),#0x00
+	mov	((_FreqBuffer + 0x000c) + 3),#0x00
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:59: unsigned char WriteCount = 0;
+	mov	_WriteCount,#0x00
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:60: unsigned int millisecond=0;
+	clr	a
+	mov	_millisecond,a
+	mov	(_millisecond + 1),a
 	; The linker places a 'ret' at the end of segment R_DINIT.
 ;--------------------------------------------------------
 ; code
@@ -1104,42 +1137,341 @@ L012016?:
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'DetermineMode'
 ;------------------------------------------------------------
+;ReadCount                 Allocated to registers r4 
+;ForwardSigCount           Allocated with name '_DetermineMode_ForwardSigCount_1_72'
+;StopSigCount              Allocated with name '_DetermineMode_StopSigCount_1_72'
 ;------------------------------------------------------------
 ;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:307: void DetermineMode (void) {
 ;	-----------------------------------------
 ;	 function DetermineMode
 ;	-----------------------------------------
 _DetermineMode:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:308: ReadFrequency();
-	ljmp	_ReadFrequency
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:311: ReadFrequency();
+	lcall	_ReadFrequency
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:315: FreqBuffer[WriteCount]=frequency;
+	mov	a,_WriteCount
+	add	a,_WriteCount
+	add	a,acc
+	mov	r2,a
+	add	a,#_FreqBuffer
+	mov	r0,a
+	mov	@r0,_frequency
+	inc	r0
+	mov	@r0,(_frequency + 1)
+	inc	r0
+	mov	@r0,(_frequency + 2)
+	inc	r0
+	mov	@r0,(_frequency + 3)
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:316: WriteCount++;
+	inc	_WriteCount
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:317: if (WriteCount==4){
+	mov	a,#0x04
+	cjne	a,_WriteCount,L013029?
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:318: WriteCount=0;
+	mov	_WriteCount,#0x00
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:323: for (ReadCount=0; ReadCount<4; ReadCount++){
+L013029?:
+	mov	_DetermineMode_ForwardSigCount_1_72,#0x00
+	mov	_DetermineMode_StopSigCount_1_72,#0x00
+	mov	r4,#0x00
+L013017?:
+	cjne	r4,#0x04,L013037?
+L013037?:
+	jc	L013038?
+	ljmp	L013020?
+L013038?:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:324: if (FreqBuffer[ReadCount]>0.99*FRQFORWARD && FreqBuffer[ReadCount]<1.01*FRQFORWARD){
+	mov	a,r4
+	add	a,r4
+	add	a,acc
+	mov	r5,a
+	add	a,#_FreqBuffer
+	mov	r0,a
+	mov	ar6,@r0
+	inc	r0
+	mov	ar7,@r0
+	inc	r0
+	mov	ar3,@r0
+	inc	r0
+	mov	ar2,@r0
+	dec	r0
+	dec	r0
+	dec	r0
+	push	ar4
+	push	ar5
+	clr	a
+	push	acc
+	mov	a,#0xB6
+	push	acc
+	mov	a,#0x82
+	push	acc
+	mov	a,#0x46
+	push	acc
+	mov	dpl,r6
+	mov	dph,r7
+	mov	b,r3
+	mov	a,r2
+	lcall	___fsgt
+	mov	r2,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	pop	ar5
+	pop	ar4
+	mov	a,r2
+	jz	L013004?
+	mov	a,r5
+	add	a,#_FreqBuffer
+	mov	r0,a
+	mov	ar2,@r0
+	inc	r0
+	mov	ar3,@r0
+	inc	r0
+	mov	ar5,@r0
+	inc	r0
+	mov	ar6,@r0
+	dec	r0
+	dec	r0
+	dec	r0
+	push	ar4
+	clr	a
+	push	acc
+	mov	a,#0x5A
+	push	acc
+	mov	a,#0x85
+	push	acc
+	mov	a,#0x46
+	push	acc
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r5
+	mov	a,r6
+	lcall	___fslt
+	mov	r2,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	pop	ar4
+	mov	a,r2
+	jz	L013004?
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:325: ForwardSigCount++;
+	inc	_DetermineMode_ForwardSigCount_1_72
+L013004?:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:327: if (FreqBuffer[ReadCount]>0.98*FRQSTOP && FreqBuffer[ReadCount]<1.02*FRQSTOP){
+	mov	a,r4
+	add	a,r4
+	add	a,acc
+	mov	r2,a
+	add	a,#_FreqBuffer
+	mov	r0,a
+	mov	ar3,@r0
+	inc	r0
+	mov	ar5,@r0
+	inc	r0
+	mov	ar6,@r0
+	inc	r0
+	mov	ar7,@r0
+	dec	r0
+	dec	r0
+	dec	r0
+	push	ar2
+	push	ar4
+	clr	a
+	push	acc
+	mov	a,#0x38
+	push	acc
+	mov	a,#0x67
+	push	acc
+	mov	a,#0x46
+	push	acc
+	mov	dpl,r3
+	mov	dph,r5
+	mov	b,r6
+	mov	a,r7
+	lcall	___fsgt
+	mov	r3,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	pop	ar4
+	pop	ar2
+	mov	a,r3
+	jz	L013019?
+	mov	a,r2
+	add	a,#_FreqBuffer
+	mov	r0,a
+	mov	ar2,@r0
+	inc	r0
+	mov	ar3,@r0
+	inc	r0
+	mov	ar5,@r0
+	inc	r0
+	mov	ar6,@r0
+	dec	r0
+	dec	r0
+	dec	r0
+	push	ar4
+	clr	a
+	push	acc
+	mov	a,#0xA8
+	push	acc
+	mov	a,#0x70
+	push	acc
+	mov	a,#0x46
+	push	acc
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r5
+	mov	a,r6
+	lcall	___fslt
+	mov	r2,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	pop	ar4
+	mov	a,r2
+	jz	L013019?
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:328: StopSigCount++;	
+	inc	_DetermineMode_StopSigCount_1_72
+L013019?:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:323: for (ReadCount=0; ReadCount<4; ReadCount++){
+	inc	r4
+	ljmp	L013017?
+L013020?:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:333: if (StopSigCount > 2){
+	mov	a,_DetermineMode_StopSigCount_1_72
+	add	a,#0xff - 0x02
+	jnc	L013010?
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:334: mode = STOP;
+	clr	a
+	mov	_mode,a
+	mov	(_mode + 1),a
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:335: printf("Entered stop mode");
+	mov	a,#__str_0
+	push	acc
+	mov	a,#(__str_0 >> 8)
+	push	acc
+	mov	a,#0x80
+	push	acc
+	lcall	_printf
+	dec	sp
+	dec	sp
+	dec	sp
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:336: return;
+	ret
+L013010?:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:340: if (ForwardSigCount > 2){
+	mov	a,_DetermineMode_ForwardSigCount_1_72
+	add	a,#0xff - 0x02
+	jnc	L013021?
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:341: mode = FORWARD;
+	mov	_mode,#0x03
+	clr	a
+	mov	(_mode + 1),a
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:342: printf("Entered forward mode");
+	mov	a,#__str_1
+	push	acc
+	mov	a,#(__str_1 >> 8)
+	push	acc
+	mov	a,#0x80
+	push	acc
+	lcall	_printf
+	dec	sp
+	dec	sp
+	dec	sp
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:343: while (frequency< FRQLOW || frequency>FRQHIGH){
+L013012?:
+	clr	a
+	push	acc
+	mov	a,#0xE0
+	push	acc
+	mov	a,#0x76
+	push	acc
+	mov	a,#0x46
+	push	acc
+	mov	dpl,_frequency
+	mov	dph,(_frequency + 1)
+	mov	b,(_frequency + 2)
+	mov	a,(_frequency + 3)
+	lcall	___fslt
+	mov	r2,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	mov	a,r2
+	jnz	L013013?
+	push	acc
+	mov	a,#0xB0
+	push	acc
+	mov	a,#0x7E
+	push	acc
+	mov	a,#0x46
+	push	acc
+	mov	dpl,_frequency
+	mov	dph,(_frequency + 1)
+	mov	b,(_frequency + 2)
+	mov	a,(_frequency + 3)
+	lcall	___fsgt
+	mov	r2,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	mov	a,r2
+	jz	L013014?
+L013013?:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:344: power=0;
+	mov	_power,#0x00
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:345: ReadFrequency();		  
+	lcall	_ReadFrequency
+	sjmp	L013012?
+L013014?:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:348: power=30;
+	mov	_power,#0x1E
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:349: return;
+L013021?:
+	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'MotorControl'
 ;------------------------------------------------------------
-;IndVolts                  Allocated with name '_MotorControl_IndVolts_1_73'
+;IndVolts                  Allocated with name '_MotorControl_IndVolts_1_80'
+;sloc0                     Allocated with name '_MotorControl_sloc0_1_0'
+;sloc1                     Allocated with name '_MotorControl_sloc1_1_0'
+;sloc2                     Allocated with name '_MotorControl_sloc2_1_0'
 ;------------------------------------------------------------
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:331: void MotorControl (volatile float IndVolts[])
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:360: void MotorControl (volatile float IndVolts[])
 ;	-----------------------------------------
 ;	 function MotorControl
 ;	-----------------------------------------
 _MotorControl:
-	mov	_MotorControl_IndVolts_1_73,dpl
-	mov	(_MotorControl_IndVolts_1_73 + 1),dph
-	mov	(_MotorControl_IndVolts_1_73 + 2),b
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:334: switch (mode){
+	mov	_MotorControl_IndVolts_1_80,dpl
+	mov	(_MotorControl_IndVolts_1_80 + 1),dph
+	mov	(_MotorControl_IndVolts_1_80 + 2),b
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:363: switch (mode){
 	clr	a
-	cjne	a,_mode,L014017?
-	ljmp	L014008?
-L014017?:
+	cjne	a,_mode,L014037?
+	clr	a
+	cjne	a,(_mode + 1),L014037?
+	ljmp	L014023?
+L014037?:
 	mov	a,#0x03
-	cjne	a,_mode,L014018?
-	sjmp	L014019?
-L014018?:
+	cjne	a,_mode,L014038?
+	clr	a
+	cjne	a,(_mode + 1),L014038?
+	sjmp	L014001?
+L014038?:
+	mov	a,#0x04
+	cjne	a,_mode,L014039?
+	clr	a
+	cjne	a,(_mode + 1),L014039?
+	ljmp	L014008?
+L014039?:
 	ret
-L014019?:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:337: if((IndVolts[0] - Vblue_middle) > Vblue_thresh){
-	mov	r2,_MotorControl_IndVolts_1_73
-	mov	r3,(_MotorControl_IndVolts_1_73 + 1)
-	mov	r4,(_MotorControl_IndVolts_1_73 + 2)
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:365: case FORWARD:
+L014001?:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:366: if((IndVolts[0] - Vblue_middle) > Vblue_thresh){
+	mov	r2,_MotorControl_IndVolts_1_80
+	mov	r3,(_MotorControl_IndVolts_1_80 + 1)
+	mov	r4,(_MotorControl_IndVolts_1_80 + 2)
 	mov	dpl,r2
 	mov	dph,r3
 	mov	b,r4
@@ -1199,17 +1531,17 @@ L014019?:
 	pop	ar2
 	mov	a,r5
 	jz	L014006?
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:338: pwm_BLU1= 0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:367: pwm_BLU1= 0;
 	mov	_pwm_BLU1,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:339: pwm_BLU0 = 0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:368: pwm_BLU0 = 0;
 	mov	_pwm_BLU0,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:340: pwm_RED1 = power;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:369: pwm_RED1 = power;
 	mov	_pwm_RED1,_power
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:341: pwm_RED0 = 0; 
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:370: pwm_RED0 = 0; 
 	mov	_pwm_RED0,#0x00
 	ret
 L014006?:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:344: else if( (IndVolts[1] - Vred_middle) > Vred_thresh ){
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:373: else if( (IndVolts[1] - Vred_middle) > Vred_thresh ){
 	mov	a,#0x04
 	add	a,r2
 	mov	r2,a
@@ -1269,59 +1601,35 @@ L014006?:
 	mov	sp,a
 	mov	a,r2
 	jz	L014003?
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:345: pwm_BLU1=power;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:374: pwm_BLU1=power;
 	mov	_pwm_BLU1,_power
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:346: pwm_BLU0=0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:375: pwm_BLU0=0;
 	mov	_pwm_BLU0,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:347: pwm_RED1=0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:376: pwm_RED1=0;
 	mov	_pwm_RED1,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:348: pwm_RED0=0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:377: pwm_RED0=0;
 	mov	_pwm_RED0,#0x00
 	ret
 L014003?:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:351: pwm_BLU1 = power;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:380: pwm_BLU1 = power;
 	mov	_pwm_BLU1,_power
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:352: pwm_BLU0 = 0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:381: pwm_BLU0 = 0;
 	mov	_pwm_BLU0,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:353: pwm_RED1 = power;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:382: pwm_RED1 = power;
 	mov	_pwm_RED1,_power
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:354: pwm_RED0 = 0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:383: pwm_RED0 = 0;
 	mov	_pwm_RED0,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:356: break;
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:358: case STOP:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:385: break;
 	ret
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:388: case BACKWARD:
 L014008?:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:359: pwm_BLU1 = 0;
-	mov	_pwm_BLU1,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:360: pwm_BLU0 = 0;
-	mov	_pwm_BLU0,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:361: pwm_RED1 = 0;
-	mov	_pwm_RED1,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:362: pwm_RED0 = 0;
-	mov	_pwm_RED0,#0x00
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:369: }
-	ret
-;------------------------------------------------------------
-;Allocation info for local variables in function 'DebuggingFctn'
-;------------------------------------------------------------
-;IndVolts                  Allocated with name '_DebuggingFctn_IndVolts_1_79'
-;sloc0                     Allocated with name '_DebuggingFctn_sloc0_1_0'
-;------------------------------------------------------------
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:380: void DebuggingFctn (volatile float IndVolts[])
-;	-----------------------------------------
-;	 function DebuggingFctn
-;	-----------------------------------------
-_DebuggingFctn:
-	mov	_DebuggingFctn_IndVolts_1_79,dpl
-	mov	(_DebuggingFctn_IndVolts_1_79 + 1),dph
-	mov	(_DebuggingFctn_IndVolts_1_79 + 2),b
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:382: printf("Freq = %5.3f HZ, Blue = %5.3f V, Red = %5.3f V, Ratio = %5.3f\r", frequency, IndVolts[0], IndVolts[1], IndVolts[0]/IndVolts[1]);
-	mov	r2,_DebuggingFctn_IndVolts_1_79
-	mov	r3,(_DebuggingFctn_IndVolts_1_79 + 1)
-	mov	r4,(_DebuggingFctn_IndVolts_1_79 + 2)
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:389: if(IndVolts[0] > Vblue_thresh + 0.1 || IndVolts[0]/IndVolts[1] > 1){
+	mov	_MotorControl_sloc0_1_0,_MotorControl_IndVolts_1_80
+	mov	(_MotorControl_sloc0_1_0 + 1),(_MotorControl_IndVolts_1_80 + 1)
+	mov	(_MotorControl_sloc0_1_0 + 2),(_MotorControl_IndVolts_1_80 + 2)
+	mov	dpl,_MotorControl_sloc0_1_0
+	mov	dph,(_MotorControl_sloc0_1_0 + 1)
+	mov	b,(_MotorControl_sloc0_1_0 + 2)
 	lcall	__gptrget
 	mov	r5,a
 	inc	dptr
@@ -1333,34 +1641,127 @@ _DebuggingFctn:
 	inc	dptr
 	lcall	__gptrget
 	mov	r0,a
-	mov	a,#0x04
-	add	a,r2
-	mov	r2,a
-	clr	a
-	addc	a,r3
-	mov	r3,a
-	mov	dpl,r2
-	mov	dph,r3
-	mov	b,r4
-	lcall	__gptrget
-	mov	_DebuggingFctn_sloc0_1_0,a
-	inc	dptr
-	lcall	__gptrget
-	mov	(_DebuggingFctn_sloc0_1_0 + 1),a
-	inc	dptr
-	lcall	__gptrget
-	mov	(_DebuggingFctn_sloc0_1_0 + 2),a
-	inc	dptr
-	lcall	__gptrget
-	mov	(_DebuggingFctn_sloc0_1_0 + 3),a
 	push	ar5
 	push	ar6
 	push	ar7
 	push	ar0
-	push	_DebuggingFctn_sloc0_1_0
-	push	(_DebuggingFctn_sloc0_1_0 + 1)
-	push	(_DebuggingFctn_sloc0_1_0 + 2)
-	push	(_DebuggingFctn_sloc0_1_0 + 3)
+	mov	a,#0xBC
+	push	acc
+	mov	a,#0x74
+	push	acc
+	mov	a,#0x53
+	push	acc
+	mov	a,#0x3E
+	push	acc
+	mov	dpl,r5
+	mov	dph,r6
+	mov	b,r7
+	mov	a,r0
+	lcall	___fsgt
+	mov	r1,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	pop	ar0
+	pop	ar7
+	pop	ar6
+	pop	ar5
+	mov	a,r1
+	jz	L014042?
+	ljmp	L014019?
+L014042?:
+	mov	a,#0x04
+	add	a,_MotorControl_sloc0_1_0
+	mov	r1,a
+	clr	a
+	addc	a,(_MotorControl_sloc0_1_0 + 1)
+	mov	r2,a
+	mov	r3,(_MotorControl_sloc0_1_0 + 2)
+	mov	dpl,r1
+	mov	dph,r2
+	mov	b,r3
+	lcall	__gptrget
+	mov	_MotorControl_sloc2_1_0,a
+	inc	dptr
+	lcall	__gptrget
+	mov	(_MotorControl_sloc2_1_0 + 1),a
+	inc	dptr
+	lcall	__gptrget
+	mov	(_MotorControl_sloc2_1_0 + 2),a
+	inc	dptr
+	lcall	__gptrget
+	mov	(_MotorControl_sloc2_1_0 + 3),a
+	push	ar5
+	push	ar6
+	push	ar7
+	push	ar0
+	push	_MotorControl_sloc2_1_0
+	push	(_MotorControl_sloc2_1_0 + 1)
+	push	(_MotorControl_sloc2_1_0 + 2)
+	push	(_MotorControl_sloc2_1_0 + 3)
+	mov	dpl,r5
+	mov	dph,r6
+	mov	b,r7
+	mov	a,r0
+	lcall	___fsdiv
+	mov	_MotorControl_sloc1_1_0,dpl
+	mov	(_MotorControl_sloc1_1_0 + 1),dph
+	mov	(_MotorControl_sloc1_1_0 + 2),b
+	mov	(_MotorControl_sloc1_1_0 + 3),a
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	clr	a
+	push	acc
+	push	acc
+	mov	a,#0x80
+	push	acc
+	mov	a,#0x3F
+	push	acc
+	mov	dpl,_MotorControl_sloc1_1_0
+	mov	dph,(_MotorControl_sloc1_1_0 + 1)
+	mov	b,(_MotorControl_sloc1_1_0 + 2)
+	mov	a,(_MotorControl_sloc1_1_0 + 3)
+	lcall	___fsgt
+	mov	r2,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	pop	ar0
+	pop	ar7
+	pop	ar6
+	pop	ar5
+	mov	a,r2
+	jnz	L014043?
+	ljmp	L014020?
+L014043?:
+L014019?:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:390: if (IndVolts[0]/IndVolts[1]>1.1){
+	mov	a,#0x04
+	add	a,_MotorControl_sloc0_1_0
+	mov	r2,a
+	clr	a
+	addc	a,(_MotorControl_sloc0_1_0 + 1)
+	mov	r3,a
+	mov	r4,(_MotorControl_sloc0_1_0 + 2)
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+	lcall	__gptrget
+	mov	r2,a
+	inc	dptr
+	lcall	__gptrget
+	mov	r3,a
+	inc	dptr
+	lcall	__gptrget
+	mov	r4,a
+	inc	dptr
+	lcall	__gptrget
+	mov	r1,a
+	push	ar2
+	push	ar3
+	push	ar4
+	push	ar1
 	mov	dpl,r5
 	mov	dph,r6
 	mov	b,r7
@@ -1369,75 +1770,216 @@ _DebuggingFctn:
 	mov	r2,dpl
 	mov	r3,dph
 	mov	r4,b
-	mov	r1,a
+	mov	r5,a
 	mov	a,sp
 	add	a,#0xfc
 	mov	sp,a
-	pop	ar0
-	pop	ar7
-	pop	ar6
-	pop	ar5
-	push	ar2
-	push	ar3
-	push	ar4
-	push	ar1
-	push	_DebuggingFctn_sloc0_1_0
-	push	(_DebuggingFctn_sloc0_1_0 + 1)
-	push	(_DebuggingFctn_sloc0_1_0 + 2)
-	push	(_DebuggingFctn_sloc0_1_0 + 3)
-	push	ar5
-	push	ar6
-	push	ar7
-	push	ar0
+	mov	a,#0xCD
+	push	acc
+	mov	a,#0xCC
+	push	acc
+	mov	a,#0x8C
+	push	acc
+	mov	a,#0x3F
+	push	acc
+	mov	dpl,r2
+	mov	dph,r3
+	mov	b,r4
+	mov	a,r5
+	lcall	___fsgt
+	mov	r2,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	mov	a,r2
+	jz	L014010?
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:391: pwm_RED0=2*power;
+	mov	a,_power
+	add	a,acc
+	mov	_pwm_RED0,a
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:392: pwm_RED1=0;
+	mov	_pwm_RED1,#0x00
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:393: pwm_BLU0=0;
+	mov	_pwm_BLU0,#0x00
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:394: pwm_BLU1=0;
+	mov	_pwm_BLU1,#0x00
+	ret
+L014010?:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:398: pwm_BLU0= power;
+	mov	_pwm_BLU0,_power
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:399: pwm_BLU1 = 0;
+	mov	_pwm_BLU1,#0x00
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:400: pwm_RED0 = 0;
+	mov	_pwm_RED0,#0x00
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:401: pwm_RED1 = 0; 
+	mov	_pwm_RED1,#0x00
+	ret
+L014020?:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:405: else if(IndVolts[1] > Vred_thresh + 0.1 || IndVolts[0]/IndVolts[1] < 1){
+	mov	a,#0x91
+	push	acc
+	mov	a,#0xED
+	push	acc
+	mov	a,#0x1C
+	push	acc
+	mov	a,#0x3E
+	push	acc
+	mov	dpl,_MotorControl_sloc2_1_0
+	mov	dph,(_MotorControl_sloc2_1_0 + 1)
+	mov	b,(_MotorControl_sloc2_1_0 + 2)
+	mov	a,(_MotorControl_sloc2_1_0 + 3)
+	lcall	___fsgt
+	mov	r2,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	mov	a,r2
+	jnz	L014015?
+	push	acc
+	push	acc
+	mov	a,#0x80
+	push	acc
+	mov	a,#0x3F
+	push	acc
+	mov	dpl,_MotorControl_sloc1_1_0
+	mov	dph,(_MotorControl_sloc1_1_0 + 1)
+	mov	b,(_MotorControl_sloc1_1_0 + 2)
+	mov	a,(_MotorControl_sloc1_1_0 + 3)
+	lcall	___fslt
+	mov	r2,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	mov	a,r2
+	jz	L014016?
+L014015?:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:406: if (IndVolts[0]/IndVolts[1]<0.8){
+	mov	a,#0xCD
+	push	acc
+	mov	a,#0xCC
+	push	acc
+	mov	a,#0x4C
+	push	acc
+	mov	a,#0x3F
+	push	acc
+	mov	dpl,_MotorControl_sloc1_1_0
+	mov	dph,(_MotorControl_sloc1_1_0 + 1)
+	mov	b,(_MotorControl_sloc1_1_0 + 2)
+	mov	a,(_MotorControl_sloc1_1_0 + 3)
+	lcall	___fslt
+	mov	r2,dpl
+	mov	a,sp
+	add	a,#0xfc
+	mov	sp,a
+	mov	a,r2
+	jz	L014013?
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:407: pwm_RED0=0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:408: pwm_RED1=0;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:409: pwm_BLU0=2*power;
+	clr	a
+	mov	_pwm_RED0,a
+	mov	_pwm_RED1,a
+	mov	a,_power
+	add	a,acc
+	mov	_pwm_BLU0,a
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:410: pwm_BLU1=0;
+	mov	_pwm_BLU1,#0x00
+	ret
+L014013?:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:414: pwm_BLU0=0;
+	mov	_pwm_BLU0,#0x00
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:415: pwm_BLU1=0;
+	mov	_pwm_BLU1,#0x00
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:416: pwm_RED0=power;
+	mov	_pwm_RED0,_power
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:417: pwm_RED1=0;
+	mov	_pwm_RED1,#0x00
+	ret
+L014016?:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:421: pwm_BLU0 = power;
+	mov	_pwm_BLU0,_power
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:422: pwm_BLU1 = 0;
+	mov	_pwm_BLU1,#0x00
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:423: pwm_RED0 = power;
+	mov	_pwm_RED0,_power
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:424: pwm_RED1 = 0;
+	mov	_pwm_RED1,#0x00
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:426: break;
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:430: case STOP:
+	ret
+L014023?:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:431: pwm_BLU1 = 0;
+	mov	_pwm_BLU1,#0x00
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:432: pwm_BLU0 = 0;
+	mov	_pwm_BLU0,#0x00
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:433: pwm_RED1 = 0;
+	mov	_pwm_RED1,#0x00
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:434: pwm_RED0 = 0;
+	mov	_pwm_RED0,#0x00
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:441: }
+	ret
+;------------------------------------------------------------
+;Allocation info for local variables in function 'DebuggingFctn'
+;------------------------------------------------------------
+;IndVolts                  Allocated with name '_DebuggingFctn_IndVolts_1_93'
+;------------------------------------------------------------
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:452: void DebuggingFctn (volatile float IndVolts[])
+;	-----------------------------------------
+;	 function DebuggingFctn
+;	-----------------------------------------
+_DebuggingFctn:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:454: printf("Freq = %5.3f HZ, Mode = %d\r", frequency, mode);
+	push	_mode
+	push	(_mode + 1)
 	push	_frequency
 	push	(_frequency + 1)
 	push	(_frequency + 2)
 	push	(_frequency + 3)
-	mov	a,#__str_0
+	mov	a,#__str_2
 	push	acc
-	mov	a,#(__str_0 >> 8)
+	mov	a,#(__str_2 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
 	lcall	_printf
 	mov	a,sp
-	add	a,#0xed
+	add	a,#0xf7
 	mov	sp,a
 	ret
 ;------------------------------------------------------------
 ;Allocation info for local variables in function 'main'
 ;------------------------------------------------------------
-;IndVolts                  Allocated with name '_main_IndVolts_1_82'
+;IndVolts                  Allocated with name '_main_IndVolts_1_96'
 ;------------------------------------------------------------
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:392: void main (void)
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:464: void main (void)
 ;	-----------------------------------------
 ;	 function main
 ;	-----------------------------------------
 _main:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:397: TIMER0_Init(); // Initialize timer 0 to read the frequency of the fm signal
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:471: TIMER0_Init(); // Initialize timer 0 to read the frequency of the fm signal
 	lcall	_TIMER0_Init
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:398: TIMER2_Init(); // Initialize timer 2 for periodic interrupts used for motor control
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:472: TIMER2_Init(); // Initialize timer 2 for periodic interrupts used for motor control
 	lcall	_TIMER2_Init
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:399: EA=1; // Enable interrupts
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:473: EA=1; // Enable interrupts
 	setb	_EA
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:401: InitPinADC(1, 4); // Configure P1.4 as analog input
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:475: InitPinADC(1, 4); // Configure P1.4 as analog input
 	mov	_InitPinADC_PARM_2,#0x04
 	mov	dpl,#0x01
 	lcall	_InitPinADC
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:402: InitPinADC(2, 0); // Configure P2.0 as analog input
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:476: InitPinADC(2, 0); // Configure P2.0 as analog input
 	mov	_InitPinADC_PARM_2,#0x00
 	mov	dpl,#0x02
 	lcall	_InitPinADC
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:403: InitPinADC(2, 7); // Configure P2.7 as analog input
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:477: InitPinADC(2, 7); // Configure P2.7 as analog input
 	mov	_InitPinADC_PARM_2,#0x07
 	mov	dpl,#0x02
 	lcall	_InitPinADC
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:404: InitADC();
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:478: InitADC();
 	lcall	_InitADC
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:405: printf("\x1b[2J"); // Clear screen using ANSI escape sequence.
-	mov	a,#__str_1
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:479: printf("\x1b[2J"); // Clear screen using ANSI escape sequence.
+	mov	a,#__str_3
 	push	acc
-	mov	a,#(__str_1 >> 8)
+	mov	a,#(__str_3 >> 8)
 	push	acc
 	mov	a,#0x80
 	push	acc
@@ -1445,64 +1987,89 @@ _main:
 	dec	sp
 	dec	sp
 	dec	sp
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:412: while(1)
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:487: while(1)
+L016004?:
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:491: if (millisecond%600==0){
+	mov	__moduint_PARM_2,#0x58
+	mov	(__moduint_PARM_2 + 1),#0x02
+	mov	dpl,_millisecond
+	mov	dph,(_millisecond + 1)
+	lcall	__moduint
+	mov	a,dpl
+	mov	b,dph
+	orl	a,b
+	jnz	L016002?
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:492: DetermineMode();
+	lcall	_DetermineMode
 L016002?:
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:419: IndVolts[0] = Volts_at_Pin(LQFP32_MUX_P2_7);
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:496: IndVolts[0] = Volts_at_Pin(LQFP32_MUX_P2_7);
 	mov	dpl,#0x0F
 	lcall	_Volts_at_Pin
 	mov	r2,dpl
 	mov	r3,dph
 	mov	r4,b
 	mov	r5,a
-	mov	_main_IndVolts_1_82,r2
-	mov	(_main_IndVolts_1_82 + 1),r3
-	mov	(_main_IndVolts_1_82 + 2),r4
-	mov	(_main_IndVolts_1_82 + 3),r5
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:420: IndVolts[1] = Volts_at_Pin(LQFP32_MUX_P1_4);
+	mov	_main_IndVolts_1_96,r2
+	mov	(_main_IndVolts_1_96 + 1),r3
+	mov	(_main_IndVolts_1_96 + 2),r4
+	mov	(_main_IndVolts_1_96 + 3),r5
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:497: IndVolts[1] = Volts_at_Pin(LQFP32_MUX_P1_4);
 	mov	dpl,#0x04
 	lcall	_Volts_at_Pin
 	mov	r2,dpl
 	mov	r3,dph
 	mov	r4,b
 	mov	r5,a
-	mov	(_main_IndVolts_1_82 + 0x0004),r2
-	mov	((_main_IndVolts_1_82 + 0x0004) + 1),r3
-	mov	((_main_IndVolts_1_82 + 0x0004) + 2),r4
-	mov	((_main_IndVolts_1_82 + 0x0004) + 3),r5
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:421: IndVolts[2] = Volts_at_Pin(LQFP32_MUX_P2_0);
+	mov	(_main_IndVolts_1_96 + 0x0004),r2
+	mov	((_main_IndVolts_1_96 + 0x0004) + 1),r3
+	mov	((_main_IndVolts_1_96 + 0x0004) + 2),r4
+	mov	((_main_IndVolts_1_96 + 0x0004) + 3),r5
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:498: IndVolts[2] = Volts_at_Pin(LQFP32_MUX_P2_0);
 	mov	dpl,#0x08
 	lcall	_Volts_at_Pin
 	mov	r2,dpl
 	mov	r3,dph
 	mov	r4,b
 	mov	r5,a
-	mov	(_main_IndVolts_1_82 + 0x0008),r2
-	mov	((_main_IndVolts_1_82 + 0x0008) + 1),r3
-	mov	((_main_IndVolts_1_82 + 0x0008) + 2),r4
-	mov	((_main_IndVolts_1_82 + 0x0008) + 3),r5
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:425: MotorControl(IndVolts);
-	mov	dptr,#_main_IndVolts_1_82
+	mov	(_main_IndVolts_1_96 + 0x0008),r2
+	mov	((_main_IndVolts_1_96 + 0x0008) + 1),r3
+	mov	((_main_IndVolts_1_96 + 0x0008) + 2),r4
+	mov	((_main_IndVolts_1_96 + 0x0008) + 3),r5
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:502: MotorControl(IndVolts);
+	mov	dptr,#_main_IndVolts_1_96
 	mov	b,#0x40
 	lcall	_MotorControl
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:428: DebuggingFctn(IndVolts);
-	mov	dptr,#_main_IndVolts_1_82
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:505: DebuggingFctn(IndVolts);
+	mov	dptr,#_main_IndVolts_1_96
 	mov	b,#0x40
 	lcall	_DebuggingFctn
-;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:432: waitms(20);
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:508: waitms(20);
 	mov	dptr,#0x0014
 	lcall	_waitms
-	sjmp	L016002?
+;	D:\DevFiles\ELEC291_Dev_Files\Project2\Receiver.c:509: millisecond = millisecond + 20;
+	mov	a,#0x14
+	add	a,_millisecond
+	mov	_millisecond,a
+	clr	a
+	addc	a,(_millisecond + 1)
+	mov	(_millisecond + 1),a
+	ljmp	L016004?
 	rseg R_CSEG
 
 	rseg R_XINIT
 
 	rseg R_CONST
 __str_0:
-	db 'Freq = %5.3f HZ, Blue = %5.3f V, Red = %5.3f V, Ratio = %5.3'
-	db 'f'
-	db 0x0D
+	db 'Entered stop mode'
 	db 0x00
 __str_1:
+	db 'Entered forward mode'
+	db 0x00
+__str_2:
+	db 'Freq = %5.3f HZ, Mode = %d'
+	db 0x0D
+	db 0x00
+__str_3:
 	db 0x1B
 	db '[2J'
 	db 0x00

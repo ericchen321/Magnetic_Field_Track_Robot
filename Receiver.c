@@ -41,7 +41,7 @@
 #define FRQROTATE   19000.0
 
 
-//LCD 
+//LCD
 #define LCD_RS P2_1
 #define LCD_RW P1_7 // Not used in this code
 #define LCD_E  P1_5
@@ -117,7 +117,7 @@ char _c51_external_startup (void)
 	P0MDOUT |= 0x01;  // set P0.0 and P0.4 as push-pull outputs
 	XBR0     = 0x01; // Enable UART on P0.4(TX) and P0.5(RX)
 	XBR1     = 0x40; // Enable crossbar and weak pull-ups
-  
+
 	return 0;
 }
 
@@ -259,16 +259,16 @@ float Volts_at_Pin(unsigned char pin)
 void Timer2_ISR (void) interrupt 5
 {
 	TF2H = 0; // Clear Timer2 interrupt flag
-	
+
 	pwm_count++;
 	if(pwm_count>100) pwm_count=0;
 
   	BLU0=pwm_count>pwm_BLU0?0:1;
 	BLU1=pwm_count>pwm_BLU1?0:1;
-	
+
 	RED0=pwm_count>pwm_RED0?0:1;
 	RED1=pwm_count>pwm_RED1?0:1;
-	
+
 }
 
 
@@ -349,15 +349,15 @@ void Clean_LCD(void){
 
 //-------------
 void ReadPeriod (void)
-{  
-  
+{
+
 // Reset Timer 0
 		TL0=0;
 		TH0=0;
 		TF0=0;
 		overflow_count=0;
-	
-		
+
+
   	// detect time interval btw two falling edges
 		while(FRQIN!=1); // Wait for the signal to be one
 		while(FRQIN!=0); // Wait for the signal to be zero
@@ -378,9 +378,9 @@ void ReadPeriod (void)
 				overflow_count++;
 			}
 		}
-		
+
   	TR0=0; // Stop timer 0, the 24-bit number [overflow_count-TH0-TL0] has the period. Then convert it to frequency
-		
+
   	period=1000.0*(overflow_count*65536.0+TH0*256.0+TL0)*(12.0/SYSCLK); // Compute period. Unit in ms
 }
 
@@ -394,20 +394,23 @@ void DetermineMode (void) {
   if (period>220.0 && period<360.0){
   	mode = STOP;
   }
-  
-  
+
+
   if (period>360.0 && period<450.0){
   	mode = FORWARD;
   }
-  
+
   if(period>135.0 && period<220.0){
   	mode = ROTATE;
   }
-  
+
   if(period>550.0 && period<650.0){
   	mode = BACKWARD;
   }
-  
+
+  }
+
+
 }
 
 
@@ -417,7 +420,7 @@ void DetermineMode (void) {
 //-------------
 void MotorControl (volatile float IndVolts[])
 {
-  
+
   switch (mode){
   // Case FORWARD:------------------------
   case FORWARD:
@@ -425,9 +428,9 @@ void MotorControl (volatile float IndVolts[])
       pwm_BLU1= 0;
       pwm_BLU0 = 0;
       pwm_RED1 = power;
-      pwm_RED0 = 0; 
+      pwm_RED0 = 0;
   	}
-  
+
   	else if( (IndVolts[1] - Vred_middle) > Vred_thresh ){
   	  pwm_BLU1=power;
       pwm_BLU0=0;
@@ -441,16 +444,16 @@ void MotorControl (volatile float IndVolts[])
     pwm_RED0 = 0;
   	}
   break;
-  
+
   // Case BACKWARD ----------------;
   case BACKWARD:
     if((IndVolts[0] - Vblue_middle) > Vblue_thresh){
       pwm_BLU1= 0;
       pwm_BLU0 = 0;
       pwm_RED1 = 0;
-      pwm_RED0 = power; 
+      pwm_RED0 = power;
   	}
-  
+
   	else if( (IndVolts[1] - Vred_middle) > Vred_thresh ){
   	  pwm_BLU1=0;
       pwm_BLU0=power;
@@ -464,17 +467,17 @@ void MotorControl (volatile float IndVolts[])
     pwm_RED0 = 0;
   	}
   break;
-  
-  
-  // Case STOP --------------------:  
+
+
+  // Case STOP --------------------:
   case STOP:
     pwm_BLU1 = 0;
     pwm_BLU0 = 0;
     pwm_RED1 = 0;
     pwm_RED0 = 0;
   break;
-  
-  
+
+
   // Case NITL --------------------;
   case NITL:
   	pwm_BLU1 = 0;
@@ -484,8 +487,8 @@ void MotorControl (volatile float IndVolts[])
   	waitms(1000);
   	mode=STOP;
   break;
-  
-  
+
+
   // Case NITR --------------------;
   case NITR:
   	pwm_BLU1 = 3*power;
@@ -495,8 +498,8 @@ void MotorControl (volatile float IndVolts[])
   	waitms(1000);
   	mode = STOP;
   break;
-  
-  
+
+
   // Case ROTATE ------------------;
   case ROTATE:
   	pwm_BLU1 = 0;
@@ -505,15 +508,15 @@ void MotorControl (volatile float IndVolts[])
   	pwm_RED0 = 0;
   	waitms(1200);
   break;
-    
+
   default:
    ;
-   
+
   }
-  
-  
-  
-  
+
+
+
+
 }
 
 
@@ -526,7 +529,7 @@ void DebuggingFctn (void)
   	LCDprint(debugstring, 1,1);
   	sprintf(debugstring, "%d", mode);
   	LCDprint(debugstring, 2,1);
-  	  	
+
 }
 
 
@@ -535,47 +538,47 @@ void DebuggingFctn (void)
 //--------------
 void main (void)
 {
-	
+
 	// initialize (some, not all) variables, pins, etc.
-	
-	
+
+
 	volatile float IndVolts[3]; // Blue - IndVolts0, Red - IndVolts1, Front - IndVolts2
   	TIMER0_Init(); // Initialize timer 0 to read the frequency of the fm signal
   	TIMER2_Init(); // Initialize timer 2 for periodic interrupts used for motor control
   	LCD_4BIT(); // Initialize the LCD
   	EA=1; // Enable interrupts
-	
+
   	InitPinADC(1, 4); // Configure P1.4 as analog input
 	InitPinADC(2, 0); // Configure P2.0 as analog input
   	InitPinADC(2, 7); // Configure P2.7 as analog input
   	InitADC();
   	printf("\x1b[2J"); // Clear screen using ANSI escape sequence.
-  	
-	
-  	
-		
-	
-  
+
+
+
+
+
+
   	// The forever loop
 	while(1)
 	{
-     
-    // Read the input voltages from the inductors 
+
+    // Read the input voltages from the inductors
 	IndVolts[0] = Volts_at_Pin(LQFP32_MUX_P2_7);
 	IndVolts[1] = Volts_at_Pin(LQFP32_MUX_P1_4);
 	IndVolts[2] = Volts_at_Pin(LQFP32_MUX_P2_0);
-	
-	
+
+
 	// Reset Timer 0
 	TL0=0;
 	TH0=0;
 	TF0=0;
 	overflow_count=0;
-  
-	
+
+
 	if (mode != ROTATE){
   	if (IndVolts[0]<0.10){
-  	
+
 		TR0=1; // logic zero signal detected! detect time interval btw two falling edges. Start the timer
 			while(IndVolts[0]<0.10) // Wait for the signal to be logic one
 			{
@@ -586,36 +589,35 @@ void main (void)
 					overflow_count++;
 				}
 			}
-		
-		
+
+
   		TR0=0; // Stop timer 0, the 24-bit number [overflow_count-TH0-TL0] has the period. Then convert it to frequency
-		
+
   		period=1000.0*(overflow_count*65536.0+TH0*256.0+TL0)*(12.0/SYSCLK); // Compute period. Unit in ms
   	}
   	}
   	else{
   		period = 300.0; // Set period in the STOP band to set Mode = STOP after Mode == ROTATE
   	}
-  	
-	
-	
+
+
+
 	// Read command from the frequency-modulated signal, and terminate the current mode of operation
     DetermineMode();
-	
-    
+
+
     // Control the motors using (mode determined) pwm signal
     MotorControl(IndVolts);
-    
-    
+
+
     // (For debugging only) Show the user current command of the vehicle
-    DebuggingFctn(); 
-        
-    
-    
+    DebuggingFctn();
+
+
+
     // pause and count time
     	waitms(1);
     	millisecond = millisecond + 1;
 	}
 	
 }
- 

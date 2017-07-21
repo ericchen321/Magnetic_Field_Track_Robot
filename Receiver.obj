@@ -15,17 +15,29 @@ R_GSINIT,code,0000,NO
 R_BSEG,bit,0002,NO
 R_XSEG,xdata,0000,NO
 BIT_BANK,data,0000,OV
+<<<<<<< HEAD
 R_CONST,code,0021,NO
 rbank0,data,0000,OV
 R_PSEG,xdata,0000,NO
 R_DINIT,code,0032,NO
 R_DSEG,data,002F,NO
+=======
+R_CONST,code,0030,NO
+rbank0,data,0000,OV
+R_PSEG,xdata,0000,NO
+R_DINIT,code,0067,NO
+R_DSEG,data,0044,NO
+>>>>>>> 9d7553e7327460a956d86e5540e66c2c048b9338
 R_OSEG,data,0001,OV
 R_IXSEG,xdata,0000,NO
 R_ISEG,idata,0000,NO
 R_HOME,code,0000,NO
 R_XINIT,code,0000,NO
+<<<<<<< HEAD
 R_CSEG,code,0A85,NO
+=======
+R_CSEG,code,0A41,NO
+>>>>>>> 9d7553e7327460a956d86e5540e66c2c048b9338
 </SEGMENTS>
 
 <LOCALS>
@@ -41,6 +53,7 @@ L021028?,R_CSEG,0576,0000
 L003007?,R_CSEG,005E,0000
 L003004?,R_CSEG,004E,0000
 L003001?,R_CSEG,0053,0000
+<<<<<<< HEAD
 L019016?,R_CSEG,0325,0000
 L019014?,R_CSEG,0319,0000
 _MotorControl_IndVolts_1_91,R_DSEG,001C,0003
@@ -53,12 +66,24 @@ L020008?,R_CSEG,050B,0000
 L020005?,R_CSEG,04B9,0000
 L017007?,R_CSEG,02BD,0000
 L017006?,R_CSEG,02B6,0000
+=======
+_MotorControl_sloc0_1_0,R_DSEG,0026,0003
+L016002?,R_CSEG,09DA,0000
+_MotorControl_IndVolts_1_80,R_DSEG,0023,0003
+L014057?,R_CSEG,07C4,0000
+L014056?,R_CSEG,0740,0000
+L004001?,R_CSEG,0066,0000
+L014051?,R_CSEG,05C8,0000
+L014050?,R_CSEG,0544,0000
+_MotorControl_sloc1_1_0,R_DSEG,0029,0004
+>>>>>>> 9d7553e7327460a956d86e5540e66c2c048b9338
 L008014?,R_CSEG,00DB,0000
 L020002?,R_CSEG,0467,0000
 L008012?,R_CSEG,00CB,0000
 L017003?,R_CSEG,0282,0000
 L023026?,R_CSEG,0A82,0000
 L008010?,R_CSEG,00C9,0000
+<<<<<<< HEAD
 L023025?,R_CSEG,0973,0000
 L023023?,R_CSEG,0930,0000
 L023022?,R_CSEG,0906,0000
@@ -77,21 +102,74 @@ __str_0,R_CONST,0000,0000
 __str_1,R_CONST,0011,0000
 __str_2,R_CONST,0019,0000
 __str_3,R_CONST,001C,0000
+=======
+L012016?,R_CSEG,01EE,0000
+L012014?,R_CSEG,01E2,0000
+_MotorControl_sloc2_1_0,R_DSEG,002D,0004
+_Timer2_ISR_sloc0_1_0,R_BSEG,0000,0001
+L013019?,R_CSEG,033C,0000
+L012033?,R_CSEG,01EA,0000
+L013014?,R_CSEG,04B7,0000
+L012031?,R_CSEG,01DE,0000
+L013013?,R_CSEG,04AF,0000
+L013012?,R_CSEG,0460,0000
+_MotorControl_sloc3_1_0,R_DSEG,0031,0004
+L013010?,R_CSEG,0454,0000
+L013023?,R_CSEG,04BD,0000
+L013022?,R_CSEG,0446,0000
+L013021?,R_CSEG,0442,0000
+L013038?,R_CSEG,031B,0000
+L014018?,R_CSEG,083C,0000
+L014016?,R_CSEG,06E6,0000
+L013032?,R_CSEG,033A,0000
+L014013?,R_CSEG,064A,0000
+L014012?,R_CSEG,05C8,0000
+__str_0,R_CONST,0000,0000
+__str_1,R_CONST,002B,0000
+>>>>>>> 9d7553e7327460a956d86e5540e66c2c048b9338
 L008007?,R_CSEG,0107,0000
 L011002?,R_CSEG,0196,0000
+L014028?,R_CSEG,0849,0000
 L008004?,R_CSEG,00FF,0000
+L014027?,R_CSEG,07C4,0000
 L008003?,R_CSEG,00F7,0000
 L008002?,R_CSEG,00EF,0000
+L013042?,R_CSEG,0344,0000
 L008001?,R_CSEG,00E7,0000
+<<<<<<< HEAD
 _main_IndVolts_1_103,R_DSEG,001F,000C
+=======
+L014024?,R_CSEG,08DC,0000
+L013041?,R_CSEG,033F,0000
+L014023?,R_CSEG,0897,0000
+L014021?,R_CSEG,08CF,0000
+_main_IndVolts_1_100,R_DSEG,0038,000C
+_DebuggingFctn_IndVolts_1_97,R_DSEG,0035,0003
+L014031?,R_CSEG,08E9,0000
+L012009?,R_CSEG,01D6,0000
+L014049?,R_CSEG,04E9,0000
+L012004?,R_CSEG,01D1,0000
+L014048?,R_CSEG,04DD,0000
+L014047?,R_CSEG,04D2,0000
+L012001?,R_CSEG,01CE,0000
+>>>>>>> 9d7553e7327460a956d86e5540e66c2c048b9338
 L009004?,R_CSEG,0115,0000
 L009001?,R_CSEG,0110,0000
+L013004?,R_CSEG,03C2,0000
 L004011?,R_CSEG,0092,0000
 L004010?,R_CSEG,006D,0000
+<<<<<<< HEAD
 L020013?,R_CSEG,0561,0000
 L017014?,R_CSEG,0267,0000
 L017013?,R_CSEG,0265,0000
 L017011?,R_CSEG,02DD,0000
+=======
+L014009?,R_CSEG,06D9,0000
+L014008?,R_CSEG,0698,0000
+L014006?,R_CSEG,06CC,0000
+L014003?,R_CSEG,063D,0000
+L014001?,R_CSEG,04EA,0000
+>>>>>>> 9d7553e7327460a956d86e5540e66c2c048b9338
 </LOCALS>
 
 <PUBLICS>
@@ -100,6 +178,7 @@ _WriteData,R_CSEG,0204,0000
 _InitPinADC,R_CSEG,00BE,0000
 _TIMER0_Init,R_CSEG,0094,0000
 _Volts_at_Pin,R_CSEG,0129,0000
+<<<<<<< HEAD
 _DebuggingFctn,R_CSEG,0808,0000
 _main,R_CSEG,0872,0000
 _pwm_RED0,R_DSEG,0004,0001
@@ -117,6 +196,18 @@ _LCD_byte,R_CSEG,01CE,0000
 _Clean_LCD,R_CSEG,02DE,0000
 _LCDprint_PARM_2,R_DSEG,001B,0001
 _LCDprint_PARM_3,R_BSEG,0001,0001
+=======
+_DebuggingFctn,R_CSEG,08F6,0000
+_main,R_CSEG,099F,0000
+_pwm_RED0,R_DSEG,0004,0001
+_pwm_RED1,R_DSEG,0005,0001
+_ReadFrequency,R_CSEG,01C3,0000
+_StopSigCount,R_DSEG,0020,0001
+__c51_external_startup,R_CSEG,0000,0000
+_MotorControl,R_CSEG,04BE,0000
+_InitPinADC_PARM_2,R_OSEG,0000,0001
+_millisecond,R_DSEG,0021,0002
+>>>>>>> 9d7553e7327460a956d86e5540e66c2c048b9338
 _Timer2_ISR,R_CSEG,0182,0000
 _pwm_BLU0,R_DSEG,0002,0001
 _pwm_BLU1,R_DSEG,0003,0001
@@ -124,13 +215,24 @@ _InitADC,R_CSEG,00B4,0000
 _TIMER2_Init,R_CSEG,009D,0000
 _overflow_count,R_DSEG,0007,0001
 _pwm_count,R_DSEG,0000,0001
+_ForwardSigCount,R_DSEG,001F,0001
 _dirout,R_DSEG,0006,0001
+<<<<<<< HEAD
 _power,R_DSEG,0001,0001
 _WriteCount,R_DSEG,000A,0001
 _mode,R_DSEG,0008,0002
 _Timer3us,R_CSEG,0038,0000
 _DetermineMode,R_CSEG,0416,0000
 _period,R_DSEG,000D,0004
+=======
+_frequency,R_DSEG,0008,0004
+_power,R_DSEG,0001,0001
+_WriteCount,R_DSEG,001E,0001
+_mode,R_DSEG,000C,0002
+_Timer3us,R_CSEG,0038,0000
+_FreqBuffer,R_DSEG,000E,0010
+_DetermineMode,R_CSEG,02FF,0000
+>>>>>>> 9d7553e7327460a956d86e5540e66c2c048b9338
 _ADC_at_Pin,R_CSEG,0108,0000
 _waitms,R_CSEG,0062,0000
 </PUBLICS>
@@ -144,8 +246,13 @@ ___fsmul,any,0000,0000
 ___uchar2fs,any,0000,0000
 ___fsadd,any,0000,0000
 _printf,any,0000,0000
+<<<<<<< HEAD
 _sprintf,any,0000,0000
 ___fssub,any,0000,0000
+=======
+__moduint_PARM_2,any,0000,0000
+__moduint,any,0000,0000
+>>>>>>> 9d7553e7327460a956d86e5540e66c2c048b9338
 _crt0,any,0000,0000
 ___sint2fs,any,0000,0000
 ___fsdiv,any,0000,0000
@@ -189,6 +296,7 @@ ___fsdiv,any,0000,0000
 75 data8(_pwm_RED1;) 00
 75 data8(_dirout;) 00
 75 data8(_overflow_count;) 00
+<<<<<<< HEAD
 75 data8(_mode;) 03
 E4
 F5 data8(_mode;0x0001;+;)
@@ -200,6 +308,37 @@ F5 data8(_millisecond;0x0001;+;)
 75 data8(_period;0x0001;+;) 00
 75 data8(_period;0x0002;+;) 00
 75 data8(_period;0x0003;+;) 00
+=======
+75 data8(_frequency;) 00
+75 data8(_frequency;0x0001;+;) 00
+75 data8(_frequency;0x0002;+;) 00
+75 data8(_frequency;0x0003;+;) 00
+E4
+F5 data8(_mode;)
+F5 data8(_mode;0x0001;+;)
+75 data8(_FreqBuffer;) 00
+75 data8(_FreqBuffer;0x0001;+;) 00
+75 data8(_FreqBuffer;0x0002;+;) 00
+75 data8(_FreqBuffer;0x0003;+;) 00
+75 data8(_FreqBuffer;0x0004;+;) 00
+75 data8(_FreqBuffer;0x0004;+;0x0001;+;) 00
+75 data8(_FreqBuffer;0x0004;+;0x0002;+;) 00
+75 data8(_FreqBuffer;0x0004;+;0x0003;+;) 00
+75 data8(_FreqBuffer;0x0008;+;) 00
+75 data8(_FreqBuffer;0x0008;+;0x0001;+;) 00
+75 data8(_FreqBuffer;0x0008;+;0x0002;+;) 00
+75 data8(_FreqBuffer;0x0008;+;0x0003;+;) 00
+75 data8(_FreqBuffer;0x000C;+;) 00
+75 data8(_FreqBuffer;0x000C;+;0x0001;+;) 00
+75 data8(_FreqBuffer;0x000C;+;0x0002;+;) 00
+75 data8(_FreqBuffer;0x000C;+;0x0003;+;) 00
+75 data8(_WriteCount;) 00
+75 data8(_ForwardSigCount;) 00
+75 data8(_StopSigCount;) 00
+E4
+F5 data8(_millisecond;)
+F5 data8(_millisecond;0x0001;+;)
+>>>>>>> 9d7553e7327460a956d86e5540e66c2c048b9338
 </CODE>
 
 <CODE R_CSEG>
@@ -730,6 +869,7 @@ AA 82
 E5 81
 24 FC
 F5 81
+<<<<<<< HEAD
 EA
 60 rel2(L020002?;)
 E4
@@ -739,6 +879,292 @@ E4
 C0 E0
 C0 E0
 74 B4
+=======
+22
+12 addr16(_ReadFrequency;)  
+75 data8(__moduint_PARM_2;) 58
+75 data8(__moduint_PARM_2;0x0001;+;) 02
+85 data8(_millisecond;) 82
+85 data8(_millisecond;0x0001;+;) 83
+12 addr16(__moduint;)  
+E5 82
+85 83 F0
+45 F0
+60 rel2(L013038?;)
+22
+E5 data8(_WriteCount;)
+25 data8(_WriteCount;)
+25 E0
+FA
+24 data8(_FreqBuffer;)
+F8
+A6 data8(_frequency;)
+08
+A6 data8(_frequency;0x0001;+;)
+08
+A6 data8(_frequency;0x0002;+;)
+08
+A6 data8(_frequency;0x0003;+;)
+05 data8(_WriteCount;)
+74 04
+B5 data8(_WriteCount;) rel3(L013032?;)
+75 data8(_WriteCount;) 00
+7A 00
+BA 04 rel3(L013041?;)
+40 rel2(L013042?;)
+02 addr16(L013022?;)  
+EA
+2A
+25 E0
+FB
+24 data8(_FreqBuffer;)
+F8
+86 04
+08
+86 05
+08
+86 06
+08
+86 07
+18
+18
+18
+C0 02
+C0 03
+E4
+C0 E0
+74 53
+C0 E0
+74 82
+C0 E0
+74 46
+C0 E0
+8C 82
+8D 83
+8E F0
+EF
+12 addr16(___fsgt;)  
+AC 82
+E5 81
+24 FC
+F5 81
+D0 03
+D0 02
+EC
+60 rel2(L013004?;)
+EB
+24 data8(_FreqBuffer;)
+F8
+86 03
+08
+86 04
+08
+86 05
+08
+86 06
+18
+18
+18
+C0 02
+E4
+C0 E0
+74 F5
+C0 E0
+74 84
+C0 E0
+74 46
+C0 E0
+8B 82
+8C 83
+8D F0
+EE
+12 addr16(___fslt;)  
+AB 82
+E5 81
+24 FC
+F5 81
+D0 02
+EB
+60 rel2(L013004?;)
+05 data8(_ForwardSigCount;)
+EA
+2A
+25 E0
+FB
+24 data8(_FreqBuffer;)
+F8
+86 04
+08
+86 05
+08
+86 06
+08
+86 07
+18
+18
+18
+C0 02
+C0 03
+74 0A
+C0 E0
+74 41
+C0 E0
+74 66
+C0 E0
+74 46
+C0 E0
+8C 82
+8D 83
+8E F0
+EF
+12 addr16(___fsgt;)  
+AC 82
+E5 81
+24 FC
+F5 81
+D0 03
+D0 02
+EC
+60 rel2(L013021?;)
+EB
+24 data8(_FreqBuffer;)
+F8
+86 03
+08
+86 04
+08
+86 05
+08
+86 06
+18
+18
+18
+C0 02
+74 F6
+C0 E0
+74 A6
+C0 E0
+74 6F
+C0 E0
+74 46
+C0 E0
+8B 82
+8C 83
+8D F0
+EE
+12 addr16(___fslt;)  
+AB 82
+E5 81
+24 FC
+F5 81
+D0 02
+EB
+60 rel2(L013021?;)
+05 data8(_StopSigCount;)
+0A
+02 addr16(L013019?;)  
+E5 data8(_StopSigCount;)
+24 FD
+50 rel2(L013010?;)
+E4
+F5 data8(_mode;)
+F5 data8(_mode;0x0001;+;)
+F5 data8(_StopSigCount;)
+22
+E5 data8(_ForwardSigCount;)
+24 FD
+50 rel2(L013023?;)
+75 data8(_mode;) 03
+E4
+F5 data8(_mode;0x0001;+;)
+E4
+C0 E0
+74 E0
+C0 E0
+74 76
+C0 E0
+74 46
+C0 E0
+85 data8(_frequency;) 82
+85 data8(_frequency;0x0001;+;) 83
+85 data8(_frequency;0x0002;+;) F0
+E5 data8(_frequency;0x0003;+;)
+12 addr16(___fslt;)  
+AA 82
+E5 81
+24 FC
+F5 81
+EA
+70 rel2(L013013?;)
+C0 E0
+74 20
+C0 E0
+74 7D
+C0 E0
+74 46
+C0 E0
+85 data8(_frequency;) 82
+85 data8(_frequency;0x0001;+;) 83
+85 data8(_frequency;0x0002;+;) F0
+E5 data8(_frequency;0x0003;+;)
+12 addr16(___fsgt;)  
+AA 82
+E5 81
+24 FC
+F5 81
+EA
+60 rel2(L013014?;)
+75 data8(_power;) 00
+12 addr16(_ReadFrequency;)  
+80 rel2(L013012?;)
+75 data8(_power;) 1E
+75 data8(_ForwardSigCount;) 00
+22
+85 82 data8(_MotorControl_IndVolts_1_80;)
+85 83 data8(_MotorControl_IndVolts_1_80;0x0001;+;)
+85 F0 data8(_MotorControl_IndVolts_1_80;0x0002;+;)
+E4
+B5 data8(_mode;) rel3(L014047?;)
+E4
+B5 data8(_mode;0x0001;+;) rel3(L014047?;)
+02 addr16(L014031?;)  
+74 03
+B5 data8(_mode;) rel3(L014048?;)
+E4
+B5 data8(_mode;0x0001;+;) rel3(L014048?;)
+80 rel2(L014001?;)
+74 04
+B5 data8(_mode;) rel3(L014049?;)
+E4
+B5 data8(_mode;0x0001;+;) rel3(L014049?;)
+02 addr16(L014016?;)  
+22
+85 data8(_MotorControl_IndVolts_1_80;) data8(_MotorControl_sloc0_1_0;)
+85 data8(_MotorControl_IndVolts_1_80;0x0001;+;) data8(_MotorControl_sloc0_1_0;0x0001;+;)
+85 data8(_MotorControl_IndVolts_1_80;0x0002;+;) data8(_MotorControl_sloc0_1_0;0x0002;+;)
+85 data8(_MotorControl_sloc0_1_0;) 82
+85 data8(_MotorControl_sloc0_1_0;0x0001;+;) 83
+85 data8(_MotorControl_sloc0_1_0;0x0002;+;) F0
+12 addr16(__gptrget;)  
+FD
+A3
+12 addr16(__gptrget;)  
+FE
+A3
+12 addr16(__gptrget;)  
+FF
+A3
+12 addr16(__gptrget;)  
+F8
+C0 05
+C0 06
+C0 07
+C0 00
+E4
+C0 E0
+C0 E0
+74 80
+>>>>>>> 9d7553e7327460a956d86e5540e66c2c048b9338
 C0 E0
 74 43
 C0 E0
@@ -751,6 +1177,7 @@ AA 82
 E5 81
 24 FC
 F5 81
+<<<<<<< HEAD
 EA
 60 rel2(L020005?;)
 E4
@@ -766,6 +1193,53 @@ C0 E0
 E5 data8(_period;0x0003;+;)
 12 addr16(___fslt;)  
 AA 82
+=======
+D0 00
+D0 07
+D0 06
+D0 05
+E9
+60 rel2(L014050?;)
+02 addr16(L014012?;)  
+74 04
+25 data8(_MotorControl_sloc0_1_0;)
+F9
+E4
+35 data8(_MotorControl_sloc0_1_0;0x0001;+;)
+FA
+AB data8(_MotorControl_sloc0_1_0;0x0002;+;)
+89 82
+8A 83
+8B F0
+12 addr16(__gptrget;)  
+F5 data8(_MotorControl_sloc2_1_0;)
+A3
+12 addr16(__gptrget;)  
+F5 data8(_MotorControl_sloc2_1_0;0x0001;+;)
+A3
+12 addr16(__gptrget;)  
+F5 data8(_MotorControl_sloc2_1_0;0x0002;+;)
+A3
+12 addr16(__gptrget;)  
+F5 data8(_MotorControl_sloc2_1_0;0x0003;+;)
+C0 05
+C0 06
+C0 07
+C0 00
+C0 data8(_MotorControl_sloc2_1_0;)
+C0 data8(_MotorControl_sloc2_1_0;0x0001;+;)
+C0 data8(_MotorControl_sloc2_1_0;0x0002;+;)
+C0 data8(_MotorControl_sloc2_1_0;0x0003;+;)
+8D 82
+8E 83
+8F F0
+E8
+12 addr16(___fsdiv;)  
+85 82 data8(_MotorControl_sloc1_1_0;)
+85 83 data8(_MotorControl_sloc1_1_0;0x0001;+;)
+85 F0 data8(_MotorControl_sloc1_1_0;0x0002;+;)
+F5 data8(_MotorControl_sloc1_1_0;0x0003;+;)
+>>>>>>> 9d7553e7327460a956d86e5540e66c2c048b9338
 E5 81
 24 FC
 F5 81
@@ -781,34 +1255,161 @@ C0 E0
 C0 E0
 74 43
 C0 E0
+<<<<<<< HEAD
 85 data8(_period;) 82
 85 data8(_period;0x0001;+;) 83
 85 data8(_period;0x0002;+;) F0
 E5 data8(_period;0x0003;+;)
+=======
+85 data8(_MotorControl_sloc1_1_0;) 82
+85 data8(_MotorControl_sloc1_1_0;0x0001;+;) 83
+85 data8(_MotorControl_sloc1_1_0;0x0002;+;) F0
+E5 data8(_MotorControl_sloc1_1_0;0x0003;+;)
+>>>>>>> 9d7553e7327460a956d86e5540e66c2c048b9338
 12 addr16(___fsgt;)  
 AA 82
 E5 81
 24 FC
 F5 81
 EA
+<<<<<<< HEAD
 60 rel2(L020008?;)
 E4
 C0 E0
 C0 E0
 74 5C
+=======
+70 rel2(L014051?;)
+02 addr16(L014013?;)  
+74 04
+25 data8(_MotorControl_sloc0_1_0;)
+FA
+E4
+35 data8(_MotorControl_sloc0_1_0;0x0001;+;)
+FB
+AC data8(_MotorControl_sloc0_1_0;0x0002;+;)
+8A 82
+8B 83
+8C F0
+12 addr16(__gptrget;)  
+FA
+A3
+12 addr16(__gptrget;)  
+FB
+A3
+12 addr16(__gptrget;)  
+FC
+A3
+12 addr16(__gptrget;)  
+F9
+C0 02
+C0 03
+C0 04
+C0 01
+8D 82
+8E 83
+8F F0
+E8
+12 addr16(___fsdiv;)  
+AA 82
+AB 83
+AC F0
+FD
+E5 81
+24 FC
+F5 81
+74 66
+C0 E0
+C0 E0
+74 A6
+C0 E0
+74 3F
+C0 E0
+8A 82
+8B 83
+8C F0
+ED
+12 addr16(___fsgt;)  
+AA 82
+E5 81
+24 FC
+F5 81
+EA
+60 rel2(L014003?;)
+E4
+F5 data8(_pwm_RED1;)
+F5 data8(_pwm_RED0;)
+E5 data8(_power;)
+25 E0
+F5 data8(_pwm_BLU1;)
+75 data8(_pwm_BLU0;) 00
+22
+75 data8(_pwm_BLU1;) 00
+75 data8(_pwm_BLU0;) 00
+85 data8(_power;) data8(_pwm_RED1;)
+75 data8(_pwm_RED0;) 00
+22
+74 CD
+C0 E0
+74 CC
+C0 E0
+74 8C
+C0 E0
+74 3F
+C0 E0
+85 data8(_MotorControl_sloc2_1_0;) 82
+85 data8(_MotorControl_sloc2_1_0;0x0001;+;) 83
+85 data8(_MotorControl_sloc2_1_0;0x0002;+;) F0
+E5 data8(_MotorControl_sloc2_1_0;0x0003;+;)
+12 addr16(___fsgt;)  
+AA 82
+E5 81
+24 FC
+F5 81
+EA
+70 rel2(L014008?;)
+C0 E0
+C0 E0
+74 80
+>>>>>>> 9d7553e7327460a956d86e5540e66c2c048b9338
 C0 E0
 74 43
 C0 E0
+<<<<<<< HEAD
 85 data8(_period;) 82
 85 data8(_period;0x0001;+;) 83
 85 data8(_period;0x0002;+;) F0
 E5 data8(_period;0x0003;+;)
+=======
+85 data8(_MotorControl_sloc1_1_0;) 82
+85 data8(_MotorControl_sloc1_1_0;0x0001;+;) 83
+85 data8(_MotorControl_sloc1_1_0;0x0002;+;) F0
+E5 data8(_MotorControl_sloc1_1_0;0x0003;+;)
 12 addr16(___fslt;)  
 AA 82
 E5 81
 24 FC
 F5 81
 EA
+60 rel2(L014009?;)
+E4
+C0 E0
+C0 E0
+C0 E0
+74 3F
+C0 E0
+85 data8(_MotorControl_sloc1_1_0;) 82
+85 data8(_MotorControl_sloc1_1_0;0x0001;+;) 83
+85 data8(_MotorControl_sloc1_1_0;0x0002;+;) F0
+E5 data8(_MotorControl_sloc1_1_0;0x0003;+;)
+>>>>>>> 9d7553e7327460a956d86e5540e66c2c048b9338
+12 addr16(___fslt;)  
+AA 82
+E5 81
+24 FC
+F5 81
+EA
+<<<<<<< HEAD
 60 rel2(L020008?;)
 75 data8(_mode;) 05
 E4
@@ -826,15 +1427,181 @@ C0 E0
 85 data8(_period;0x0002;+;) F0
 E5 data8(_period;0x0003;+;)
 12 addr16(___fsgt;)  
+=======
+60 rel2(L014006?;)
+E5 data8(_power;)
+25 E0
+F5 data8(_pwm_RED1;)
+75 data8(_pwm_RED0;) 00
+75 data8(_pwm_BLU1;) 00
+75 data8(_pwm_BLU0;) 00
+22
+85 data8(_power;) data8(_pwm_BLU1;)
+75 data8(_pwm_BLU0;) 00
+75 data8(_pwm_RED1;) 00
+75 data8(_pwm_RED0;) 00
+22
+85 data8(_power;) data8(_pwm_BLU1;)
+75 data8(_pwm_BLU0;) 00
+85 data8(_power;) data8(_pwm_RED1;)
+75 data8(_pwm_RED0;) 00
+22
+85 data8(_MotorControl_IndVolts_1_80;) data8(_MotorControl_sloc2_1_0;)
+85 data8(_MotorControl_IndVolts_1_80;0x0001;+;) data8(_MotorControl_sloc2_1_0;0x0001;+;)
+85 data8(_MotorControl_IndVolts_1_80;0x0002;+;) data8(_MotorControl_sloc2_1_0;0x0002;+;)
+85 data8(_MotorControl_sloc2_1_0;) 82
+85 data8(_MotorControl_sloc2_1_0;0x0001;+;) 83
+85 data8(_MotorControl_sloc2_1_0;0x0002;+;) F0
+12 addr16(__gptrget;)  
+FD
+A3
+12 addr16(__gptrget;)  
+FE
+A3
+12 addr16(__gptrget;)  
+FF
+A3
+12 addr16(__gptrget;)  
+F8
+C0 05
+C0 06
+C0 07
+C0 00
+E4
+C0 E0
+C0 E0
+74 80
+C0 E0
+74 3F
+C0 E0
+8D 82
+8E 83
+8F F0
+E8
+12 addr16(___fsgt;)  
+A9 82
+E5 81
+24 FC
+F5 81
+D0 00
+D0 07
+D0 06
+D0 05
+E9
+60 rel2(L014056?;)
+02 addr16(L014027?;)  
+74 04
+25 data8(_MotorControl_sloc2_1_0;)
+F9
+E4
+35 data8(_MotorControl_sloc2_1_0;0x0001;+;)
+FA
+AB data8(_MotorControl_sloc2_1_0;0x0002;+;)
+89 82
+8A 83
+8B F0
+12 addr16(__gptrget;)  
+F5 data8(_MotorControl_sloc3_1_0;)
+A3
+12 addr16(__gptrget;)  
+F5 data8(_MotorControl_sloc3_1_0;0x0001;+;)
+A3
+12 addr16(__gptrget;)  
+F5 data8(_MotorControl_sloc3_1_0;0x0002;+;)
+A3
+12 addr16(__gptrget;)  
+F5 data8(_MotorControl_sloc3_1_0;0x0003;+;)
+C0 05
+C0 06
+C0 07
+C0 00
+C0 data8(_MotorControl_sloc3_1_0;)
+C0 data8(_MotorControl_sloc3_1_0;0x0001;+;)
+C0 data8(_MotorControl_sloc3_1_0;0x0002;+;)
+C0 data8(_MotorControl_sloc3_1_0;0x0003;+;)
+8D 82
+8E 83
+8F F0
+E8
+12 addr16(___fsdiv;)  
+85 82 data8(_MotorControl_sloc1_1_0;)
+85 83 data8(_MotorControl_sloc1_1_0;0x0001;+;)
+85 F0 data8(_MotorControl_sloc1_1_0;0x0002;+;)
+F5 data8(_MotorControl_sloc1_1_0;0x0003;+;)
+E5 81
+24 FC
+F5 81
+E4
+C0 E0
+C0 E0
+74 80
+C0 E0
+74 3F
+C0 E0
+85 data8(_MotorControl_sloc1_1_0;) 82
+85 data8(_MotorControl_sloc1_1_0;0x0001;+;) 83
+85 data8(_MotorControl_sloc1_1_0;0x0002;+;) F0
+E5 data8(_MotorControl_sloc1_1_0;0x0003;+;)
+12 addr16(___fsgt;)  
 AA 82
 E5 81
 24 FC
 F5 81
+D0 00
+D0 07
+D0 06
+D0 05
+EA
+70 rel2(L014057?;)
+02 addr16(L014028?;)  
+74 04
+25 data8(_MotorControl_sloc2_1_0;)
+FA
+E4
+35 data8(_MotorControl_sloc2_1_0;0x0001;+;)
+FB
+AC data8(_MotorControl_sloc2_1_0;0x0002;+;)
+8A 82
+8B 83
+8C F0
+12 addr16(__gptrget;)  
+FA
+A3
+12 addr16(__gptrget;)  
+FB
+A3
+12 addr16(__gptrget;)  
+FC
+A3
+12 addr16(__gptrget;)  
+F9
+C0 02
+C0 03
+C0 04
+C0 01
+8D 82
+8E 83
+8F F0
+E8
+12 addr16(___fsdiv;)  
+>>>>>>> 9d7553e7327460a956d86e5540e66c2c048b9338
+AA 82
+E5 81
+24 FC
+F5 81
+<<<<<<< HEAD
 EA
 60 rel2(L020013?;)
 E4
 C0 E0
 74 80
+=======
+74 CD
+C0 E0
+74 CC
+C0 E0
+74 8C
+>>>>>>> 9d7553e7327460a956d86e5540e66c2c048b9338
 C0 E0
 74 22
 C0 E0
@@ -850,6 +1617,7 @@ E5 81
 24 FC
 F5 81
 EA
+<<<<<<< HEAD
 60 rel2(L020013?;)
 75 data8(_mode;) 04
 E4
@@ -879,6 +1647,105 @@ E5 data8(_mode;)
 AA data8(_MotorControl_IndVolts_1_91;)
 AB data8(_MotorControl_IndVolts_1_91;0x0001;+;)
 AC data8(_MotorControl_IndVolts_1_91;0x0002;+;)
+=======
+60 rel2(L014018?;)
+E5 data8(_power;)
+25 E0
+F5 data8(_pwm_RED0;)
+75 data8(_pwm_RED1;) 00
+75 data8(_pwm_BLU0;) 00
+75 data8(_pwm_BLU1;) 00
+22
+85 data8(_power;) data8(_pwm_BLU0;)
+75 data8(_pwm_BLU1;) 00
+75 data8(_pwm_RED0;) 00
+75 data8(_pwm_RED1;) 00
+22
+74 CD
+C0 E0
+74 CC
+C0 E0
+74 8C
+C0 E0
+74 3F
+C0 E0
+85 data8(_MotorControl_sloc3_1_0;) 82
+85 data8(_MotorControl_sloc3_1_0;0x0001;+;) 83
+85 data8(_MotorControl_sloc3_1_0;0x0002;+;) F0
+E5 data8(_MotorControl_sloc3_1_0;0x0003;+;)
+12 addr16(___fsgt;)  
+AA 82
+E5 81
+24 FC
+F5 81
+EA
+70 rel2(L014023?;)
+C0 E0
+C0 E0
+74 80
+C0 E0
+74 3F
+C0 E0
+85 data8(_MotorControl_sloc1_1_0;) 82
+85 data8(_MotorControl_sloc1_1_0;0x0001;+;) 83
+85 data8(_MotorControl_sloc1_1_0;0x0002;+;) F0
+E5 data8(_MotorControl_sloc1_1_0;0x0003;+;)
+12 addr16(___fslt;)  
+AA 82
+E5 81
+24 FC
+F5 81
+EA
+60 rel2(L014024?;)
+74 CD
+C0 E0
+74 CC
+C0 E0
+74 4C
+C0 E0
+74 3F
+C0 E0
+85 data8(_MotorControl_sloc1_1_0;) 82
+85 data8(_MotorControl_sloc1_1_0;0x0001;+;) 83
+85 data8(_MotorControl_sloc1_1_0;0x0002;+;) F0
+E5 data8(_MotorControl_sloc1_1_0;0x0003;+;)
+12 addr16(___fslt;)  
+AA 82
+E5 81
+24 FC
+F5 81
+EA
+60 rel2(L014021?;)
+E4
+F5 data8(_pwm_RED0;)
+F5 data8(_pwm_RED1;)
+E5 data8(_power;)
+25 E0
+F5 data8(_pwm_BLU0;)
+75 data8(_pwm_BLU1;) 00
+22
+75 data8(_pwm_BLU0;) 00
+75 data8(_pwm_BLU1;) 00
+85 data8(_power;) data8(_pwm_RED0;)
+75 data8(_pwm_RED1;) 00
+22
+85 data8(_power;) data8(_pwm_BLU0;)
+75 data8(_pwm_BLU1;) 00
+85 data8(_power;) data8(_pwm_RED0;)
+75 data8(_pwm_RED1;) 00
+22
+75 data8(_pwm_BLU1;) 00
+75 data8(_pwm_BLU0;) 00
+75 data8(_pwm_RED1;) 00
+75 data8(_pwm_RED0;) 00
+22
+85 82 data8(_DebuggingFctn_IndVolts_1_97;)
+85 83 data8(_DebuggingFctn_IndVolts_1_97;0x0001;+;)
+85 F0 data8(_DebuggingFctn_IndVolts_1_97;0x0002;+;)
+AA data8(_DebuggingFctn_IndVolts_1_97;)
+AB data8(_DebuggingFctn_IndVolts_1_97;0x0001;+;)
+AC data8(_DebuggingFctn_IndVolts_1_97;0x0002;+;)
+>>>>>>> 9d7553e7327460a956d86e5540e66c2c048b9338
 8A 82
 8B 83
 8C F0
@@ -893,6 +1760,7 @@ FF
 A3
 12 addr16(__gptrget;)  
 F8
+<<<<<<< HEAD
 C0 02
 C0 03
 C0 04
@@ -943,6 +1811,8 @@ ED
 85 data8(_power;) data8(_pwm_RED1;)
 75 data8(_pwm_RED0;) 00
 22
+=======
+>>>>>>> 9d7553e7327460a956d86e5540e66c2c048b9338
 74 04
 2A
 FA
@@ -952,6 +1822,7 @@ FB
 8A 82
 8B 83
 8C F0
+<<<<<<< HEAD
 12 addr16(__gptrget;)  
 FA
 A3
@@ -1021,18 +1892,66 @@ AC data8(_MotorControl_IndVolts_1_91;0x0002;+;)
 12 addr16(__gptrget;)  
 FD
 A3
+=======
+>>>>>>> 9d7553e7327460a956d86e5540e66c2c048b9338
 12 addr16(__gptrget;)  
-FE
+FA
 A3
 12 addr16(__gptrget;)  
-FF
+FB
 A3
 12 addr16(__gptrget;)  
+<<<<<<< HEAD
 F8
 C0 02
 C0 03
 C0 04
 74 62
+=======
+FC
+A3
+12 addr16(__gptrget;)  
+F9
+C0 05
+C0 06
+C0 07
+C0 00
+C0 02
+C0 03
+C0 04
+C0 01
+8D 82
+8E 83
+8F F0
+E8
+12 addr16(___fsdiv;)  
+AA 82
+AB 83
+AC F0
+F9
+E5 81
+24 FC
+F5 81
+D0 00
+D0 07
+D0 06
+D0 05
+C0 02
+C0 03
+C0 04
+C0 01
+C0 05
+C0 06
+C0 07
+C0 00
+C0 data8(_mode;)
+C0 data8(_mode;0x0001;+;)
+C0 data8(_frequency;)
+C0 data8(_frequency;0x0001;+;)
+C0 data8(_frequency;0x0002;+;)
+C0 data8(_frequency;0x0003;+;)
+74 data8(__str_0;)
+>>>>>>> 9d7553e7327460a956d86e5540e66c2c048b9338
 C0 E0
 74 10
 C0 E0
@@ -1050,7 +1969,11 @@ AE 83
 AF F0
 F8
 E5 81
+<<<<<<< HEAD
 24 FC
+=======
+24 EF
+>>>>>>> 9d7553e7327460a956d86e5540e66c2c048b9338
 F5 81
 74 AC
 C0 E0
@@ -1270,26 +2193,42 @@ AA 82
 AB 83
 AC F0
 FD
+<<<<<<< HEAD
 8A data8(_main_IndVolts_1_103;)
 8B data8(_main_IndVolts_1_103;0x0001;+;)
 8C data8(_main_IndVolts_1_103;0x0002;+;)
 8D data8(_main_IndVolts_1_103;0x0003;+;)
 75 82 04
+=======
+8A data8(_main_IndVolts_1_100;)
+8B data8(_main_IndVolts_1_100;0x0001;+;)
+8C data8(_main_IndVolts_1_100;0x0002;+;)
+8D data8(_main_IndVolts_1_100;0x0003;+;)
+75 82 07
+>>>>>>> 9d7553e7327460a956d86e5540e66c2c048b9338
 12 addr16(_Volts_at_Pin;)  
 AA 82
 AB 83
 AC F0
 FD
+<<<<<<< HEAD
 8A data8(_main_IndVolts_1_103;0x0004;+;)
 8B data8(_main_IndVolts_1_103;0x0004;+;0x0001;+;)
 8C data8(_main_IndVolts_1_103;0x0004;+;0x0002;+;)
 8D data8(_main_IndVolts_1_103;0x0004;+;0x0003;+;)
+=======
+8A data8(_main_IndVolts_1_100;0x0004;+;)
+8B data8(_main_IndVolts_1_100;0x0004;+;0x0001;+;)
+8C data8(_main_IndVolts_1_100;0x0004;+;0x0002;+;)
+8D data8(_main_IndVolts_1_100;0x0004;+;0x0003;+;)
+>>>>>>> 9d7553e7327460a956d86e5540e66c2c048b9338
 75 82 08
 12 addr16(_Volts_at_Pin;)  
 AA 82
 AB 83
 AC F0
 FD
+<<<<<<< HEAD
 8A data8(_main_IndVolts_1_103;0x0008;+;)
 8B data8(_main_IndVolts_1_103;0x0008;+;0x0001;+;)
 8C data8(_main_IndVolts_1_103;0x0008;+;0x0002;+;)
@@ -1471,6 +2410,27 @@ E4
 B5 data8(_millisecond;) rel3(L023026?;)
 05 data8(_millisecond;0x0001;+;)
 02 addr16(L023012?;)  
+=======
+8A data8(_main_IndVolts_1_100;0x0008;+;)
+8B data8(_main_IndVolts_1_100;0x0008;+;0x0001;+;)
+8C data8(_main_IndVolts_1_100;0x0008;+;0x0002;+;)
+8D data8(_main_IndVolts_1_100;0x0008;+;0x0003;+;)
+90 data16(_main_IndVolts_1_100;)  
+75 F0 40
+12 addr16(_MotorControl;)  
+90 data16(_main_IndVolts_1_100;)  
+75 F0 40
+12 addr16(_DebuggingFctn;)  
+90 00 14
+12 addr16(_waitms;)  
+74 14
+25 data8(_millisecond;)
+F5 data8(_millisecond;)
+E4
+35 data8(_millisecond;0x0001;+;)
+F5 data8(_millisecond;0x0001;+;)
+80 rel2(L016002?;)
+>>>>>>> 9d7553e7327460a956d86e5540e66c2c048b9338
 </CODE>
 
 <CODE R_CSEG>
@@ -1480,11 +2440,18 @@ B5 data8(_millisecond;) rel3(L023026?;)
 </CODE>
 
 <CODE R_CONST>
+<<<<<<< HEAD
 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 
 00
 25 34 2E 33 66 6D 73 
 00
 25 64 
+=======
+46 72 65 71 20 3D 20 25 35 2E 33 66 20 48 5A 2C 20
+4D 6F 64 65 20 3D 20 25 64 2C 20 52 61 74 69 6F
+20 3D 20 25 35 2E 33 66 
+0D
+>>>>>>> 9d7553e7327460a956d86e5540e66c2c048b9338
 00
 1B
 5B 32 4A 
